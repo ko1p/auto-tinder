@@ -1,0 +1,27 @@
+.root {
+  max-width: 320px;
+  width: 100%;
+  padding: 50px;
+  outline: 1px solid #dedede;
+  margin: 25px auto;
+}
+
+.field {
+  margin-bottom: 20px !important;
+}
+
+.title {
+  text-align: center !important;
+  font-weight: bold !important;
+  margin-bottom: 30px !important;
+
+  //@media screen and (max-width: 500px) {
+  //  font-size: 20px !important;
+  //}
+}
+
+.avatar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}

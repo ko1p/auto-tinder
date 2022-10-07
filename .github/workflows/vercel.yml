@@ -1,0 +1,2 @@
+- name: Vercel Action
+  uses: amondnet/vercel-action@v25.1.0
