@@ -1,11 +1,13 @@
 .root {
-  width: 100%;
-  min-height: 100vh;
-  display: flex; 
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  box-sizing: border-box;
+  padding: 50px;
+  outline: 1px solid #dedede;
+  margin: 0 auto;
+}
+
+.header {
+  padding: 10px;
+  outline: 1px solid #dedede;
+  margin: 0 auto;
 }
 
 .field {
@@ -16,14 +18,4 @@
   text-align: center !important;
   font-weight: bold !important;
   margin-bottom: 30px !important;
-
-  //@media screen and (max-width: 500px) {
-  //  font-size: 20px !important;
-  //}
-}
-
-.avatar {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
 }
