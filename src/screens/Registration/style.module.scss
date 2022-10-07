@@ -1,9 +1,11 @@
 .root {
-  max-width: 320px;
   width: 100%;
-  padding: 50px;
-  outline: 1px solid #dedede;
-  margin: 25px auto;
+  min-height: 100vh;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
 }
 
 .field {

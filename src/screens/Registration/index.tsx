@@ -1,12 +1,12 @@
 import styles from './style.module.scss';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
+import RegistrationCard from '../../components/RegistrationCard';
 
 export default function Registration() {
-  return (
-    <Paper classes={{ root: styles.root }}>
+  const cardContent: React.ReactNode = (
+    <>
       <Typography classes={{ root: styles.title }} variant='h5'>
         Создание аккаунта
       </Typography>
@@ -38,6 +38,12 @@ export default function Registration() {
           ducimus earum?
         </Typography>
       </form>
-    </Paper>
+    </>
+  );
+
+  return (
+    <div className={styles.root}>
+      <RegistrationCard card={cardContent} />
+    </div>
   );
 }
