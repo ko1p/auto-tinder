@@ -1,0 +1,9 @@
+@import "../../theming/mixins.scss";
+
+.userForm {
+  @include onboarding-card;
+}
+
+.root {
+  @include onboarding-root
+}
