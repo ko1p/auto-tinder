@@ -14,7 +14,7 @@ export default function MainScreen() {
       <h1>Main screen</h1>
       <Link to='/registration'>Зарегистрироваться</Link>
       <Link to='/profile'>Профиль</Link>
-      <Link to='/user-form'>На онбординг</Link>
+      <Link to='/onboarding/user-profile-form'>На онбординг</Link>
 
       <div>
         <Button

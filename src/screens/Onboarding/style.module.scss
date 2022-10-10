@@ -2,6 +2,7 @@
 
 .userForm {
   @include onboarding-card;
+  @include onboarding-card-content;
 }
 
 .root {

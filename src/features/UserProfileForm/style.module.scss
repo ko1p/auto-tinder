@@ -1,0 +1,10 @@
+@import "../../ui-library/mixins.scss";
+
+.userForm {
+  @include onboarding-card;
+  @include onboarding-card-content;
+}
+
+.root {
+  @include onboarding-root
+}
