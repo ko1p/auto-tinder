@@ -1,4 +1,4 @@
-import './style.scss';
+import styles from './style.module.scss';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { mainSlice } from '../../store/mainSlice';
@@ -14,6 +14,7 @@ export default function MainScreen() {
       <h1>Main screen</h1>
       <Link to='/registration'>Зарегистрироваться</Link>
       <Link to='/profile'>Профиль</Link>
+      <Link to='/onboarding/user-profile-form'>На онбординг</Link>
 
       <div>
         <Button
