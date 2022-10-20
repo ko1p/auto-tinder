@@ -33,7 +33,7 @@ const Signin = () => {
         <Typography classes={{ root: styles.title }} variant='h5' component='h1'>
           Вход в аккаунт:
         </Typography>
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
           <TextField
             className={styles.field}
             label='Email'
