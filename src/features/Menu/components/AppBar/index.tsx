@@ -1,4 +1,5 @@
 import * as React from 'react';
+import styles from './style.module.scss';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,10 +10,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
 import Wrapper from '../../../../ui-library/components/Wrapper';
-
-const pages = ['Мои машины', 'Продвижение', 'Отчёты', 'Выход'];
+import { Link } from 'react-router-dom';
+import { links } from './links';
+import { useAppDispatch } from '../../../../store/hooks/redux';
+import { fetchUserLogout } from '../../../Auth/API';
 
 function AppBarComponent() {
+  const dispatch = useAppDispatch();
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -54,9 +59,23 @@ function AppBarComponent() {
                 open={Boolean(anchorElNav)}
                 onClose={handleCloseNavMenu}
               >
-                {pages.map(page => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign='center'>{page}</Typography>
+                {links.map(link => (
+                  <MenuItem key={link.text} onClick={handleCloseNavMenu}>
+                    <Typography textAlign='center'>
+                      {link.action === 'logout' ? (
+                        <Link
+                          onClick={() => dispatch(fetchUserLogout())}
+                          className={styles.link}
+                          to={link.path}
+                        >
+                          {link.text}
+                        </Link>
+                      ) : (
+                        <Link className={styles.link} to={link.path}>
+                          {link.text}
+                        </Link>
+                      )}
+                    </Typography>
                   </MenuItem>
                 ))}
               </Menu>
