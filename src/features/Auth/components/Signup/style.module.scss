@@ -1,0 +1,70 @@
+.field {
+  height: 80px !important;
+}
+
+.agreement {
+  margin-top: 20px !important;
+}
+
+.title {
+  text-align: center !important;
+  font-weight: bold !important;
+  margin-bottom: 30px !important;
+}
+
+.button {
+  margin: 15px 0 15px 0 !important;
+  max-width: 300px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text {
+  text-align: justify;
+  color: #0971f1 !important;
+  font-size: 16px !important;
+  transition: opacity .4s !important;
+  font-weight: bold !important;
+  text-transform: none !important;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
+}
+
+.timer {
+  font-size: 18px !important;
+  transition: opacity .4s !important;
+  font-weight: bold !important;
+  text-align: center !important;
+}
+
+.timerButton {
+  color: #0971f1 !important;
+  font-size: 18px !important;
+  transition: opacity .4s !important;
+  font-weight: bold !important;
+  text-transform: none !important;
+
+  &:disabled {
+    color: grey !important;
+  }
+}
+
+.link {
+  text-decoration: none;
+}
+
+.agreementLink {
+  text-align: justify;
+  text-decoration: none;
+  color: #0971f1;
+  transition: opacity .3s;
+  &:hover {
+    opacity: 0.7;
+  }
+}

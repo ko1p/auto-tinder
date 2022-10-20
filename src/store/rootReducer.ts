@@ -1,10 +1,10 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import mainSlice from './mainSlice';
-import userAuthSlice from './userAuthSlice';
 import userProfile from '../features/UserProfileForm/slice';
+import AuthSlice from '../features/Auth/slice';
 
 export const rootReducer = combineReducers({
   mainInfo: mainSlice,
-  auth: userAuthSlice,
-  userProfile: userProfile, // Переименуй по вкусу
+  auth: AuthSlice,
+  userProfile: userProfile,
 });
