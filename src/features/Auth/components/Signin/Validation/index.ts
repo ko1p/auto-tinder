@@ -9,4 +9,4 @@ export const formSchema = yup.object().shape({
     .min(8, 'Пароль должен состоять хотя бы из 8 символов'),
 });
 
-export const formOptions = { resolver: yupResolver(formSchema) };
+export const formOptions = { resolver: yupResolver(formSchema), shouldUseNativeValidation: false };
