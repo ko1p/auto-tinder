@@ -19,4 +19,4 @@ export const formSchema = yup.object().shape({
     .oneOf([yup.ref('password')], 'Пароли не совпадают'),
 });
 
-export const formOptions = { resolver: yupResolver(formSchema) };
+export const formOptions = { resolver: yupResolver(formSchema), shouldUseNativeValidation: false };

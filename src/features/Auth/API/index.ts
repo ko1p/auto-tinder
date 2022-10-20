@@ -14,10 +14,13 @@ export const fetchUserRegistration = createAsyncThunk(
       const err = e as AxiosError;
       let msg;
       if (err.response) {
-        msg =
-          err.response.status == 409
-            ? 'Указанный почтовый адрес уже зарегистрирован в системе'
-            : 'При регистрации произошла ошибка';
+        switch (err.response.status) {
+          case 409:
+            msg = 'Указанный почтовый адрес уже зарегистрирован в системе';
+            break;
+          default:
+            msg = 'При регистрации произошла ошибка';
+        }
       }
       return thunkAPI.rejectWithValue(msg);
     }
@@ -35,10 +38,16 @@ export const fetchUserAuth = createAsyncThunk(
       const err = e as AxiosError;
       let msg;
       if (err.response) {
-        msg =
-          err.response.status == 401
-            ? 'Указана неверная пара логин/пароль'
-            : 'При входе произошла ошибка';
+        switch (err.response.status) {
+          case 404:
+            msg = 'Указанный почтовый адрес в системе не зарегестрирован.';
+            break;
+          case 401:
+            msg = 'Указана неверная пара логин/пароль.';
+            break;
+          default:
+            msg = 'При входе произошла ошибка.';
+        }
       }
       return thunkAPI.rejectWithValue(msg);
     }
