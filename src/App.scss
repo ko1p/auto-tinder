@@ -14,5 +14,7 @@ code {
 
 .app {
   font-size: 25px;
-  color: rgb(0, 102, 255);
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
 }

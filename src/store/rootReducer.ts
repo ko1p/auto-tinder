@@ -1,10 +1,10 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import mainSlice from './mainSlice';
-import userAuthSlice from './userAuthSlice';
+import userProfile from '../features/UserProfileForm/slice';
+import AuthSlice from '../features/Auth/slice';
 
 export const rootReducer = combineReducers({
-  mainInfo: mainSlice, // Вместо mainInfo придумать уже более адекватное название.
-  auth: userAuthSlice,
+  mainInfo: mainSlice,
+  auth: AuthSlice,
+  userProfile: userProfile,
 });
-
-// TODO: Решить где будут располагать файлы со слайсами, в фиче или где-то в отдельной папке в store.

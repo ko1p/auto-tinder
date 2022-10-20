@@ -10,15 +10,13 @@ import { theme } from './theming/theme';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </BrowserRouter>
-    </ThemeProvider>
-  </React.StrictMode>,
+  <ThemeProvider theme={theme}>
+    <BrowserRouter>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>
+  </ThemeProvider>,
 );
 
 reportWebVitals();

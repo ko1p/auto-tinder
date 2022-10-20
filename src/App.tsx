@@ -1,17 +1,17 @@
-import { Route, Routes } from 'react-router-dom';
 import './App.scss';
-import MainScreen from './screens/MainScreen';
-import Registration from './screens/Registration';
-import Profile from './screens/Profile';
+import Routing from './infrastructure/Routing';
+import { useEffect } from 'react';
+import { useAppDispatch } from './store/hooks/redux';
+import { fetchUserInfo } from './features/Auth/API';
 
 function App() {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchUserInfo());
+  }, [dispatch]);
   return (
     <div className='app'>
-      <Routes>
-        <Route path='/' element={<MainScreen />} />
-        <Route path='/registration' element={<Registration />} />
-        <Route path='/profile' element={<Profile />} />
-      </Routes>
+      <Routing />
     </div>
   );
 }
