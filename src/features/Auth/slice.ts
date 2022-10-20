@@ -129,7 +129,6 @@ export const AuthSlice = createSlice({
       state.isReqSent = false;
     },
     [fetchUserLogout.rejected.type]: state => {
-      state.isAuth = true;
       state.isReqSent = false;
     },
   },
