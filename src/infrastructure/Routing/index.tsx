@@ -2,7 +2,8 @@ import { Route, Routes } from 'react-router-dom';
 import MainScreen from '../../screens/MainScreen';
 import Profile from '../../screens/Profile';
 import Onboarding from '../../screens/Onboarding';
-import UserProfileForm from '../../features/UserProfileForm';
+import { PhoneRequest } from '../../features/onboarding';
+import CarForm from '../../features/onboarding/components/CarForm';
 import SignupScreen from '../../screens/Signup';
 import SigninScreen from '../../screens/Signin';
 import Signup from '../../features/Auth/components/Signup/';
@@ -53,7 +54,8 @@ function Routing() {
         <Route path=':uuid' element={<Confirm />} />
       </Route>
       <Route path='onboarding' element={<Onboarding />}>
-        <Route path='user-profile-form' element={<UserProfileForm />} />
+        <Route path='user-phone-request' element={<PhoneRequest />} />
+        <Route path='user-car-form' element={<CarForm />} />
       </Route>
     </Routes>
   );
