@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 
 export const formSchema = yup.object().shape({
   name: yup
@@ -12,11 +11,14 @@ export const formSchema = yup.object().shape({
   password: yup
     .string()
     .required('Это обязательное поле')
-    .min(8, 'Пароль должен состоять хотя бы из 8 символов'),
+    .matches(
+      /^[a-zA-Z0-9 !@#$%^&*(){}[\]]*$/gm,
+      'Используйте только латинские буквы, цифры и символы !@#$%^&*',
+    )
+    .min(8, 'Пароль должен состоять хотя бы из 8 символов')
+    .max(255, 'Пароль не должен быть длиннее 255 символов'),
   confirmPwd: yup
     .string()
     .required('Это обязательное поле')
     .oneOf([yup.ref('password')], 'Пароли не совпадают'),
 });
-
-export const formOptions = { resolver: yupResolver(formSchema), shouldUseNativeValidation: false };

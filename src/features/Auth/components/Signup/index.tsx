@@ -1,25 +1,30 @@
 import styles from './style.module.scss';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks/redux';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+import { fetchUserRegistration } from '../../API';
+import { resetErrorText } from '../../slice';
+import { SignupInputs } from '../../types';
+import { Navigate } from 'react-router';
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
+import { formSchema } from './Validation';
 import Wrapper from '../../../../ui-library/components/Wrapper';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
-import { Link } from 'react-router-dom';
-import { formOptions } from './Validation';
-import { fetchUserRegistration } from '../../API';
-import { resetErrorText } from '../../slice';
-import { useAppDispatch, useAppSelector } from '../../../../store/hooks/redux';
-import { SignupInputs } from '../../types';
-import { Navigate } from 'react-router';
 
 const Signup = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignupInputs>(formOptions);
+  } = useForm<SignupInputs>({
+    resolver: yupResolver(formSchema),
+    shouldUseNativeValidation: false,
+    reValidateMode: 'onChange',
+  });
 
   const dispatch = useAppDispatch();
   const { errorText, isLoading, isRegisted } = useAppSelector(state => state.auth);
