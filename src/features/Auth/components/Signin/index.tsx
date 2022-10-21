@@ -1,24 +1,29 @@
 import styles from './style.module.scss';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks/redux';
+import { fetchUserAuth } from '../../API';
+import { resetErrorText } from '../../slice';
+import { SigninInputs } from '../../types';
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
+import { formSchema } from './Validation';
+import { Link } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { Link } from 'react-router-dom';
 import Wrapper from '../../../../ui-library/components/Wrapper';
-import { formOptions } from './Validation';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { fetchUserAuth } from '../../API';
-import { resetErrorText } from '../../slice';
-import { useAppDispatch, useAppSelector } from '../../../../store/hooks/redux';
 import Alert from '@mui/material/Alert';
-import { SigninInputs } from '../../types';
 
 const Signin = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SigninInputs>(formOptions);
+  } = useForm<SigninInputs>({
+    resolver: yupResolver(formSchema),
+    shouldUseNativeValidation: false,
+    reValidateMode: 'onChange',
+  });
 
   const dispatch = useAppDispatch();
   const { errorText } = useAppSelector(state => state.auth);

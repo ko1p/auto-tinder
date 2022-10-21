@@ -46,7 +46,7 @@ export default function MainScreen() {
           size='large'
           variant='contained'
         >
-          Выйти из аккаунат
+          Выйти из аккаунта
         </Button>
       </Box>
     </div>
