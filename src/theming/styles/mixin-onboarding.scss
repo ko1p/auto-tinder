@@ -27,7 +27,7 @@
 
   .input {
     width: 100%;
-    margin-bottom: 20px !important;
+    margin-bottom: 12px !important;
   }
 }
 
@@ -39,4 +39,10 @@
   align-items: center;
   min-height: 100vh;
   box-sizing: border-box;
+}
+
+@mixin split-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 16px;
 }
