@@ -1,5 +1,5 @@
 import styles from './style.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { mainSlice } from '../../store/mainSlice';
 import { useAppSelector, useAppDispatch } from '../../store/hooks/redux';
@@ -14,8 +14,7 @@ export default function MainScreen() {
       <h1>Main screen</h1>
       <Link to='/registration'>Зарегистрироваться</Link>
       <Link to='/profile'>Профиль</Link>
-      <Link to='/onboarding/user-profile-form'>На онбординг</Link>
-
+      <Link to='/onboarding/user-phone-request'>На онбординг</Link>
       <div>
         <Button
           variant='contained'
