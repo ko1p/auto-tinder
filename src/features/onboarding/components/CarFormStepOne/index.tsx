@@ -2,23 +2,24 @@ import styles from './style.module.scss';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {
-  AutocompleteRenderInputParams,
   Typography,
-  Autocomplete,
   MenuItem,
   Select,
   FormControl,
   FormHelperText,
   InputLabel,
-  SelectChangeEvent,
+  InputAdornment,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { constructorErrorHelperText } from '../../../../ultils/validation';
+import { constructorErrorHelperText } from '../../../../utils/validation';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useAppDispatch } from '../../../../store/hooks/redux';
+import { setCarFormStepOne } from './slice';
+import { ICarFormStepOne } from '../../types';
 
 type FormValues = {
-  vin: number;
+  vin: string;
   stateNumber: string;
   totalOwner: number;
   city: number;
@@ -41,7 +42,7 @@ interface ListModel {
   [idBrand: number]: Model[];
 }
 
-export default function CarForm() {
+export default function CarFormStepOne() {
   const {
     register,
     handleSubmit,
@@ -51,12 +52,20 @@ export default function CarForm() {
 
   const [modelList, setModelList] = useState<Model[]>([]);
 
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const rules = {
     required: true,
-    // minLength: { value: 2, message: 'Поле должно содержать минимум 2 буквы.' },
-    // pattern: { value: /^[а-яА-Я]*$/, message: 'Допускаются только русские буквы.' },
+  };
+
+  const rulesStateNumber = {
+    required: true,
+    pattern: {
+      value: /^[АВЕКМНОРСТУХ]\d{3}(?<!000)[АВЕКМНОРСТУХ]{2}\d{2,3}$/,
+      message:
+        'Некорректный номер автомобиля, номер должен быть формата А111АА63.Все буквы должны быть написаны Кирилицей и в верхнем регистре.',
+    },
   };
 
   const rulesVin = {
@@ -117,8 +126,20 @@ export default function CarForm() {
     ],
   };
 
-  function onSubmit(date: FormValues) {
-    console.log(date);
+  function onSubmit(data: FormValues) {
+    console.log(data);
+
+    const dataPartOne: ICarFormStepOne = {
+      vin: data.vin,
+      stateNumber: data.stateNumber,
+      totalOwner: Number(data.stateNumber),
+      city: data.city,
+      mileage: Number(data.city),
+      brand: data.brand,
+      model: data.brand,
+    };
+
+    dispatch(setCarFormStepOne(dataPartOne));
     // navigate('/onboarding/user-phone-request');
   }
 
@@ -139,6 +160,26 @@ export default function CarForm() {
     let editableValue: string = element.target.value;
     editableValue = editableValue.length > 18 ? editableValue.slice(0, 18) : editableValue;
     element.target.value = editableValue;
+  }
+
+  function onChangeMileage(
+    element: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ): void {
+    let editableValue: string = element.target.value.replace(/[^\d]/g, '');
+    editableValue = editableValue.length > 6 ? editableValue.slice(0, 6) : editableValue;
+    element.target.value = editableValue;
+  }
+
+  function onChangeTotalOwner(
+    element: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ): void {
+    let editableValue: string | number = element.target.value.replace(/[^\d]/g, '');
+    editableValue = Number(editableValue);
+
+    if (editableValue < 1) editableValue = 1;
+    if (editableValue > 99) editableValue = 99;
+
+    element.target.value = String(editableValue);
   }
 
   return (
@@ -163,7 +204,7 @@ export default function CarForm() {
               className={styles.input}
               label='Номер автомобиля'
               fullWidth
-              {...register('stateNumber', rules)}
+              {...register('stateNumber', rulesStateNumber)}
               error={!!errors?.stateNumber}
               helperText={constructorErrorHelperText(errors, 'stateNumber')}
               variant='standard'
@@ -176,6 +217,10 @@ export default function CarForm() {
               error={!!errors?.totalOwner}
               helperText={constructorErrorHelperText(errors, 'totalOwner')}
               variant='standard'
+              type='number'
+              defaultValue={1}
+              InputProps={{ inputProps: { min: 1, max: 99 } }}
+              onChange={onChangeTotalOwner}
             />
             <TextField
               className={styles.input}
@@ -185,6 +230,10 @@ export default function CarForm() {
               error={!!errors?.mileage}
               helperText={constructorErrorHelperText(errors, 'mileage')}
               variant='standard'
+              onChange={onChangeMileage}
+              InputProps={{
+                endAdornment: <InputAdornment position='start'>км</InputAdornment>,
+              }}
             />
 
             <FormControl className={styles.input} variant='standard' error={!!errors?.city}>
