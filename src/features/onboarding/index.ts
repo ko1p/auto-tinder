@@ -1,5 +1,5 @@
 import PhoneRequest from './components/PhoneRequest';
-import CarForm from './components/CarForm';
+import CarFormStepOne from './components/CarFormStepOne';
 
 export { PhoneRequest };
-export { CarForm };
+export { CarFormStepOne };
