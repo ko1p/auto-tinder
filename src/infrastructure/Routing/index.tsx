@@ -3,7 +3,7 @@ import MainScreen from '../../screens/MainScreen';
 import Profile from '../../screens/Profile';
 import Onboarding from '../../screens/Onboarding';
 import { PhoneRequest } from '../../features/onboarding';
-import CarForm from '../../features/onboarding/components/CarForm';
+import CarFormStepOne from '../../features/onboarding/components/CarFormStepOne';
 import SignupScreen from '../../screens/Signup';
 import SigninScreen from '../../screens/Signin';
 import Signup from '../../features/Auth/components/Signup/';
@@ -55,7 +55,7 @@ function Routing() {
       </Route>
       <Route path='onboarding' element={<Onboarding />}>
         <Route path='user-phone-request' element={<PhoneRequest />} />
-        <Route path='user-car-form' element={<CarForm />} />
+        <Route path='user-car-form' element={<CarFormStepOne />} />
       </Route>
     </Routes>
   );
