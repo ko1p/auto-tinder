@@ -26,6 +26,7 @@ export interface AuthState {
   phone: string | null;
   isLoading: boolean;
   errorText: null | string;
+  isEmailConfirming: boolean;
 }
 
 export type UserRegistationResponse = {

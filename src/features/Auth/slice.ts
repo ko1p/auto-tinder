@@ -21,6 +21,7 @@ const initialState: AuthState = {
   phone: null,
   isLoading: false,
   errorText: null,
+  isEmailConfirming: false,
 };
 
 export const AuthSlice = createSlice({
@@ -98,16 +99,16 @@ export const AuthSlice = createSlice({
       state.isLoading = false;
     },
     [fetchCofirmEmail.fulfilled.type]: state => {
-      state.isLoading = false;
+      state.isEmailConfirming = false;
       state.isEmailConfirmed = true;
     },
     [fetchCofirmEmail.pending.type]: state => {
-      state.isLoading = true;
+      state.isEmailConfirming = true;
       state.errorText = null;
       state.isEmailConfirmed = false;
     },
     [fetchCofirmEmail.rejected.type]: (state, action: PayloadAction<string>) => {
-      state.isLoading = false;
+      state.isEmailConfirming = false;
       state.errorText = action.payload;
       state.isEmailConfirmed = false;
     },
