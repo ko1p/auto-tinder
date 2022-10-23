@@ -11,7 +11,9 @@ import { fetchCofirmEmail } from '../../API';
 
 const Confirm = () => {
   const { uuid } = useParams();
-  const { isLoading, isEmailConfirmed, errorText } = useAppSelector(state => state.auth);
+  const { isLoading, isEmailConfirming, isEmailConfirmed, errorText } = useAppSelector(
+    state => state.auth,
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -23,12 +25,12 @@ const Confirm = () => {
         <Typography classes={{ root: styles.title }} variant='h5' component='h1'>
           Подтверждение почтового ящика:
         </Typography>
-        {isLoading && <CircularProgress />}
+        {isEmailConfirming && <CircularProgress />}
         {!isLoading && isEmailConfirmed && (
           <Alert severity='success'>Почтовый ящик успешно подтвержден.</Alert>
         )}
         {!isLoading && !isEmailConfirmed && errorText && (
-          <Alert severity='error'>При подтверждении почты произошла ошибка.</Alert>
+          <Alert severity='error'>{errorText}</Alert>
         )}
         {!isLoading && isEmailConfirmed && !errorText && (
           <Link to='/signin' className={styles.link}>

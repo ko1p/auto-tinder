@@ -84,7 +84,13 @@ export const fetchCofirmEmail = createAsyncThunk(
       const error = e as AxiosError;
       let messageText: string | undefined;
       if (error.response) {
-        messageText = 'При подтверждении почты произошла ошибка';
+        switch (error.response.status) {
+          case 404:
+            messageText = 'Ссылка устарела или недействительна';
+            break;
+          default:
+            messageText = 'При подтверждении почты произошла ошибка';
+        }
       }
       return thunkAPI.rejectWithValue(messageText);
     }
