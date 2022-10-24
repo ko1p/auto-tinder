@@ -13,6 +13,7 @@ import Agreement from '../../features/Auth/components/Agreement';
 import Confirm from '../../features/Auth/components/Confirm/';
 import RouteProtected from '../../features/Auth/components/RouteProtected';
 import SuccessSignup from '../../features/Auth/components/SuccessSignup';
+import CarFormStepTwo from '../../features/onboarding/components/CarFormStepTwo';
 
 function Routing() {
   return (
@@ -56,6 +57,7 @@ function Routing() {
       <Route path='onboarding' element={<Onboarding />}>
         <Route path='user-phone-request' element={<PhoneRequest />} />
         <Route path='user-car-form' element={<CarFormStepOne />} />
+        <Route path='user-car-form-two' element={<CarFormStepTwo />} />
       </Route>
     </Routes>
   );
