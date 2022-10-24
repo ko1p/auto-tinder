@@ -22,6 +22,7 @@ type FormValues = {
   drive: number;
   description: string;
   price: number;
+  manufacture: number;
 };
 
 export default function CarFormStepTwo() {
@@ -55,6 +56,12 @@ export default function CarFormStepTwo() {
     { name: 'Задний', id: 3 },
   ];
 
+  const rulesManufacture = {
+    required: true,
+    minLength: { value: 4, message: 'Укажите год полностью.' },
+    maxLength: { value: 4, message: 'Укажите год полностью.' },
+  };
+
   const rules = {
     required: true,
   };
@@ -66,6 +73,20 @@ export default function CarFormStepTwo() {
   function onChangePrice(element: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
     let editableValue: string = element.target.value.replace(/[^\d]/g, '');
     editableValue = editableValue.length > 9 ? editableValue.slice(0, 9) : editableValue;
+    element.target.value = editableValue;
+  }
+
+  function onChangeManufacture(
+    element: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ): void {
+    let editableValue: string = element.target.value.replace(/[^\d]/g, '');
+    editableValue = editableValue.length > 4 ? editableValue.slice(0, 4) : editableValue;
+
+    if (editableValue.length >= 4) {
+      if (Number(editableValue) < 1900) editableValue = '1900';
+      if (Number(editableValue) > 2022) editableValue = '2022';
+    }
+
     element.target.value = editableValue;
   }
 
@@ -113,21 +134,32 @@ export default function CarFormStepTwo() {
               </Select>
               <FormHelperText>{constructorErrorHelperText(errors, 'drive')}</FormHelperText>
             </FormControl>
-          </div>
 
-          <TextField
-            className={styles.input}
-            label='Цена'
-            fullWidth
-            {...register('price', rules)}
-            error={!!errors?.price}
-            helperText={constructorErrorHelperText(errors, 'price')}
-            variant='standard'
-            onChange={onChangePrice}
-            InputProps={{
-              endAdornment: <InputAdornment position='start'>₽</InputAdornment>,
-            }}
-          />
+            <TextField
+              className={styles.input}
+              label='Цена'
+              fullWidth
+              {...register('price', rules)}
+              error={!!errors?.price}
+              helperText={constructorErrorHelperText(errors, 'price')}
+              variant='standard'
+              onChange={onChangePrice}
+              InputProps={{
+                endAdornment: <InputAdornment position='start'>₽</InputAdornment>,
+              }}
+            />
+
+            <TextField
+              className={styles.input}
+              label='Год'
+              fullWidth
+              {...register('manufacture', rulesManufacture)}
+              error={!!errors?.manufacture}
+              helperText={constructorErrorHelperText(errors, 'manufacture')}
+              variant='standard'
+              onChange={onChangeManufacture}
+            />
+          </div>
 
           <TextField
             className={styles.input}
