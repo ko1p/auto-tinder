@@ -15,8 +15,9 @@ import { constructorErrorHelperText } from '../../../../utils/validation';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useAppDispatch } from '../../../../store/hooks/redux';
-import { setCarFormStepOne } from './slice';
-import { ICarFormStepOne } from '../../types';
+import { setCarFormStepOne } from '../../slice';
+import { ICarFormStepOne, ListItem } from '../../types';
+import { buildSelectItems } from '../../utils/buildSelectItems';
 
 type FormValues = {
   vin: string;
@@ -28,18 +29,8 @@ type FormValues = {
   model: number | null;
 };
 
-interface ListItem {
-  name: string;
-  id: number;
-}
-
-interface Model {
-  name: string;
-  id: number;
-}
-
 interface ListModel {
-  [idBrand: number]: Model[];
+  [idBrand: number]: ListItem[];
 }
 
 export default function CarFormStepOne() {
@@ -50,7 +41,7 @@ export default function CarFormStepOne() {
     setValue,
   } = useForm<FormValues>({ mode: 'onBlur' });
 
-  const [modelList, setModelList] = useState<Model[]>([]);
+  const [modelList, setModelList] = useState<ListItem[]>([]);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -140,15 +131,7 @@ export default function CarFormStepOne() {
     };
 
     dispatch(setCarFormStepOne(dataPartOne));
-    // navigate('/onboarding/user-phone-request');
-  }
-
-  function buildSelectItems(data: ListItem[]): JSX.Element[] {
-    return data.map(item => (
-      <MenuItem value={item.id} key={item.id}>
-        {item.name}
-      </MenuItem>
-    ));
+    navigate('/onboarding/user-car-form-two');
   }
 
   function onChangeModalList(id: number): void {

@@ -7,3 +7,8 @@ export interface ICarFormStepOne {
   brand: number;
   model: number;
 }
+
+export interface ListItem {
+  name: string;
+  id: number;
+}
