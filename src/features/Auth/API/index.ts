@@ -8,48 +8,47 @@ export const fetchUserRegistration = createAsyncThunk(
   'auth/fetchUserRegistration',
   async (formData: SignupInputs, thunkAPI) => {
     try {
-      const res = await axios.post('/users', formData);
-      return res.data;
+      const { data } = await axios.post('/users', formData);
+      return data;
     } catch (e) {
-      const err = e as AxiosError;
-      let msg;
-      if (err.response) {
-        switch (err.response.status) {
+      const error = e as AxiosError;
+      let messageText: string | undefined;
+      if (error.response) {
+        switch (error.response.status) {
           case 409:
-            msg = 'Указанный почтовый адрес уже зарегистрирован в системе';
+            messageText = 'Указанный почтовый адрес уже зарегистрирован в системе';
             break;
           default:
-            msg = 'При регистрации произошла ошибка';
+            messageText = 'При регистрации произошла ошибка';
         }
       }
-      return thunkAPI.rejectWithValue(msg);
+      return thunkAPI.rejectWithValue(messageText);
     }
   },
 );
 
 export const fetchUserAuth = createAsyncThunk(
   'auth/fetchUserAuth',
-  async (data: SigninInputs, thunkAPI) => {
+  async (info: SigninInputs, thunkAPI) => {
     try {
-      const res = await axios.post('/auth/login', qs.stringify(data));
-
-      return res.data;
+      const { data } = await axios.post('/auth/login', qs.stringify(info));
+      return data;
     } catch (e) {
-      const err = e as AxiosError;
-      let msg;
-      if (err.response) {
-        switch (err.response.status) {
+      const error = e as AxiosError;
+      let messageText: string | undefined;
+      if (error.response) {
+        switch (error.response.status) {
           case 404:
-            msg = 'Указанный почтовый адрес в системе не зарегестрирован.';
+            messageText = 'Указанный почтовый адрес в системе не зарегестрирован.';
             break;
           case 401:
-            msg = 'Указана неверная пара логин/пароль.';
+            messageText = 'Указана неверная пара логин/пароль.';
             break;
           default:
-            msg = 'При входе произошла ошибка.';
+            messageText = 'При входе произошла ошибка.';
         }
       }
-      return thunkAPI.rejectWithValue(msg);
+      return thunkAPI.rejectWithValue(messageText);
     }
   },
 );
@@ -60,18 +59,17 @@ export const fetchUserInfo = createAsyncThunk('auth/fetchUserInfo', async (_, th
     if (!userId) {
       throw 'Пользователь не авторизован.';
     }
+    const { data } = await axios.get(`/users/${userId}`);
 
-    const res = await axios.get(`/users/${userId}`);
-
-    return res.data;
+    return data;
   } catch (e) {
-    const err = e as AxiosError;
-    let msg;
-    if (err.response) {
+    const error = e as AxiosError;
+    let messageText: string | undefined;
+    if (error.response) {
       localStorage.clear();
-      msg = 'При авторизации произошла ошибка';
+      messageText = 'При авторизации произошла ошибка';
     }
-    return thunkAPI.rejectWithValue(msg);
+    return thunkAPI.rejectWithValue(messageText);
   }
 });
 
@@ -79,31 +77,37 @@ export const fetchCofirmEmail = createAsyncThunk(
   'auth/fetchCofirmEmail',
   async (uuid: string, thunkAPI) => {
     try {
-      const res = await axios.get(`/users/verify/${uuid}`);
+      const { data } = await axios.get(`/users/verify/${uuid}`);
 
-      return res.data;
+      return data;
     } catch (e) {
-      const err = e as AxiosError;
-      let msg;
-      if (err.response) {
-        msg = 'При подтверждении почты произошла ошибка';
+      const error = e as AxiosError;
+      let messageText: string | undefined;
+      if (error.response) {
+        switch (error.response.status) {
+          case 404:
+            messageText = 'Ссылка устарела или недействительна';
+            break;
+          default:
+            messageText = 'При подтверждении почты произошла ошибка';
+        }
       }
-      return thunkAPI.rejectWithValue(msg);
+      return thunkAPI.rejectWithValue(messageText);
     }
   },
 );
 
 export const fetchUserLogout = createAsyncThunk('auth/fetchUserLogout', async (_, thunkAPI) => {
   try {
-    const res = await axios.post('/auth/logout');
+    const { data } = await axios.post('/auth/logout');
 
-    return res.data;
+    return data;
   } catch (e) {
-    const err = e as AxiosError;
-    let msg;
-    if (err.response) {
-      msg = 'При выходе произошла ошибка';
+    const error = e as AxiosError;
+    let messageText: string | undefined;
+    if (error.response) {
+      messageText = 'При выходе произошла ошибка';
     }
-    return thunkAPI.rejectWithValue(msg);
+    return thunkAPI.rejectWithValue(messageText);
   }
 });

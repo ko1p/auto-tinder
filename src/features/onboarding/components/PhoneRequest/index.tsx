@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { InputAdornment, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { constructorErrorHelperText } from '../../../../ultils/validation';
+import { constructorErrorHelperText } from '../../../../utils/validation';
 import { useNavigate } from 'react-router-dom';
 
 type FormValues = {
