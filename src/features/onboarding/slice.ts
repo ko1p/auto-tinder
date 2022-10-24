@@ -1,4 +1,4 @@
-import { ICarFormStepOne } from './../../types';
+import { ICarFormStepOne } from './types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface Onboarding {
