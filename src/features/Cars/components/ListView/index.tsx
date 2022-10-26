@@ -14,7 +14,7 @@ export const ListView = () => {
                 classes={{ root: styles.image }}
                 component='img'
                 width='320'
-                image='https://ltdfoto.ru/images/2022/10/22/auto.jpg'
+                image='https://chat-me.gq/auto.jpg'
                 alt='автомобиль'
               />
               <ReadyToSwapLabel />
@@ -111,7 +111,7 @@ export const ListView = () => {
                 classes={{ root: styles.image }}
                 component='img'
                 width='320'
-                image='https://ltdfoto.ru/images/2022/10/22/auto.jpg'
+                image='https://chat-me.gq/auto.jpg'
                 alt='автомобиль'
               />
               <YourLikeLabel />
