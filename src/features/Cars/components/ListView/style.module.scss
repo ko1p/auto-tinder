@@ -1,0 +1,104 @@
+.card {
+  padding: 0 !important;
+  outline: 1px solid #e8e7e7;
+  margin: 10px 10px 0 !important;
+  overflow: hidden !important;
+
+  @media screen and (min-width: 600px) {
+    margin: 10px 10px 0 !important;
+    border-radius: 5px !important;
+  }
+}
+
+.cardPromoted {
+  background-color: #ffffd7 !important;
+}
+
+.cardContent {
+  padding: 0 !important;
+}
+
+.imageContainer {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  position: relative !important;
+  background-color: black;
+}
+
+.carInfo {
+  padding: 0 10px 10px !important;
+}
+
+.model {
+  font-size: 18px !important;
+  font-weight: bold !important;
+
+  @media screen and (min-width: 700px) {
+    font-size: 22px !important;
+  }
+}
+
+.priceBlock {
+  @media screen and (max-width: 424px) {
+    flex-direction: column !important;
+  }
+}
+
+.price {
+  font-size: 12px !important;
+
+  @media screen and (min-width: 600px) {
+    font-size: 14px !important;
+  }
+
+  @media screen and (min-width: 700px) {
+    font-size: 16px !important;
+  }
+
+  @media screen and (min-width: 1536px) {
+    font-size: 14px !important;
+  }
+
+}
+
+.surcharge {
+  color: #d50101 !important;
+}
+
+.reimburse {
+  color: #009800 !important;
+}
+
+.paymentType {
+  font-size: 12px !important;
+
+  @media screen and (min-width: 600px) {
+    font-size: 14px !important;
+  }
+
+  @media screen and (min-width: 700px) {
+    font-size: 16px !important;
+  }
+
+  @media screen and (min-width: 1536px) {
+    font-size: 14px !important;
+  }
+}
+
+.paymentValue {
+  font-size: 12px !important;
+
+  @media screen and (min-width: 600px) {
+    font-size: 14px !important;
+  }
+}
+
+.parameters {
+  color: grey !important;
+  font-size: 11px !important;
+
+  @media screen and (min-width: 600px) {
+    font-size: 14px !important;
+  }
+}
