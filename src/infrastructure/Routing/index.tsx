@@ -2,18 +2,21 @@ import { Route, Routes } from 'react-router-dom';
 import MainScreen from '../../screens/MainScreen';
 import Profile from '../../screens/Profile';
 import Onboarding from '../../screens/Onboarding';
-import { PhoneRequest } from '../../features/onboarding';
-import CarFormStepOne from '../../features/onboarding/components/CarFormStepOne';
 import SignupScreen from '../../screens/Signup';
 import SigninScreen from '../../screens/Signin';
-import Signup from '../../features/Auth/components/Signup/';
-import Signin from '../../features/Auth/components/Signin/';
-import AgreementScreen from '../../screens/Agreement/';
+import Signup from '../../features/Auth/components/Signup';
+import Signin from '../../features/Auth/components/Signin';
+import AgreementScreen from '../../screens/Agreement';
 import Agreement from '../../features/Auth/components/Agreement';
-import Confirm from '../../features/Auth/components/Confirm/';
+import Confirm from '../../features/Auth/components/Confirm';
 import RouteProtected from '../../features/Auth/components/RouteProtected';
 import SuccessSignup from '../../features/Auth/components/SuccessSignup';
-import CarFormStepTwo from '../../features/onboarding/components/CarFormStepTwo';
+import {
+  FiltersForm,
+  CarFormStepOne,
+  CarFormStepTwo,
+  PhoneRequest,
+} from '../../features/onboarding/index';
 
 function Routing() {
   return (
@@ -58,6 +61,7 @@ function Routing() {
         <Route path='user-phone-request' element={<PhoneRequest />} />
         <Route path='user-car-form' element={<CarFormStepOne />} />
         <Route path='user-car-form-two' element={<CarFormStepTwo />} />
+        <Route path='user-filter-form' element={<FiltersForm />} />
       </Route>
     </Routes>
   );

@@ -12,3 +12,7 @@ export interface ListItem {
   name: string;
   id: number;
 }
+
+export interface ListModel {
+  [idBrand: number]: ListItem[];
+}

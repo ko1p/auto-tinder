@@ -15,8 +15,11 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useAppDispatch } from '../../../../store/hooks/redux';
 import { setCarFormStepOne } from '../../slice';
-import { ICarFormStepOne, ListItem } from '../../types';
+import { ICarFormStepOne, ListItem } from '../../utils/types';
 import { buildSelectItems } from '../../utils/buildSelectItems';
+import { rulesDefault, rulesStateNumber, rulesVin } from '../../utils/rulesValidation';
+import { brandList, cityList, modelList } from '../../utils/mockData';
+import { onChangeMileage, onChangeTotalOwner, onChangeVin } from '../../utils/inputChange';
 
 type FormValues = {
   vin: string;
@@ -28,10 +31,6 @@ type FormValues = {
   model: number | null;
 };
 
-interface ListModel {
-  [idBrand: number]: ListItem[];
-}
-
 export default function CarFormStepOne() {
   const {
     register,
@@ -40,81 +39,10 @@ export default function CarFormStepOne() {
     setValue,
   } = useForm<FormValues>({ mode: 'onBlur' });
 
-  const [modelList, setModelList] = useState<ListItem[]>([]);
+  const [modelListInput, setModelListInput] = useState<ListItem[]>([]);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const rules = {
-    required: true,
-  };
-
-  const rulesStateNumber = {
-    required: true,
-    pattern: {
-      value: /^[АВЕКМНОРСТУХ]\d{3}(?<!000)[АВЕКМНОРСТУХ]{2}\d{2,3}$/,
-      message:
-        'Некорректный номер автомобиля, номер должен быть формата А111АА63.Все буквы должны быть написаны Кирилицей и в верхнем регистре.',
-    },
-  };
-
-  const rulesVin = {
-    required: true,
-    minLength: { value: 17, message: 'Поле должно содержать 18 символов.' },
-    maxLength: { value: 18, message: 'Поле должно содержать 18 символов.' },
-    pattern: {
-      value: /^(?=[a-z0-9])[^qio]*$/i,
-      message: 'Допускаются только латинские буквы (кроме QOI) и цифры.',
-    },
-  };
-
-  const rulesSelect = {
-    required: true,
-  };
-
-  const cityList: ListItem[] = [
-    { name: 'Самара', id: 10 },
-    { name: 'Москва', id: 11 },
-    { name: 'Киров', id: 12 },
-    { name: 'Томск', id: 13 },
-    { name: 'Архангельск', id: 14 },
-  ];
-
-  const brandList: ListItem[] = [
-    { name: 'Мерс', id: 10 },
-    { name: 'Лада', id: 11 },
-    { name: 'Ауди', id: 12 },
-    { name: 'Тайота', id: 13 },
-    { name: 'Мазда', id: 14 },
-  ];
-
-  const modalList: ListModel = {
-    10: [
-      { name: 'Модель1', id: 200 },
-      { name: 'Модель2', id: 210 },
-      { name: 'Модель3', id: 220 },
-    ],
-    11: [
-      { name: 'Модель4', id: 201 },
-      { name: 'Модель5', id: 211 },
-      { name: 'Модель6', id: 221 },
-    ],
-    12: [
-      { name: 'Модель7', id: 202 },
-      { name: 'Модель8', id: 212 },
-      { name: 'Модель9', id: 222 },
-    ],
-    13: [
-      { name: 'Модель10', id: 203 },
-      { name: 'Модель11', id: 213 },
-      { name: 'Модель12', id: 223 },
-    ],
-    14: [
-      { name: 'Модель13', id: 204 },
-      { name: 'Модель14', id: 214 },
-      { name: 'Модель15', id: 224 },
-    ],
-  };
 
   function onSubmit(data: FormValues) {
     console.log(data);
@@ -133,35 +61,9 @@ export default function CarFormStepOne() {
     navigate('/onboarding/user-car-form-two');
   }
 
-  function onChangeModalList(id: number): void {
-    setModelList(modalList[id]);
+  function onChangemodelList(id: number): void {
+    setModelListInput(modelList[id]);
     setValue('model', null);
-  }
-
-  function onChangeVin(element: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
-    let editableValue: string = element.target.value;
-    editableValue = editableValue.length > 18 ? editableValue.slice(0, 18) : editableValue;
-    element.target.value = editableValue;
-  }
-
-  function onChangeMileage(
-    element: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ): void {
-    let editableValue: string = element.target.value.replace(/[^\d]/g, '');
-    editableValue = editableValue.length > 6 ? editableValue.slice(0, 6) : editableValue;
-    element.target.value = editableValue;
-  }
-
-  function onChangeTotalOwner(
-    element: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ): void {
-    let editableValue: string | number = element.target.value.replace(/[^\d]/g, '');
-    editableValue = Number(editableValue);
-
-    if (editableValue < 1) editableValue = 1;
-    if (editableValue > 99) editableValue = 99;
-
-    element.target.value = String(editableValue);
   }
 
   return (
@@ -195,7 +97,7 @@ export default function CarFormStepOne() {
               className={styles.input}
               label='Количество владельцев'
               fullWidth
-              {...register('totalOwner', rules)}
+              {...register('totalOwner', rulesDefault)}
               error={!!errors?.totalOwner}
               helperText={constructorErrorHelperText(errors, 'totalOwner')}
               variant='standard'
@@ -208,7 +110,7 @@ export default function CarFormStepOne() {
               className={styles.input}
               label='Пробег'
               fullWidth
-              {...register('mileage', rules)}
+              {...register('mileage', rulesDefault)}
               error={!!errors?.mileage}
               helperText={constructorErrorHelperText(errors, 'mileage')}
               variant='standard'
@@ -220,7 +122,7 @@ export default function CarFormStepOne() {
 
             <FormControl className={styles.input} variant='standard' error={!!errors?.city}>
               <InputLabel>Город</InputLabel>
-              <Select {...register('city', rulesSelect)} defaultValue={''}>
+              <Select {...register('city', rulesDefault)} defaultValue={''}>
                 {buildSelectItems(cityList)}
               </Select>
               <FormHelperText>{constructorErrorHelperText(errors, 'city')}</FormHelperText>
@@ -229,10 +131,10 @@ export default function CarFormStepOne() {
             <FormControl className={styles.input} variant='standard' error={!!errors?.brand}>
               <InputLabel>Марка</InputLabel>
               <Select
-                {...register('brand', rulesSelect)}
+                {...register('brand', rulesDefault)}
                 defaultValue={''}
                 onChange={element => {
-                  onChangeModalList(Number(element.target.value));
+                  onChangemodelList(Number(element.target.value));
                 }}
               >
                 {buildSelectItems(brandList)}
@@ -242,8 +144,8 @@ export default function CarFormStepOne() {
 
             <FormControl className={styles.input} variant='standard' error={!!errors?.model}>
               <InputLabel>Модель</InputLabel>
-              <Select {...register('model', rulesSelect)} defaultValue={''}>
-                {buildSelectItems(modelList)}
+              <Select {...register('model', rulesDefault)} defaultValue={''}>
+                {buildSelectItems(modelListInput)}
               </Select>
               <FormHelperText>{constructorErrorHelperText(errors, 'model')}</FormHelperText>
             </FormControl>
