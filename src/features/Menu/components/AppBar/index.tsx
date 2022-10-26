@@ -63,13 +63,13 @@ function AppBarComponent() {
                   <MenuItem key={link.text} onClick={handleCloseNavMenu}>
                     <Typography textAlign='center'>
                       {link.action === 'logout' ? (
-                        <Link
+                        <Typography
+                          component='span'
                           onClick={() => dispatch(fetchUserLogout())}
                           className={styles.link}
-                          to={link.path}
                         >
                           {link.text}
-                        </Link>
+                        </Typography>
                       ) : (
                         <Link className={styles.link} to={link.path}>
                           {link.text}
