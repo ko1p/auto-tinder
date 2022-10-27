@@ -1,3 +1,6 @@
+import { ReactElement } from 'react';
+import { RouteProps } from 'react-router';
+
 export type SigninInputs = {
   email: string;
   password: string;
@@ -52,3 +55,9 @@ export interface UserInfoResponse {
   email: string;
   phone: string;
 }
+
+export type ProtectedRouteProps = {
+  children?: ReactElement;
+  onlyUnAuth?: boolean;
+  redirectPath?: string;
+} & RouteProps;

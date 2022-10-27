@@ -1,17 +1,12 @@
+import { FC } from 'react';
 import { useAppSelector } from '../../../../store/hooks/redux';
-import { Navigate, Outlet, RouteProps } from 'react-router';
+import { Navigate, Outlet } from 'react-router';
 import { CircularProgress } from '@mui/material';
-import { ReactElement } from 'react';
 import Wrapper from '../../../../ui-library/components/Wrapper';
 import Box from '@mui/material/Box';
+import { ProtectedRouteProps } from '../../types';
 
-type ProtectedRouteProps = {
-  children?: ReactElement;
-  onlyUnAuth?: boolean;
-  redirectPath?: string;
-} & RouteProps;
-
-const RouteProtected: React.FC<ProtectedRouteProps> = ({
+const RouteProtected: FC<ProtectedRouteProps> = ({
   onlyUnAuth = false,
   redirectPath = '/',
   children,

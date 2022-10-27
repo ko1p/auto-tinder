@@ -1,6 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-import MainScreen from '../../screens/MainScreen';
-import Profile from '../../screens/Profile';
 import Onboarding from '../../screens/Onboarding';
 import { PhoneRequest } from '../../features/onboarding';
 import CarFormStepOne from '../../features/onboarding/components/CarFormStepOne';
@@ -14,12 +12,12 @@ import Confirm from '../../features/Auth/components/Confirm/';
 import RouteProtected from '../../features/Auth/components/RouteProtected';
 import SuccessSignup from '../../features/Auth/components/SuccessSignup';
 import CarFormStepTwo from '../../features/onboarding/components/CarFormStepTwo';
+import CarsScreen from '../../screens/Cars';
 
 function Routing() {
   return (
     <Routes>
-      <Route path='/' element={<MainScreen />} />
-      <Route path='profile' element={<Profile />} />
+      <Route path='/' element={<CarsScreen />} />
       <Route path='signup' element={<SignupScreen />}>
         <Route
           index

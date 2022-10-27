@@ -1,0 +1,66 @@
+.container {
+  margin-bottom: 50px !important;
+}
+
+.card {
+  padding: 0 !important;
+  outline: 1px solid #e8e7e7;
+  border-radius: 0 !important;
+  border: 0 !important;
+  overflow: hidden !important;
+  position: relative !important;
+
+  @media screen and (min-width: 600px) {
+    margin: 25px 25px 0 !important;
+    border-top-left-radius: 5px !important;
+    border-top-right-radius: 5px !important;
+  }
+}
+
+.cardContent {
+  padding: 0 !important;
+  position: relative !important;
+}
+
+.cardMedia {
+  border: none;
+}
+
+.promotion {
+  color: #00c700 !important;
+  font-size: 12px !important;
+  font-weight: bold !important;
+}
+
+.model {
+  font-size: 28px !important;
+  font-weight: bold !important;
+}
+
+.price {
+  font-size: 24px !important;
+}
+
+.surcharge {
+  color: #d50101 !important;
+}
+
+.reimburse {
+  color: #009800 !important;
+}
+
+.paymentType {
+  font-size: 18px !important;
+}
+
+.paymentValue {
+  font-size: 18px !important;
+}
+
+.parameters {
+  color: grey !important;
+
+  @media screen and (max-width: 320px) {
+    font-size: 0.8rem !important;
+  }
+}
