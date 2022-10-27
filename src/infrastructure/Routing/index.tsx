@@ -1,5 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-import Profile from '../../screens/Profile';
 import Onboarding from '../../screens/Onboarding';
 import { PhoneRequest } from '../../features/onboarding';
 import CarFormStepOne from '../../features/onboarding/components/CarFormStepOne';
@@ -19,7 +18,6 @@ function Routing() {
   return (
     <Routes>
       <Route path='/' element={<CarsScreen />} />
-      <Route path='profile' element={<Profile />} />
       <Route path='signup' element={<SignupScreen />}>
         <Route
           index
