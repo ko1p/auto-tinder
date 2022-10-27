@@ -3,15 +3,15 @@ import { Links } from '../../types';
 export const links: Links[] = [
   {
     text: 'Мои машины',
-    path: '/',
+    path: '/my-cars',
   },
   {
     text: 'Продвижение',
-    path: '/',
+    path: '/promotion',
   },
   {
     text: 'Отчёты',
-    path: '/',
+    path: '/reports',
   },
   {
     text: 'Выход',

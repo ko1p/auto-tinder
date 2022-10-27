@@ -16,6 +16,9 @@ import {
   PhoneRequest,
 } from '../../features/onboarding/index';
 import CarsScreen from '../../screens/Cars';
+import MyCarsScreen from '../../screens/MyCars';
+import Promotion from '../../screens/Promotion';
+import ReportsScreen from '../../screens/Reports';
 
 function Routing() {
   return (
@@ -55,6 +58,9 @@ function Routing() {
         <Route index element={<SuccessSignup />} />
         <Route path=':uuid' element={<Confirm />} />
       </Route>
+      <Route path='my-cars' element={<MyCarsScreen />} />
+      <Route path='promotion' element={<Promotion />} />
+      <Route path='reports' element={<ReportsScreen />} />
       <Route path='onboarding' element={<Onboarding />}>
         <Route path='user-phone-request' element={<PhoneRequest />} />
         <Route path='user-car-form' element={<CarFormStepOne />} />
