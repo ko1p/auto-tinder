@@ -57,7 +57,7 @@ export const fetchUserInfo = createAsyncThunk('auth/fetchUserInfo', async (_, th
   const userId = localStorage.getItem('id');
   try {
     if (!userId) {
-      throw 'Пользователь не авторизован.';
+      throw new Error('Пользователь не авторизован.');
     }
     const { data } = await axios.get(`/users/${userId}`);
 
