@@ -1,12 +1,12 @@
 import AppBar from '../../features/Menu/components/AppBar';
-import { Cars } from '../../features/Cars/components/Cars';
 import { TabBar } from '../../features/Menu/components/TabBar';
+import { Outlet } from 'react-router-dom';
 
 const CarsScreen = () => {
   return (
     <>
       <AppBar />
-      <Cars />
+      <Outlet />
       <TabBar />
     </>
   );
