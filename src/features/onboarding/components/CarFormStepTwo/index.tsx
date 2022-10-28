@@ -27,6 +27,11 @@ type FormValues = {
   manufacture: number;
 };
 
+const rulesRequiredManufacture = {
+  required: true,
+  ...rulesManufacture,
+};
+
 export default function CarFormStepTwo() {
   const {
     register,
@@ -99,7 +104,7 @@ export default function CarFormStepTwo() {
               className={styles.input}
               label='Год'
               fullWidth
-              {...register('manufacture', rulesManufacture)}
+              {...register('manufacture', rulesRequiredManufacture)}
               error={!!errors?.manufacture}
               helperText={constructorErrorHelperText(errors, 'manufacture')}
               variant='standard'

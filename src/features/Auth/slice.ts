@@ -31,6 +31,9 @@ export const AuthSlice = createSlice({
     resetErrorText(state) {
       state.errorText = null;
     },
+    setIsOnboarded(state, action: PayloadAction<boolean>) {
+      state.isOnboarded = action.payload;
+    },
   },
   extraReducers: {
     [fetchUserRegistration.fulfilled.type]: (

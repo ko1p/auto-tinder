@@ -24,9 +24,9 @@ import {
   driveList,
   modelList,
 } from '../../utils/mockData';
-// import { rulesDefault } from '../../utils/rulesValidation';
 import { useState } from 'react';
-import { onChangePrice } from '../../utils/inputChange';
+import { onChangeManufacture, onChangeMileage, onChangePrice } from '../../utils/inputChange';
+import { rulesDefault, rulesEmpty, rulesManufacture } from '../../utils/rulesValidation';
 
 type FormValues = {
   city: number;
@@ -38,8 +38,10 @@ type FormValues = {
   drive: number;
   priceFrom: number;
   priceTo: number;
-  manufacture: number;
-  mileage: number;
+  manufactureFrom: number;
+  manufactureTo: number;
+  mileageFrom: number;
+  mileageTo: number;
 };
 
 export default function FiltersForm() {
@@ -47,8 +49,7 @@ export default function FiltersForm() {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
-    setValue,
+    setError,
   } = useForm<FormValues>({ mode: 'onBlur' });
 
   const [brands, setBrands] = useState<string[]>([]);
@@ -56,14 +57,6 @@ export default function FiltersForm() {
   const [modelListInput, setModelListInput] = useState<ListItem[]>([]);
 
   const navigate = useNavigate();
-
-  const rulesDefault = {};
-  const rulesPriceFrom = {
-    max: {
-      value: getValues('priceTo'),
-      message: 'Неправильный диапозон.',
-    },
-  };
 
   function handleChangeBrand(event: SelectChangeEvent<typeof brands>) {
     const {
@@ -100,27 +93,35 @@ export default function FiltersForm() {
     setModels(arrayValue);
   }
 
-  function handleChangePriceFrom(
-    element: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ): void {
-    onChangePrice(element);
-
-    setValue('priceTo', getValues('priceTo'));
-  }
-
-  function handleChangePriceTo(
-    element: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ): void {
-    onChangePrice(element);
-
-    setValue('priceFrom', getValues('priceFrom'));
-  }
+  const rangeError = {
+    type: 'focus',
+    message: 'Неправильный диапозон.',
+  };
 
   function onSubmit(data: FormValues) {
+    let formStatus = true;
     console.log(data);
     console.log(models);
+    if (Number(data.priceFrom) > Number(data.priceTo)) {
+      setError('priceFrom', rangeError);
+      setError('priceTo', rangeError);
+      formStatus = false;
+    }
+    if (Number(data.manufactureFrom) > Number(data.manufactureTo)) {
+      setError('manufactureFrom', rangeError);
+      setError('manufactureTo', rangeError);
+      formStatus = false;
+    }
+    if (Number(data.mileageFrom) > Number(data.mileageTo)) {
+      setError('mileageFrom', rangeError);
+      setError('mileageTo', rangeError);
+      formStatus = false;
+    }
 
-    // navigate('/onboarding/user-car-form-two');
+    if (formStatus) {
+      navigate('/');
+      // Вставить изменение поля isOnboarded в сторе
+    }
   }
 
   return (
@@ -131,7 +132,7 @@ export default function FiltersForm() {
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl className={styles.input} variant='standard' error={!!errors?.city}>
-            <InputLabel>Город</InputLabel>
+            <InputLabel>Город*</InputLabel>
             <Select {...register('city', rulesDefault)} defaultValue={''}>
               {buildSelectItems(cityList)}
             </Select>
@@ -141,7 +142,7 @@ export default function FiltersForm() {
           <div className={styles.splitBox}>
             <FormControl className={styles.input} variant='standard' error={!!errors?.type}>
               <InputLabel>Кузов</InputLabel>
-              <Select {...register('type', rulesDefault)} defaultValue={''}>
+              <Select {...register('type', rulesEmpty)} defaultValue={''}>
                 {buildSelectItems(typeList)}
               </Select>
               <FormHelperText>{constructorErrorHelperText(errors, 'type')}</FormHelperText>
@@ -149,7 +150,7 @@ export default function FiltersForm() {
 
             <FormControl className={styles.input} variant='standard' error={!!errors?.engine}>
               <InputLabel>Двигатель</InputLabel>
-              <Select {...register('engine', rulesDefault)} defaultValue={''}>
+              <Select {...register('engine', rulesEmpty)} defaultValue={''}>
                 {buildSelectItems(engineList)}
               </Select>
               <FormHelperText>{constructorErrorHelperText(errors, 'engine')}</FormHelperText>
@@ -157,7 +158,7 @@ export default function FiltersForm() {
 
             <FormControl className={styles.input} variant='standard' error={!!errors?.gearbox}>
               <InputLabel>Коробка передач</InputLabel>
-              <Select {...register('gearbox', rulesDefault)} defaultValue={''}>
+              <Select {...register('gearbox', rulesEmpty)} defaultValue={''}>
                 {buildSelectItems(gearboxList)}
               </Select>
               <FormHelperText>{constructorErrorHelperText(errors, 'gearbox')}</FormHelperText>
@@ -165,7 +166,7 @@ export default function FiltersForm() {
 
             <FormControl className={styles.input} variant='standard' error={!!errors?.drive}>
               <InputLabel>Привод</InputLabel>
-              <Select {...register('drive', rulesDefault)} defaultValue={''}>
+              <Select {...register('drive', rulesEmpty)} defaultValue={''}>
                 {buildSelectItems(driveList)}
               </Select>
               <FormHelperText>{constructorErrorHelperText(errors, 'drive')}</FormHelperText>
@@ -174,7 +175,7 @@ export default function FiltersForm() {
             <FormControl className={styles.input} variant='standard'>
               <InputLabel>Марка</InputLabel>
               <Select
-                {...register('brand', rulesDefault)}
+                {...register('brand', rulesEmpty)}
                 multiple
                 value={brands}
                 onChange={handleChangeBrand}
@@ -185,7 +186,12 @@ export default function FiltersForm() {
 
             <FormControl className={styles.input} variant='standard'>
               <InputLabel>Модель</InputLabel>
-              <Select multiple value={models} onChange={handleChangeModels}>
+              <Select
+                {...register('brand', rulesEmpty)}
+                multiple
+                value={models}
+                onChange={handleChangeModels}
+              >
                 {buildSelectItems(modelListInput)}
               </Select>
             </FormControl>
@@ -194,11 +200,24 @@ export default function FiltersForm() {
               className={styles.input}
               label='Цена от'
               fullWidth
-              {...register('priceFrom', rulesPriceFrom)}
+              {...register('priceFrom', rulesEmpty)}
               error={!!errors?.priceFrom}
               helperText={constructorErrorHelperText(errors, 'priceFrom')}
               variant='standard'
-              onChange={handleChangePriceFrom}
+              onChange={onChangePrice}
+              InputProps={{
+                endAdornment: <InputAdornment position='start'>₽</InputAdornment>,
+              }}
+            />
+            <TextField
+              className={styles.input}
+              label='Цена до'
+              fullWidth
+              {...register('priceTo', rulesEmpty)}
+              error={!!errors?.priceTo}
+              helperText={constructorErrorHelperText(errors, 'priceTo')}
+              variant='standard'
+              onChange={onChangePrice}
               InputProps={{
                 endAdornment: <InputAdornment position='start'>₽</InputAdornment>,
               }}
@@ -206,15 +225,49 @@ export default function FiltersForm() {
 
             <TextField
               className={styles.input}
-              label='Цена до'
+              label='От года'
               fullWidth
-              {...register('priceTo', rulesDefault)}
-              error={!!errors?.priceTo}
-              helperText={constructorErrorHelperText(errors, 'priceTo')}
+              {...register('manufactureFrom', rulesManufacture)}
+              error={!!errors?.manufactureFrom}
+              helperText={constructorErrorHelperText(errors, 'manufactureFrom')}
               variant='standard'
-              onChange={handleChangePriceTo}
+              onChange={onChangeManufacture}
+            />
+            <TextField
+              className={styles.input}
+              label='До года'
+              fullWidth
+              {...register('manufactureTo', rulesManufacture)}
+              error={!!errors?.manufactureTo}
+              helperText={constructorErrorHelperText(errors, 'manufactureTo')}
+              variant='standard'
+              onChange={onChangeManufacture}
+            />
+
+            <TextField
+              className={styles.input}
+              label='Пробег от'
+              fullWidth
+              {...register('mileageFrom', rulesEmpty)}
+              error={!!errors?.mileageFrom}
+              helperText={constructorErrorHelperText(errors, 'mileageFrom')}
+              variant='standard'
+              onChange={onChangeMileage}
               InputProps={{
-                endAdornment: <InputAdornment position='start'>₽</InputAdornment>,
+                endAdornment: <InputAdornment position='start'>км</InputAdornment>,
+              }}
+            />
+            <TextField
+              className={styles.input}
+              label='Пробег до'
+              fullWidth
+              {...register('mileageTo', rulesEmpty)}
+              error={!!errors?.mileageTo}
+              helperText={constructorErrorHelperText(errors, 'mileageTo')}
+              variant='standard'
+              onChange={onChangeMileage}
+              InputProps={{
+                endAdornment: <InputAdornment position='start'>км</InputAdornment>,
               }}
             />
           </div>

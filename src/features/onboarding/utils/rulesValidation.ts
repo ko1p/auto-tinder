@@ -27,7 +27,8 @@ export const rulesDescription = {
 };
 
 export const rulesManufacture = {
-  required: true,
   minLength: { value: 4, message: 'Укажите год полностью.' },
   maxLength: { value: 4, message: 'Укажите год полностью.' },
 };
+
+export const rulesEmpty = {};
