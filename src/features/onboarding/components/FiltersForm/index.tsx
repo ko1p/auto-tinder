@@ -27,6 +27,8 @@ import {
 import { useState } from 'react';
 import { onChangeManufacture, onChangeMileage, onChangePrice } from '../../utils/inputChange';
 import { rulesDefault, rulesEmpty, rulesManufacture } from '../../utils/rulesValidation';
+import { useAppDispatch } from '../../../../store/hooks/redux';
+import { setIsOnboarded } from '../../../Auth/slice';
 
 type FormValues = {
   city: number;
@@ -55,6 +57,7 @@ export default function FiltersForm() {
   const [brands, setBrands] = useState<string[]>([]);
   const [models, setModels] = useState<string[]>([]);
   const [modelListInput, setModelListInput] = useState<ListItem[]>([]);
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
@@ -120,6 +123,7 @@ export default function FiltersForm() {
 
     if (formStatus) {
       navigate('/');
+      dispatch(setIsOnboarded(true));
       // Вставить изменение поля isOnboarded в сторе
     }
   }
