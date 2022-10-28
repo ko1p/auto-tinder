@@ -57,6 +57,7 @@ export default function FiltersForm() {
   const [brands, setBrands] = useState<string[]>([]);
   const [models, setModels] = useState<string[]>([]);
   const [modelListInput, setModelListInput] = useState<ListItem[]>([]);
+  const dispatch = useAppDispatch();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
