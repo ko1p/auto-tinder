@@ -14,13 +14,26 @@ import SuccessSignup from '../../features/Auth/components/SuccessSignup';
 import CarFormStepTwo from '../../features/onboarding/components/CarFormStepTwo';
 import CarsScreen from '../../screens/Cars';
 import MyCarsScreen from '../../screens/MyCars';
-import Promotion from '../../screens/Promotion';
 import ReportsScreen from '../../screens/Reports';
+import { Cars } from '../../features/Cars/components/Cars';
+import MyCars from '../../features/Cars/components/MyCars';
+import PromotionScreen from '../../screens/Promotion';
+import Promotion from '../../features/Cars/components/Promotion';
+import Reports from '../../features/Cars/components/Reports';
 
 function Routing() {
   return (
     <Routes>
-      <Route path='/' element={<CarsScreen />} />
+      <Route path='/' element={<CarsScreen />}>
+        <Route
+          index
+          element={
+            <RouteProtected onlyAuth redirectPath='/signin'>
+              <Cars />
+            </RouteProtected>
+          }
+        />
+      </Route>
       <Route path='signup' element={<SignupScreen />}>
         <Route
           index
@@ -55,9 +68,36 @@ function Routing() {
         <Route index element={<SuccessSignup />} />
         <Route path=':uuid' element={<Confirm />} />
       </Route>
-      <Route path='my-cars' element={<MyCarsScreen />} />
-      <Route path='promotion' element={<Promotion />} />
-      <Route path='reports' element={<ReportsScreen />} />
+      <Route path='my-cars' element={<MyCarsScreen />}>
+        <Route
+          index
+          element={
+            <RouteProtected onlyAuth redirectPath='/signin'>
+              <MyCars />
+            </RouteProtected>
+          }
+        />
+      </Route>
+      <Route path='promotion' element={<PromotionScreen />}>
+        <Route
+          index
+          element={
+            <RouteProtected onlyAuth redirectPath='/signin'>
+              <Promotion />
+            </RouteProtected>
+          }
+        />
+      </Route>
+      <Route path='reports' element={<ReportsScreen />}>
+        <Route
+          index
+          element={
+            <RouteProtected onlyAuth redirectPath='/signin'>
+              <Reports />
+            </RouteProtected>
+          }
+        />
+      </Route>
       <Route path='onboarding' element={<Onboarding />}>
         <Route path='user-phone-request' element={<PhoneRequest />} />
         <Route path='user-car-form' element={<CarFormStepOne />} />
