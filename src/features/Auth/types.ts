@@ -59,5 +59,6 @@ export interface UserInfoResponse {
 export type ProtectedRouteProps = {
   children?: ReactElement;
   onlyUnAuth?: boolean;
+  onlyAuth?: boolean;
   redirectPath?: string;
 } & RouteProps;

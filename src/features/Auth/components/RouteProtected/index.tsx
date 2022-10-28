@@ -8,16 +8,13 @@ import { ProtectedRouteProps } from '../../types';
 
 const RouteProtected: FC<ProtectedRouteProps> = ({
   onlyUnAuth = false,
+  onlyAuth = false,
   redirectPath = '/',
   children,
 }) => {
   const { isAuth, isAuthCheked, errorText, isLoading, isOnboarded, isReqSent } = useAppSelector(
     state => state.auth,
   );
-
-  if (!isLoading && !isOnboarded && !errorText && isReqSent) {
-    return <Navigate replace to='/onboarding/user-phone-request' />;
-  }
 
   if (!isAuthCheked) {
     return (
@@ -29,7 +26,15 @@ const RouteProtected: FC<ProtectedRouteProps> = ({
     );
   }
 
+  if (!isLoading && !isOnboarded && !errorText && isReqSent) {
+    return <Navigate replace to='/onboarding/user-phone-request' />;
+  }
+
   if (onlyUnAuth && isAuth) {
+    return <Navigate replace to={redirectPath} />;
+  }
+
+  if (onlyAuth && !isAuth) {
     return <Navigate replace to={redirectPath} />;
   }
 
