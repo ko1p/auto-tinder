@@ -1,5 +1,5 @@
 import { MenuItem } from '@mui/material';
-import { ListItem } from '../types';
+import { ListItem } from './types';
 
 export function buildSelectItems(data: ListItem[]): JSX.Element[] {
   return data.map(item => (
