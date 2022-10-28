@@ -138,5 +138,5 @@ export const AuthSlice = createSlice({
   },
 });
 
-export const { resetErrorText } = AuthSlice.actions;
+export const { resetErrorText, setIsOnboarded } = AuthSlice.actions;
 export default AuthSlice.reducer;

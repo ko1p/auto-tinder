@@ -27,6 +27,8 @@ import {
 import { useState } from 'react';
 import { onChangeManufacture, onChangeMileage, onChangePrice } from '../../utils/inputChange';
 import { rulesDefault, rulesEmpty, rulesManufacture } from '../../utils/rulesValidation';
+import { useAppDispatch } from '../../../../store/hooks/redux';
+import { setIsOnboarded } from '../../../Auth/slice';
 
 type FormValues = {
   city: number;
@@ -56,6 +58,7 @@ export default function FiltersForm() {
   const [models, setModels] = useState<string[]>([]);
   const [modelListInput, setModelListInput] = useState<ListItem[]>([]);
 
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   function handleChangeBrand(event: SelectChangeEvent<typeof brands>) {
@@ -120,7 +123,7 @@ export default function FiltersForm() {
 
     if (formStatus) {
       navigate('/');
-      // Вставить изменение поля isOnboarded в сторе
+      dispatch(setIsOnboarded(true));
     }
   }
 
@@ -225,7 +228,7 @@ export default function FiltersForm() {
 
             <TextField
               className={styles.input}
-              label='От года'
+              label='Год от'
               fullWidth
               {...register('manufactureFrom', rulesManufacture)}
               error={!!errors?.manufactureFrom}
@@ -235,7 +238,7 @@ export default function FiltersForm() {
             />
             <TextField
               className={styles.input}
-              label='До года'
+              label='Год до'
               fullWidth
               {...register('manufactureTo', rulesManufacture)}
               error={!!errors?.manufactureTo}
