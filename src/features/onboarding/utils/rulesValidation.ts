@@ -13,8 +13,8 @@ export const rulesStateNumber = {
 
 export const rulesVin = {
   required: true,
-  minLength: { value: 17, message: 'Поле должно содержать 18 символов.' },
-  maxLength: { value: 18, message: 'Поле должно содержать 18 символов.' },
+  minLength: { value: 17, message: 'Поле должно содержать 17 символов.' },
+  maxLength: { value: 17, message: 'Поле должно содержать 17 символов.' },
   pattern: {
     // регулярное выражение не видет ошибку при 222ЖЖ2222....
     value: /^(?=[a-z0-9])[^qio]*$/i,

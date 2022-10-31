@@ -2,7 +2,7 @@ export function onChangeVin(
   element: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 ): void {
   let editableValue: string = element.target.value;
-  editableValue = editableValue.length > 18 ? editableValue.slice(0, 18) : editableValue;
+  editableValue = editableValue.length > 17 ? editableValue.slice(0, 17) : editableValue;
   element.target.value = editableValue;
 }
 

@@ -14,17 +14,21 @@ import { constructorErrorHelperText } from '../../../../utils/validation';
 import { useNavigate } from 'react-router-dom';
 import { buildSelectItems } from '../../utils/buildSelectItems';
 import { onChangePrice, onChangeManufacture } from '../../utils/inputChange';
-import { typeList, engineList, gearboxList, driveList } from '../../utils/mockData';
 import { rulesDefault, rulesManufacture, rulesDescription } from '../../utils/rulesValidation';
+import { useEffect, useState } from 'react';
+import { ICar, ListItem } from '../../utils/types';
+import { getDictionary, saveCar } from '../../api';
+import { menuPropsStyle } from '../../utils/muiStyleProps';
+import { useAppSelector } from '../../../../store/hooks/redux';
 
 type FormValues = {
-  type: number;
+  body: number;
   engine: number;
   gearbox: number;
   drive: number;
   description: string;
   price: number;
-  manufacture: number;
+  manufacturedAt: number;
 };
 
 const rulesRequiredManufacture = {
@@ -39,12 +43,62 @@ export default function CarFormStepTwo() {
     formState: { errors },
   } = useForm<FormValues>({ mode: 'onBlur' });
 
+  const [gearBoxes, setGearBoxes] = useState<ListItem[]>([]);
+  const [drives, setDrives] = useState<ListItem[]>([]);
+  const [bodies, setBodies] = useState<ListItem[]>([]);
+  const [engines, setEngines] = useState<ListItem[]>([]);
+
   const navigate = useNavigate();
+  const formCarStepOne = useAppSelector(state => state.userProfile.formCarStepOne);
 
   function onSubmit(data: FormValues) {
-    console.log(data);
-    navigate('/onboarding/user-filter-form');
+    const id = localStorage.getItem('id');
+
+    if (id && formCarStepOne) {
+      const carData: ICar = {
+        ...formCarStepOne,
+        userId: id,
+        body: data.body,
+        engine: data.engine,
+        gearbox: data.engine,
+        drive: data.gearbox,
+        description: data.description,
+        price: Number(data.price),
+        manufacturedAt: Number(data.manufacturedAt),
+        isExchanged: true,
+        isPromoted: false,
+      };
+
+      saveCar(carData).then(response => {
+        if (response.status === 200) {
+          navigate('/onboarding/user-filter-form');
+        } else {
+          alert(`Что-то пошло не так, ошибка: ${response.status}`);
+        }
+      });
+    }
   }
+
+  useEffect(() => {
+    if (formCarStepOne === null) navigate('/onboarding/user-car-form');
+
+    try {
+      getDictionary('gearboxes').then(respons => {
+        setGearBoxes(respons?.data || []);
+      });
+      getDictionary('drives').then(respons => {
+        setDrives(respons?.data || []);
+      });
+      getDictionary('bodies').then(respons => {
+        setBodies(respons?.data || []);
+      });
+      getDictionary('engines').then(respons => {
+        setEngines(respons?.data || []);
+      });
+    } catch (error) {
+      alert('Что-то пошло не так. Произашла ошибка при запросе словоря');
+    }
+  }, []);
 
   return (
     <div className={styles.root}>
@@ -54,34 +108,50 @@ export default function CarFormStepTwo() {
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.splitBox}>
-            <FormControl className={styles.input} variant='standard' error={!!errors?.type}>
+            <FormControl className={styles.input} variant='standard' error={!!errors?.body}>
               <InputLabel>Кузов</InputLabel>
-              <Select {...register('type', rulesDefault)} defaultValue={''}>
-                {buildSelectItems(typeList)}
+              <Select
+                MenuProps={menuPropsStyle}
+                {...register('body', rulesDefault)}
+                defaultValue={''}
+              >
+                {buildSelectItems(bodies)}
               </Select>
-              <FormHelperText>{constructorErrorHelperText(errors, 'type')}</FormHelperText>
+              <FormHelperText>{constructorErrorHelperText(errors, 'body')}</FormHelperText>
             </FormControl>
 
             <FormControl className={styles.input} variant='standard' error={!!errors?.engine}>
               <InputLabel>Двигатель</InputLabel>
-              <Select {...register('engine', rulesDefault)} defaultValue={''}>
-                {buildSelectItems(engineList)}
+              <Select
+                MenuProps={menuPropsStyle}
+                {...register('engine', rulesDefault)}
+                defaultValue={''}
+              >
+                {buildSelectItems(engines)}
               </Select>
               <FormHelperText>{constructorErrorHelperText(errors, 'engine')}</FormHelperText>
             </FormControl>
 
             <FormControl className={styles.input} variant='standard' error={!!errors?.gearbox}>
               <InputLabel>Коробка передач</InputLabel>
-              <Select {...register('gearbox', rulesDefault)} defaultValue={''}>
-                {buildSelectItems(gearboxList)}
+              <Select
+                MenuProps={menuPropsStyle}
+                {...register('gearbox', rulesDefault)}
+                defaultValue={''}
+              >
+                {buildSelectItems(gearBoxes)}
               </Select>
               <FormHelperText>{constructorErrorHelperText(errors, 'gearbox')}</FormHelperText>
             </FormControl>
 
             <FormControl className={styles.input} variant='standard' error={!!errors?.drive}>
               <InputLabel>Привод</InputLabel>
-              <Select {...register('drive', rulesDefault)} defaultValue={''}>
-                {buildSelectItems(driveList)}
+              <Select
+                MenuProps={menuPropsStyle}
+                {...register('drive', rulesDefault)}
+                defaultValue={''}
+              >
+                {buildSelectItems(drives)}
               </Select>
               <FormHelperText>{constructorErrorHelperText(errors, 'drive')}</FormHelperText>
             </FormControl>
@@ -104,9 +174,9 @@ export default function CarFormStepTwo() {
               className={styles.input}
               label='Год'
               fullWidth
-              {...register('manufacture', rulesRequiredManufacture)}
-              error={!!errors?.manufacture}
-              helperText={constructorErrorHelperText(errors, 'manufacture')}
+              {...register('manufacturedAt', rulesRequiredManufacture)}
+              error={!!errors?.manufacturedAt}
+              helperText={constructorErrorHelperText(errors, 'manufacturedAt')}
               variant='standard'
               onChange={onChangeManufacture}
             />
