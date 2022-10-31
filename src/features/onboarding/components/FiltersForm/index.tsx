@@ -124,6 +124,7 @@ export default function FiltersForm() {
     }
 
     if (formStatus) {
+      // Здесь должена быть отправка данных в api
       navigate('/');
       dispatch(setIsOnboarded(true));
     }
@@ -203,7 +204,7 @@ export default function FiltersForm() {
 
             <TextField
               className={styles.input}
-              label='Цена от'
+              label='Цена от*'
               fullWidth
               {...register('priceStart', rulesDefault)}
               error={!!errors?.priceStart}
@@ -216,7 +217,7 @@ export default function FiltersForm() {
             />
             <TextField
               className={styles.input}
-              label='Цена до'
+              label='Цена до*'
               fullWidth
               {...register('priceFinish', rulesDefault)}
               error={!!errors?.priceFinish}
