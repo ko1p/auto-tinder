@@ -12,20 +12,21 @@ import {
 import { useForm } from 'react-hook-form';
 import { constructorErrorHelperText } from '../../../../utils/validation';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../../../store/hooks/redux';
 import { setCarFormStepOne } from '../../slice';
 import { ICarFormStepOne, ListItem } from '../../utils/types';
 import { buildSelectItems } from '../../utils/buildSelectItems';
 import { rulesDefault, rulesStateNumber, rulesVin } from '../../utils/rulesValidation';
-import { brandList, cityList, modelList } from '../../utils/mockData';
 import { onChangeMileage, onChangeTotalOwner, onChangeVin } from '../../utils/inputChange';
+import { menuPropsStyle } from '../../utils/muiStyleProps';
+import { getDictionary } from '../../api';
 
 type FormValues = {
-  vin: string;
+  vinCode: string;
   stateNumber: string;
-  totalOwner: number;
-  city: number;
+  totalOwners: number;
+  exchangeCity: number;
   mileage: number;
   brand: number;
   model: number | null;
@@ -40,19 +41,26 @@ export default function CarFormStepOne() {
   } = useForm<FormValues>({ mode: 'onBlur' });
 
   const [modelListInput, setModelListInput] = useState<ListItem[]>([]);
+  const [brands, setBrands] = useState<ListItem[]>([]);
+  const [cities, setCities] = useState<ListItem[]>([]);
+  const [models, setModels] = useState<ListItem[]>([]);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  function onSubmit(data: FormValues) {
-    console.log(data);
+  function onChangemodelList(id: number): void {
+    // Изначально предполагался другой тип базы данных моделей автомобилей и этот метод писался под него.
+    // setModelListInput(modelList[id]);
+    // setValue('model', null);
+  }
 
+  function onSubmit(data: FormValues) {
     const dataPartOne: ICarFormStepOne = {
-      vin: data.vin,
+      vinCode: data.vinCode,
       stateNumber: data.stateNumber,
-      totalOwner: Number(data.stateNumber),
-      city: data.city,
-      mileage: Number(data.city),
+      totalOwners: Number(data.totalOwners),
+      exchangeCity: data.exchangeCity,
+      mileage: Number(data.exchangeCity),
       brand: data.brand,
       model: data.brand,
     };
@@ -61,10 +69,21 @@ export default function CarFormStepOne() {
     navigate('/onboarding/user-car-form-two');
   }
 
-  function onChangemodelList(id: number): void {
-    setModelListInput(modelList[id]);
-    setValue('model', null);
-  }
+  useEffect(() => {
+    try {
+      getDictionary('cities').then(respons => {
+        setCities(respons?.data || []);
+      });
+      getDictionary('brands').then(respons => {
+        setBrands(respons?.data || []);
+      });
+      getDictionary('models').then(respons => {
+        setModels(respons?.data || []);
+      });
+    } catch (error) {
+      alert('Что-то пошло не так. Произашла ошибка при запросе словоря');
+    }
+  }, []);
 
   return (
     <div className={styles.root}>
@@ -75,11 +94,11 @@ export default function CarFormStepOne() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
             className={styles.input}
-            label='VIN'
+            label='vin'
             fullWidth
-            {...register('vin', rulesVin)}
-            error={!!errors?.vin}
-            helperText={constructorErrorHelperText(errors, 'vin')}
+            {...register('vinCode', rulesVin)}
+            error={!!errors?.vinCode}
+            helperText={constructorErrorHelperText(errors, 'vinCode')}
             variant='standard'
             onChange={onChangeVin}
           />
@@ -97,12 +116,12 @@ export default function CarFormStepOne() {
               className={styles.input}
               label='Количество владельцев'
               fullWidth
-              {...register('totalOwner', rulesDefault)}
-              error={!!errors?.totalOwner}
-              helperText={constructorErrorHelperText(errors, 'totalOwner')}
+              {...register('totalOwners', rulesDefault)}
+              error={!!errors?.totalOwners}
+              helperText={constructorErrorHelperText(errors, 'totalOwners')}
               variant='standard'
               type='number'
-              defaultValue={1}
+              defaultValue='1'
               InputProps={{ inputProps: { min: 1, max: 99 } }}
               onChange={onChangeTotalOwner}
             />
@@ -120,32 +139,41 @@ export default function CarFormStepOne() {
               }}
             />
 
-            <FormControl className={styles.input} variant='standard' error={!!errors?.city}>
+            <FormControl className={styles.input} variant='standard' error={!!errors?.exchangeCity}>
               <InputLabel>Город</InputLabel>
-              <Select {...register('city', rulesDefault)} defaultValue={''}>
-                {buildSelectItems(cityList)}
+              <Select
+                {...register('exchangeCity', rulesDefault)}
+                defaultValue={''}
+                MenuProps={menuPropsStyle}
+              >
+                {buildSelectItems(cities)}
               </Select>
-              <FormHelperText>{constructorErrorHelperText(errors, 'city')}</FormHelperText>
+              <FormHelperText>{constructorErrorHelperText(errors, 'exchangeCity')}</FormHelperText>
             </FormControl>
 
             <FormControl className={styles.input} variant='standard' error={!!errors?.brand}>
               <InputLabel>Марка</InputLabel>
               <Select
+                MenuProps={menuPropsStyle}
                 {...register('brand', rulesDefault)}
                 defaultValue={''}
                 onChange={element => {
                   onChangemodelList(Number(element.target.value));
                 }}
               >
-                {buildSelectItems(brandList)}
+                {buildSelectItems(brands)}
               </Select>
               <FormHelperText>{constructorErrorHelperText(errors, 'brand')}</FormHelperText>
             </FormControl>
 
             <FormControl className={styles.input} variant='standard' error={!!errors?.model}>
               <InputLabel>Модель</InputLabel>
-              <Select {...register('model', rulesDefault)} defaultValue={''}>
-                {buildSelectItems(modelListInput)}
+              <Select
+                MenuProps={menuPropsStyle}
+                {...register('model', rulesDefault)}
+                defaultValue={''}
+              >
+                {buildSelectItems(models)}
               </Select>
               <FormHelperText>{constructorErrorHelperText(errors, 'model')}</FormHelperText>
             </FormControl>

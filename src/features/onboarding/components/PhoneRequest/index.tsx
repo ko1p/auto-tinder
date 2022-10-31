@@ -5,6 +5,7 @@ import { InputAdornment, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { constructorErrorHelperText } from '../../../../utils/validation';
 import { useNavigate } from 'react-router-dom';
+import { savePhone } from '../../api';
 
 type FormValues = {
   phone: string;
@@ -24,14 +25,20 @@ export default function PhoneConfirmation() {
     minLength: { value: 10, message: 'Номер должен начинаться на +7 и содержать 11 цифр.' },
   };
 
-  function onSubmit(data: FormValues) {
-    navigate('/onboarding/user-car-form');
-  }
-
   function onChangePhone(element: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
     let editableValue: string = element.target.value.replace(/[^\d]/g, '');
     editableValue = editableValue.length > 10 ? editableValue.slice(0, 10) : editableValue;
     element.target.value = editableValue;
+  }
+
+  function onSubmit(data: FormValues) {
+    savePhone(data.phone).then(status => {
+      if (status === 200) {
+        navigate('/onboarding/user-car-form');
+      } else {
+        alert(`Что-то пошло не так, ошибка: ${status}`);
+      }
+    });
   }
 
   return (

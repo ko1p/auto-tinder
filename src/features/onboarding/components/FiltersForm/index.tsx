@@ -38,12 +38,12 @@ type FormValues = {
   engine: number;
   gearbox: number;
   drive: number;
-  priceFrom: number;
-  priceTo: number;
-  manufactureFrom: number;
-  manufactureTo: number;
-  mileageFrom: number;
-  mileageTo: number;
+  priceStart: number;
+  priceFinish: number;
+  manufacturedAtStart: number;
+  manufacturedAtFinish: number;
+  mileageStart: number;
+  mileageFinish: number;
 };
 
 export default function FiltersForm() {
@@ -70,20 +70,22 @@ export default function FiltersForm() {
 
     setBrands(arrayValueBrand);
 
-    const availablemodelList = arrayValueBrand
-      .map(id => modelList[Number(id)])
-      .reduce((list, item) => {
-        return list.concat(item);
-      }, []);
+    // Изначально предполагался другой тип базы данных моделей автомобилей и этот метод писался под него.
 
-    setModelListInput(availablemodelList);
+    // const availablemodelList = arrayValueBrand
+    //   .map(id => modelList[Number(id)])
+    //   .reduce((list, item) => {
+    //     return list.concat(item);
+    //   }, []);
 
-    const listAvailableModelsId = availablemodelList.map(item => item.id);
-    const newValueModelsInput = models.filter(item => {
-      return listAvailableModelsId.includes(Number(item));
-    });
+    // setModelListInput(availablemodelList);
 
-    setModels(newValueModelsInput);
+    // const listAvailableModelsId = availablemodelList.map(item => item.id);
+    // const newValueModelsInput = models.filter(item => {
+    //   return listAvailableModelsId.includes(Number(item));
+    // });
+
+    // setModels(newValueModelsInput);
   }
 
   function handleChangeModels(event: SelectChangeEvent<typeof models>) {
@@ -105,19 +107,19 @@ export default function FiltersForm() {
     let formStatus = true;
     console.log(data);
     console.log(models);
-    if (Number(data.priceFrom) > Number(data.priceTo)) {
-      setError('priceFrom', rangeError);
-      setError('priceTo', rangeError);
+    if (Number(data.priceStart) > Number(data.priceFinish)) {
+      setError('priceStart', rangeError);
+      setError('priceFinish', rangeError);
       formStatus = false;
     }
-    if (Number(data.manufactureFrom) > Number(data.manufactureTo)) {
-      setError('manufactureFrom', rangeError);
-      setError('manufactureTo', rangeError);
+    if (Number(data.manufacturedAtStart) > Number(data.manufacturedAtFinish)) {
+      setError('manufacturedAtStart', rangeError);
+      setError('manufacturedAtFinish', rangeError);
       formStatus = false;
     }
-    if (Number(data.mileageFrom) > Number(data.mileageTo)) {
-      setError('mileageFrom', rangeError);
-      setError('mileageTo', rangeError);
+    if (Number(data.mileageStart) > Number(data.mileageFinish)) {
+      setError('mileageStart', rangeError);
+      setError('mileageFinish', rangeError);
       formStatus = false;
     }
 
@@ -203,9 +205,9 @@ export default function FiltersForm() {
               className={styles.input}
               label='Цена от'
               fullWidth
-              {...register('priceFrom', rulesEmpty)}
-              error={!!errors?.priceFrom}
-              helperText={constructorErrorHelperText(errors, 'priceFrom')}
+              {...register('priceStart', rulesDefault)}
+              error={!!errors?.priceStart}
+              helperText={constructorErrorHelperText(errors, 'priceStart')}
               variant='standard'
               onChange={onChangePrice}
               InputProps={{
@@ -216,9 +218,9 @@ export default function FiltersForm() {
               className={styles.input}
               label='Цена до'
               fullWidth
-              {...register('priceTo', rulesEmpty)}
-              error={!!errors?.priceTo}
-              helperText={constructorErrorHelperText(errors, 'priceTo')}
+              {...register('priceFinish', rulesDefault)}
+              error={!!errors?.priceFinish}
+              helperText={constructorErrorHelperText(errors, 'priceFinish')}
               variant='standard'
               onChange={onChangePrice}
               InputProps={{
@@ -230,9 +232,9 @@ export default function FiltersForm() {
               className={styles.input}
               label='Год от'
               fullWidth
-              {...register('manufactureFrom', rulesManufacture)}
-              error={!!errors?.manufactureFrom}
-              helperText={constructorErrorHelperText(errors, 'manufactureFrom')}
+              {...register('manufacturedAtStart', rulesManufacture)}
+              error={!!errors?.manufacturedAtStart}
+              helperText={constructorErrorHelperText(errors, 'manufacturedAtStart')}
               variant='standard'
               onChange={onChangeManufacture}
             />
@@ -240,9 +242,9 @@ export default function FiltersForm() {
               className={styles.input}
               label='Год до'
               fullWidth
-              {...register('manufactureTo', rulesManufacture)}
-              error={!!errors?.manufactureTo}
-              helperText={constructorErrorHelperText(errors, 'manufactureTo')}
+              {...register('manufacturedAtFinish', rulesManufacture)}
+              error={!!errors?.manufacturedAtFinish}
+              helperText={constructorErrorHelperText(errors, 'manufacturedAtFinish')}
               variant='standard'
               onChange={onChangeManufacture}
             />
@@ -251,9 +253,9 @@ export default function FiltersForm() {
               className={styles.input}
               label='Пробег от'
               fullWidth
-              {...register('mileageFrom', rulesEmpty)}
-              error={!!errors?.mileageFrom}
-              helperText={constructorErrorHelperText(errors, 'mileageFrom')}
+              {...register('mileageStart', rulesEmpty)}
+              error={!!errors?.mileageStart}
+              helperText={constructorErrorHelperText(errors, 'mileageStart')}
               variant='standard'
               onChange={onChangeMileage}
               InputProps={{
@@ -264,9 +266,9 @@ export default function FiltersForm() {
               className={styles.input}
               label='Пробег до'
               fullWidth
-              {...register('mileageTo', rulesEmpty)}
-              error={!!errors?.mileageTo}
-              helperText={constructorErrorHelperText(errors, 'mileageTo')}
+              {...register('mileageFinish', rulesEmpty)}
+              error={!!errors?.mileageFinish}
+              helperText={constructorErrorHelperText(errors, 'mileageFinish')}
               variant='standard'
               onChange={onChangeMileage}
               InputProps={{
