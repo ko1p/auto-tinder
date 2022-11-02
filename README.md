@@ -2,14 +2,14 @@
 
 [Макет в Figma](https://www.figma.com/file/lccYj5aztjpRBpeLNTQl3G/AutoTinder?node-id=0%3A1)
 
-Архитектура **Feature Sliced Design** (по крайней мере мы пытались)
+Архитектура **Feature Sliced Design** (будет)
 
 <pre>
-app/                                # <b>Инициализирующая логика приложения</b>
-   ├── providers/                   # Провайдеры приложения (Store, BrowserRouter...)
-   ├── store/                       # Инициализация стора Redux
-   ├── styles/                      # Глобальные стили 
-   └── index.tsx                    # Компонент App
+app/                                  # <b>Инициализирующая логика приложения</b>
+   ├── providers/                     # Провайдеры приложения (Store, BrowserRouter...)
+   ├── store/                         # Инициализация стора Redux
+   ├── styles/                        # Глобальные стили 
+   └── index.tsx                      # Компонент App
 
 pages/{pageName}/                     # <b>Страницы приложения</b>
    |     ├── ui/                      # Отдельный компоненты страницы
