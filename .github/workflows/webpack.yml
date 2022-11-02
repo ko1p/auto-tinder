@@ -1,0 +1,31 @@
+name: Linting check
+
+on:
+  push:
+    branches: [ "main", "delevop" ]
+  pull_request:
+    branches: [ "main", "delevop" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [17.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+      - name: install modules
+        run: npm install
+      - name: lint code
+        run: npm run lint
+      - name: stylelint
+        run: npm run stylelint
+      - name: build project
+        run: npm run build
