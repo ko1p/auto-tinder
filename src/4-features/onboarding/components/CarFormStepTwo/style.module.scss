@@ -1,0 +1,14 @@
+@import "1-app/styles/mixin-onboarding.scss";
+
+.userForm {
+  @include onboarding-card;
+  @include onboarding-card-content;
+}
+
+.root {
+  @include onboarding-root
+}
+
+.splitBox {
+  @include split-box;
+}

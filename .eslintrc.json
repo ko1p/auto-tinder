@@ -29,10 +29,21 @@
     "react/prop-types": "off",
     "camelcase": "error",
     "spaced-comment": "error",
-    "quotes": ["error", "single"],
+    "quotes": [
+      "error",
+      "single"
+    ],
     "no-duplicate-imports": "error",
-    "prettier/prettier": "error",
-    "arrow-parens": ["error", "as-needed"]
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "arrow-parens": [
+      "error",
+      "as-needed"
+    ]
   },
   "settings": {
     "import/resolver": {
