@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router';
 import { SignInForm } from 'features/auth/ui/SignInForm';
-import { Main } from 'features/Main/Main';
+import { Main } from 'pages/Main/Main';
 import { routing } from 'shared/routing';
 import { Layout } from './Layout';
 
