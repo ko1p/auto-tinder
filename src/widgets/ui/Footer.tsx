@@ -1,3 +1,3 @@
 import React from 'react';
 
-export const Footer = () => <span>Это футер</span>;
+export const Footer = () => <div>Это футер</div>;
