@@ -1,9 +1,11 @@
 import './SignInForm.scss';
 
-import { Button, Checkbox, Form, Input, Typography } from 'antd';
+import { Button, Checkbox, Form, Input } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
-import { Link } from 'react-router-dom';
+import { ApiError } from 'shared/api/error/error';
+import { IError } from 'shared/lib/types';
 import React from 'react';
 import { IUserAuthRequest } from '../lib';
 import { authAPI } from '../model';
@@ -11,11 +13,20 @@ import { authAPI } from '../model';
 const { Item } = Form;
 
 export const SignInForm: React.FC = () => {
-  const [logIn] = authAPI.useLogInMutation();
+  const [logIn, { isLoading }] = authAPI.useLogInMutation();
+  const navigate = useNavigate();
 
-  const onFinis = async (values: IUserAuthRequest) => {
-    console.log('Received values of form: ', values);
-    await logIn(values);
+  const onFinish = async (values: IUserAuthRequest) => {
+    try {
+      const { email, password } = values;
+      const formData = new URLSearchParams();
+      formData.append('email', email);
+      formData.append('password', password);
+      await logIn(formData.toString()).unwrap();
+      navigate('/cars');
+    } catch (e) {
+      ApiError(e as IError);
+    }
   };
 
   return (
@@ -23,9 +34,9 @@ export const SignInForm: React.FC = () => {
       name="normal_login"
       className="login-form"
       initialValues={{ remember: true }}
-      onFinish={onFinis}
+      onFinish={onFinish}
     >
-      <Typography>Регистрация</Typography>
+      <h1>Регистрация</h1>
       <Item
         name="email"
         rules={[
@@ -58,7 +69,12 @@ export const SignInForm: React.FC = () => {
       </Item>
 
       <Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
+        <Button
+          loading={isLoading}
+          type="primary"
+          htmlType="submit"
+          className="login-form-button"
+        >
           Войти
         </Button>
         Нет зарегистрированы? Перейти к <Link to="/signup">регистрации!</Link>
