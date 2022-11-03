@@ -1,5 +1,10 @@
+import 'antd/dist/antd.css';
+import 'normalize.css';
+
 import React from 'react';
+import { RouterPage } from 'pages/Router';
+import withProviders from './providers';
 
-const App = () => <>Hello world!</>;
+const App = () => <RouterPage />;
 
-export default App;
+export default withProviders(App);
