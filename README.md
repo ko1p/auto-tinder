@@ -36,7 +36,7 @@ entities/{entityName}/                # <b>Бизнес-сущности</b>
    |     ├── ui/                      # UI-элементы
    |     ├── model/                   # Бизнес-логика (работа со стором)
    |     |    ├── state/              # actions, createSlice ...
-   |     |    ├── thunk/              # 
+   |     |    ├── thunk/              # thunk и другие сайд эффекты
    |     |    └── index.tsx           # Реэкспорт всего
    |     ├── lib/                     # Библиотечный код (utils/helpers/types)
    |     └── index.tsx                # Бизнесс сущность

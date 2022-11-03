@@ -11,7 +11,7 @@ import { authAPI } from '../model';
 const { Item } = Form;
 
 export const SignInForm: React.FC = () => {
-  const [logIn, { isLoading, isError, isSuccess }] = authAPI.useLogInMutation();
+  const [logIn] = authAPI.useLogInMutation();
 
   const onFinis = async (values: IUserAuthRequest) => {
     console.log('Received values of form: ', values);
