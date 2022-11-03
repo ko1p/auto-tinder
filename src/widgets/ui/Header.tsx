@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import { userSelector } from 'entities/user/model/state/authSelector';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useAppSelector } from 'shared/lib/hooks/redux';
 import { routing } from 'shared/routing';
 import './Header.scss';
@@ -21,12 +21,24 @@ export const Header: FC = () => {
           onClick={() => navigate(routing.main)}
         />
         <div className="header__links">
-          <Link to={routing.cars}>Машины</Link>
-          <Link to={routing.coupons}>Купоны</Link>
+          <NavLink to={routing.cars}>Машины</NavLink>
+          <NavLink to={routing.coupons}>Купоны</NavLink>
         </div>
         <div className="header__decktop">
-          {!user && <Button className="header__button">Вход</Button>}
-          <Button className="header__button">{user || 'Регистрация'}</Button>
+          {!user && (
+            <Button
+              className="header__button"
+              onClick={() => navigate(routing.signUp)}
+            >
+              Вход
+            </Button>
+          )}
+          <Button
+            className="header__button"
+            onClick={() => navigate(routing.signIn)}
+          >
+            {user || 'Регистрация'}
+          </Button>
         </div>
         <div className="header__mobile">
           <SmileOutlined

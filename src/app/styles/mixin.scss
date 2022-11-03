@@ -6,6 +6,7 @@
   font-size: 38px;
   line-height: 123%;
   color: $text-color_main;
+  margin: 0
 }
 
 @mixin text-h2 {
@@ -14,6 +15,7 @@
   font-size: 30px;
   line-height: 135%;  
   color: $text-color_main;
+  margin: 0
 }
 
 @mixin text-h3 {
@@ -22,6 +24,7 @@
   font-size: 24px;
   line-height: 135%;
   color: $text-color_main;
+  margin: 0
 }
 
 @mixin text-h4 {
@@ -30,6 +33,7 @@
   font-size: 20px;
   line-height: 140%;
   color: $text-color_main;
+  margin: 0
 }
 
 @mixin text-h5 {
@@ -38,6 +42,7 @@
   font-size: 16px;
   line-height: 150%;
   color: $text-color_main;
+  margin: 0
 }
 
 @mixin text-p {
@@ -46,6 +51,7 @@
   font-size: 14px;
   line-height: 157.15%;
   color: $text-color_main;
+  margin: 0
 }
 
 @mixin text-span {
@@ -54,4 +60,11 @@
   font-size: 14px;
   line-height: 157.15%;
   color: $text-color_span;
+  margin: 0
+}
+
+@mixin ul {
+  padding: 0;
+  list-style-type: none;
+  margin: 0;
 }
