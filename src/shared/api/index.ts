@@ -33,5 +33,5 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 export const connectAPI = createApi({
   reducerPath: 'connectAPI',
   baseQuery: baseQueryWithReauth,
-  endpoints: build => ({}),
+  endpoints: (build) => ({}),
 });
