@@ -9,23 +9,23 @@ import { ButtonTinder } from 'shared/ui/ButtonTinder/ButtonTinder';
 import { Form } from 'antd';
 import { IError } from 'shared/lib/types';
 import React from 'react';
+import { useAppDispatch } from 'shared/lib/hooks/redux';
 import { IUserAuthRequest } from '../lib';
-import { authAPI } from '../model';
+import { authAPI, logIn } from '../model';
 
 const { Item } = Form;
 
 export const SignInForm: React.FC = () => {
-  const [logIn, { isLoading }] = authAPI.useLogInMutation();
+  const [signIn, { isLoading }] = authAPI.useLogInMutation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const onFinish = async (values: IUserAuthRequest) => {
     try {
       const { email, password } = values;
-      const formData = new URLSearchParams();
-      formData.append('email', email);
-      formData.append('password', password);
-      await logIn(formData.toString()).unwrap();
-      navigate('/cars');
+      const userDto = await signIn({ email, password }).unwrap();
+      dispatch(logIn(userDto));
+      navigate(`/profile/${userDto.user?.id}`);
     } catch (e) {
       ApiError(e as IError);
     }

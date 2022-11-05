@@ -18,6 +18,9 @@ export const ApiError = ({ status, data }: IError) => {
       case 'Bad credentials':
         message.error('Неправильный логин или пароль');
         break;
+      case 'User account is locked':
+        message.error('Активируйте аккаут через почту');
+        break;
 
       default:
         message.error(`Неизвестная ошибка авторизации: ${data.Reason}`);

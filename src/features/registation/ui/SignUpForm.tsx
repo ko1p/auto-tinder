@@ -169,7 +169,7 @@ export const SignUpForm: React.FC = () => {
           htmlType="submit"
           className="signup-form__submit-button"
         >
-          Войти
+          Зарегистрироваться
         </ButtonTinder>
         Уже зарегистрированы? <Link to="/signin">Войдите в систему!</Link>
       </Item>
