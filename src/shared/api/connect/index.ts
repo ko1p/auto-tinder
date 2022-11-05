@@ -1,13 +1,8 @@
-import {
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
-  createApi,
-  fetchBaseQuery,
-} from '@reduxjs/toolkit/dist/query/react';
-import { logIn, logOut } from 'entities/user/model/state/authSlice';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 
 import { RootState } from 'app/store';
+
+// import { logIn, logOut } from 'entities/user/model/state/authSlice';
 
 const baseUrl = 'https://auto-tindr.herokuapp.com';
 
@@ -23,28 +18,29 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const baseQueryWithReauth: BaseQueryFn<
-  string | FetchArgs,
-  unknown,
-  FetchBaseQueryError
-> = async (args, api, extraOptions) => {
-  let result = await baseQuery(args, api, extraOptions);
+// const baseQueryWithReauth: BaseQueryFn<
+//   string | FetchArgs,
+//   unknown,
+//   FetchBaseQueryError
+// > = async (args, api, extraOptions) => {
+//   let result = await baseQuery(args, api, extraOptions);
 
-  if (result?.error?.status === 400) {
-    const refreshResult = await baseQuery('/auth/refresh', api, extraOptions);
-    if (refreshResult?.data) {
-      api.dispatch(logIn({ accessToken: refreshResult.data as string }));
-      result = await baseQuery(args, api, extraOptions);
-    } else {
-      api.dispatch(logOut());
-    }
-  }
-  return result;
-};
+//   if (result?.error?.status === 400) {
+//     const refreshResult = await baseQuery('/auth/refresh', api, extraOptions);
+//     if (refreshResult?.data) {
+//       api.dispatch(logIn({ accessToken: refreshResult.data as string }));
+//       result = await baseQuery(args, api, extraOptions);
+//     } else {
+//       api.dispatch(logOut());
+//     }
+//   }
+//   return result;
+// };
 
 export const connectAPI = createApi({
   reducerPath: 'connectAPI',
-  baseQuery: baseQueryWithReauth,
+  tagTypes: ['userProfile'],
+  baseQuery,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   endpoints: (build) => ({}),
 });

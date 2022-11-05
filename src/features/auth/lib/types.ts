@@ -3,15 +3,15 @@ export interface IUserAuthRequest {
   password: string;
 }
 export interface IUserAuthResponse {
-  accessToken: string;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    phone: string;
-    isOnboarded: boolean;
+  accessToken?: string | null;
+  user?: {
+    id?: string | null;
+    name?: string | null;
+    email?: string | null;
+    phone?: string | null;
+    isOnboarded?: boolean | null;
   };
-  hasPhone: boolean;
-  hasCar: boolean;
-  hasPreference: boolean;
+  hasPhone?: boolean | null;
+  hasCar?: boolean | null;
+  hasPreference?: boolean | null;
 }

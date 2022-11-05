@@ -3,7 +3,7 @@ export const routing = {
   notFound: '/*',
   signUp: '/signup',
   signIn: '/signin',
-  profile: '/profile',
+  profile: '/profile/:userId',
   cars: '/cars',
   coupons: '/coupons',
   privacy: '/privacy',

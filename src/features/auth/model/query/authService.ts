@@ -7,9 +7,6 @@ export const authAPI = connectAPI.injectEndpoints({
       query: (data) => ({
         url: 'auth/login',
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
         body: data,
       }),
     }),

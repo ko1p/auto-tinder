@@ -4,9 +4,11 @@ import { Main } from 'pages/Main/Main';
 import React from 'react';
 import { SignIn } from 'pages/SignIn/SignIn';
 import { routing } from 'shared/routing';
+import { Layout } from './lib/Layout';
+import { NotFound } from './NotFound/NotFound';
+import { Profile } from './Profile/Profile';
 import { RouteWrapper } from './lib/RouteWrapper';
 import { SignUp } from './SignUp/SignUp';
-import { Layout } from './lib/Layout';
 
 export const RouterPage = () => (
   <Routes>
@@ -19,6 +21,12 @@ export const RouterPage = () => (
       </Route>
       <Route element={<RouteWrapper title="Главная" />}>
         <Route path={routing.main} element={<Main />} />
+      </Route>
+      <Route element={<RouteWrapper title="Профиль" />}>
+        <Route path={routing.profile} element={<Profile />} />
+      </Route>
+      <Route element={<RouteWrapper title="Профиль" />}>
+        <Route path={routing.notFound} element={<NotFound />} />
       </Route>
     </Route>
   </Routes>

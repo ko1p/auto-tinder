@@ -8,7 +8,7 @@
 	align-items: center;
 	gap: 10px;
 	width: $width-mobile;
-	padding: 15px;
+	padding: 25px;
 	background-color: $background_accent;
 
 	@include breakpoint(720px) {
