@@ -1,7 +1,7 @@
-@import '../../app/styles/variables.scss';
-@import '../../app/styles/mixin.scss';
+@import 'shared/styles/variables.scss';
+@import 'shared/styles/mixin.scss';
 
-.header{
+.header {
   background-color: $background_accent;
   width: 100%;
   display: flex;
@@ -10,7 +10,7 @@
   min-height: 64px;
   padding: 20px;
 
-  &__content{
+  &__content {
     min-width: 320px;
     width: 90%;
     margin: 0 auto;
@@ -18,13 +18,13 @@
     justify-content: space-between;
   }
 
-  &__button{
+  &__button {
     margin-left: 25px;
   }
 
-  &__links{
+  &__links {
     display: flex;
-    min-width: 150px;    
+    min-width: 150px;
     justify-content: space-between;
     text-align: center;
     align-items: center;
@@ -32,7 +32,7 @@
 
   }
 
-  &__decktop{
+  &__decktop {
     display: none;
 
     @media screen and (min-width: $width-table) {
@@ -40,7 +40,7 @@
     }
   }
 
-  &__ul{
+  &__ul {
     @include ul;
     display: flex;
     justify-content: space-between;
@@ -48,7 +48,7 @@
     align-items: center;
   }
 
-  &__mobile{
+  &__mobile {
     display: flex;
     text-align: center;
     align-items: center;
@@ -59,11 +59,11 @@
     }
   }
 
-  &__icons{
+  &__icons {
 
-    & > svg{
+    &>svg {
       width: 32px;
       height: 32px;
     }
   }
-} 
+}

@@ -1,0 +1,14 @@
+@import 'shared/styles/index';
+
+.input-tinder {
+  border-radius: 15px !important;
+
+  &.ant-input:hover {
+    border-color: $input-color;
+  }
+
+  &.ant-input:focus {
+    border-color: $input-color;
+    box-shadow: 0 0 5px $input-shadow-color;
+  }
+}

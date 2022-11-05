@@ -1,0 +1,9 @@
+@import 'shared/styles/index';
+@import './ButtonTinder.scss';
+
+.button-tinder-accent {
+  @include btncolor($button-collor_accent,
+    $button-collor_accent_hover,
+    $button-text_main,
+    $button-text_accent )
+}

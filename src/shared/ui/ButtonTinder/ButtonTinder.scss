@@ -1,0 +1,62 @@
+@mixin btncolor($main, $hover, $text, $txthover) {
+  &.ant-btn {
+    border: 0;
+    padding: 8px 20px;
+    height: 100%;
+
+    &.ant-btn-primary {
+      background-color: $main;
+      border-color: $main;
+
+      &:hover {
+        color: $txthover;
+        background-color: $hover;
+        border-color: $hover;
+      }
+
+      &:active {
+        background-color: $main;
+        border-color: $main;
+      }
+    }
+
+    border-radius: 5px;
+
+    &:focus {
+      color: $text;
+      background-color: $main;
+      border-color: $main;
+    }
+
+    &:hover {
+      border-color: $main;
+      color: $txthover;
+    }
+
+    &:focus:hover {
+      color: $text;
+    }
+  }
+
+  &_sliced-right {
+    &.ant-btn {
+      border-radius: 5px 0 0 5px;
+    }
+  }
+
+  &_sliced-left {
+    &.ant-btn {
+      border-radius: 0 5px 5px 0;
+    }
+  }
+
+  &_sliced-both {
+    &.ant-btn {
+      border-radius: 0;
+    }
+  }
+
+  &_has-shadow {
+    @include button-shadow;
+  }
+}

@@ -1,7 +1,7 @@
-@import '../../app/styles/variables.scss';
-@import '../../app/styles/mixin.scss';
+@import 'shared/styles/variables.scss';
+@import 'shared/styles/mixin.scss';
 
-.footer{
+.footer {
   background-color: $background_accent;
   width: 100%;
   display: flex;
@@ -10,7 +10,7 @@
   min-height: 64px;
   padding: 20px;
 
-  &__content{
+  &__content {
     min-width: 320px;
     width: 90%;
     margin: 0 auto;
@@ -18,16 +18,16 @@
     justify-content: space-between;
   }
 
-  &__title{
+  &__title {
     display: flex;
     flex-direction: column;
   }
 
-  &__date{
+  &__date {
     @include text-p;
   }
 
-  &__info-box{
+  &__info-box {
     @include ul;
     display: flex;
     align-items: center;
