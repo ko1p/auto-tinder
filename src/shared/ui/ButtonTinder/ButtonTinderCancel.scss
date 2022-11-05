@@ -1,0 +1,9 @@
+@import 'shared/styles/index';
+@import './ButtonTinder.scss';
+
+.button-tinder-cancel {
+  @include btncolor($button-collor_cancel,
+    $button-collor_cancel_hover,
+    $button-text_accent,
+    $button-text_main )
+}

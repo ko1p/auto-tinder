@@ -1,0 +1,9 @@
+@import 'shared/styles/index';
+@import './ButtonTinder.scss';
+
+.button-tinder-main {
+  @include btncolor($button-collor_main,
+    $button-collor_main_hover,
+    $button-text_main,
+    $button-text_main_hover )
+}

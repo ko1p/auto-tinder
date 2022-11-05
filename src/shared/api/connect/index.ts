@@ -33,12 +33,7 @@ const baseQueryWithReauth: BaseQueryFn<
   if (result?.error?.status === 400) {
     const refreshResult = await baseQuery('/auth/refresh', api, extraOptions);
     if (refreshResult?.data) {
-      api.dispatch(
-        logIn({
-          accessToken: refreshResult.data as string,
-          user: null,
-        })
-      );
+      api.dispatch(logIn({ accessToken: refreshResult.data as string }));
       result = await baseQuery(args, api, extraOptions);
     } else {
       api.dispatch(logOut());

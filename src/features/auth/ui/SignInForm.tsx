@@ -1,10 +1,12 @@
 import './SignInForm.scss';
 
-import { Button, Checkbox, Form, Input } from 'antd';
+import { CheckboxTinder, InputTinder, PasswordTinder } from 'shared/ui';
 import { Link, useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
 import { ApiError } from 'shared/api/error/error';
+import { ButtonTinder } from 'shared/ui/ButtonTinder/ButtonTinder';
+import { Form } from 'antd';
 import { IError } from 'shared/lib/types';
 import React from 'react';
 import { IUserAuthRequest } from '../lib';
@@ -31,53 +33,80 @@ export const SignInForm: React.FC = () => {
 
   return (
     <Form
-      name="normal_login"
-      className="login-form"
+      className="signin-form"
       initialValues={{ remember: true }}
       onFinish={onFinish}
     >
-      <h1>Регистрация</h1>
+      <h1 className="signin-form__title">Вход</h1>
       <Item
+        label="Логин"
         name="email"
         rules={[
-          { required: true, type: 'email', message: 'Введите ваш email' },
+          {
+            required: true,
+            message: 'Введите ваш email',
+            min: 1,
+          },
+          {
+            required: false,
+            message: 'Введите корректый email',
+            pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/,
+          },
         ]}
       >
-        <Input
+        <InputTinder
           prefix={<UserOutlined className="site-form-item-icon" />}
           placeholder="Email"
         />
       </Item>
       <Item
+        label="Пароль"
         name="password"
-        rules={[{ required: true, message: 'Введите ваш пароль' }]}
+        rules={[
+          {
+            required: true,
+            message: 'Введите ваш пароль',
+          },
+          {
+            required: false,
+            message: 'Длина пароля не может ниже восьми символов',
+            min: 8,
+          },
+          {
+            required: false,
+            message:
+              'Пароль не может состоять из букв цифр и следующих символов !@#$%^&*(){}[]',
+            pattern: /^[A-Za-z0-9!@#$%^&*(){}[\]]+$/,
+          },
+        ]}
       >
-        <Input
+        <PasswordTinder
           prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
-          placeholder="Password"
+          placeholder="Введите пароль"
         />
       </Item>
-      <Item>
-        <Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Item>
-
-        <Link to="/forgot" className="login-form-forgot">
+      <Item
+        className="signin-form__item"
+        name="remember"
+        valuePropName="checked"
+      >
+        <CheckboxTinder>Запомнить меня?</CheckboxTinder>
+        <Link to="/forgot" className="signin-form__forgot">
           Забыли пароль?
         </Link>
       </Item>
 
-      <Item>
-        <Button
+      <Item className="signin-form__item">
+        <ButtonTinder
+          className="signin-form__submit"
+          theme="accept"
           loading={isLoading}
           type="primary"
           htmlType="submit"
-          className="login-form-button"
         >
           Войти
-        </Button>
-        Нет зарегистрированы? Перейти к <Link to="/signup">регистрации!</Link>
+        </ButtonTinder>
+        Ещё не с нами? <Link to="/signup">Зарегистрируйтесь</Link>
       </Item>
     </Form>
   );

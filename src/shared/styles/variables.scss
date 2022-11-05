@@ -1,0 +1,58 @@
+// $background_accent: #EDECEC;
+// $background_main: #FFFFFF;
+
+// $text-color_main: #000000;
+// $text-color_accent: #F0F0F0;
+// $text-color_span: grey;
+
+// $button-collor_main: #EDECEC;
+// $button-collor_accent: #000000;
+// $button-collor_cansel: red;
+// $button-collor_accept: green;
+// $button-text_main: #000000;
+// $button-text_accent: #FFFFFF;
+
+$width-mobile: 360px;
+$width-table: 720px;
+$width-decktop: 1240px;
+
+// Ретро классика
+
+$accent: #c1d4d0;
+
+$red: #A7414A;
+$red-light: #b6888c;
+$black: #282726;
+$white: #6A8A82;
+$pure-white: #dae6e3;
+$orange: #A37C27;
+$orange-light: #bda062;
+$gray: #563838;
+
+$background_accent: $accent;
+$background_main: $white;
+
+$text-color_main: $black;
+$text-color_accent: $white;
+$text-color_span: $gray;
+
+$button-collor_main: $white;
+$button-collor_main_hover: $pure-white;
+$button-collor_accent: $black;
+$button-collor_accent_hover: $gray;
+$button-collor_cancel: $red;
+$button-collor_cancel_hover: $red-light;
+$button-collor_accept: $orange;
+$button-collor_accept_hover: $orange-light;
+$button-text_main: $black;
+$button-text_main_hover: $gray;
+$button-text_accent: $white;
+
+$checkbox-color: $red;
+
+$input-color: $black;
+$input-shadow-color: $white;
+
+@mixin button-shadow {
+  box-shadow: 0 0 15px 5px $white !important;
+}
