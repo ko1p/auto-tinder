@@ -1,12 +1,15 @@
 @mixin btncolor($main, $hover, $text, $txthover) {
   &.ant-btn {
     border: 0;
-    padding: 8px 20px;
+    padding: 8px 40px;
     height: 100%;
 
     &.ant-btn-primary {
       background-color: $main;
       border-color: $main;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       &:hover {
         color: $txthover;
@@ -17,6 +20,12 @@
       &:active {
         background-color: $main;
         border-color: $main;
+      }
+
+      span {
+        display: block;
+        text-align: center;
+        line-height: 1.6;
       }
     }
 
