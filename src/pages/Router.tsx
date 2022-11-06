@@ -9,6 +9,7 @@ import { NotFound } from './NotFound/NotFound';
 import { Profile } from './Profile/Profile';
 import { RouteWrapper } from './lib/RouteWrapper';
 import { SignUp } from './SignUp/SignUp';
+import { Verification } from './Verification/Verification';
 
 export const RouterPage = () => (
   <Routes>
@@ -25,8 +26,11 @@ export const RouterPage = () => (
       <Route element={<RouteWrapper title="Профиль" />}>
         <Route path={routing.profile} element={<Profile />} />
       </Route>
-      <Route element={<RouteWrapper title="Профиль" />}>
+      <Route element={<RouteWrapper title="404" />}>
         <Route path={routing.notFound} element={<NotFound />} />
+      </Route>
+      <Route element={<RouteWrapper title="Подтверждение почты" />}>
+        <Route path={routing.confirm} element={<Verification />} />
       </Route>
     </Route>
   </Routes>
