@@ -2,6 +2,7 @@ import './VerificationBlock.scss';
 
 import { Alert } from 'antd';
 import { ButtonTinder } from 'shared/ui';
+import { IError } from 'shared/lib/types';
 import { Link } from 'react-router-dom';
 import React from 'react';
 import { routing } from 'shared/routing';
@@ -31,7 +32,7 @@ export const VerificationBlock = () => {
           }
         />
       )}
-      {isError && error.status === 404 ? (
+      {isError && (error as IError).status === 404 ? (
         <Alert
           className="warning"
           message="Произошла ошибка!"
