@@ -1,7 +1,6 @@
 import './SignUpForm.scss';
 
 import { ButtonTinder, InputTinder, PasswordTinder } from 'shared/ui';
-import { Form, Space } from 'antd';
 import {
   InfoCircleOutlined,
   LockOutlined,
@@ -11,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 
 import { ApiError } from 'shared/api/error/error';
+import { Form } from 'antd';
 import { IError } from 'shared/lib/types';
 import { IUserRegistrationRequest } from '../lib';
 import { registrationAPI } from '../model';
@@ -85,22 +85,14 @@ export const SignUpForm: React.FC = () => {
           },
         ]}
       >
-        <Space direction="horizontal" className="signup-form__password-space">
-          <PasswordTinder
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            placeholder="Введите пароль"
-            visibilityToggle={{
-              visible: passwordVisible,
-              onVisibleChange: setPasswordVisible,
-            }}
-          />
-          <ButtonTinder
-            theme="main"
-            onClick={() => setPasswordVisible((state: boolean) => !state)}
-          >
-            {passwordVisible ? 'Скрыть' : 'Показать'}
-          </ButtonTinder>
-        </Space>
+        <PasswordTinder
+          prefix={<LockOutlined className="site-form-item-icon" />}
+          placeholder="Введите пароль"
+          visibilityToggle={{
+            visible: passwordVisible,
+            onVisibleChange: setPasswordVisible,
+          }}
+        />
       </Item>
 
       <Item
@@ -124,32 +116,24 @@ export const SignUpForm: React.FC = () => {
           }),
         ]}
       >
-        <Space direction="horizontal" className="signup-form__password-space">
-          <PasswordTinder
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            placeholder="Повторите пароль"
-            visibilityToggle={{
-              visible: repeatPasswordVisible,
-              onVisibleChange: setRepeatPasswordVisible,
-            }}
-          />
-          <ButtonTinder
-            theme="main"
-            onClick={() => setRepeatPasswordVisible((state: boolean) => !state)}
-          >
-            {repeatPasswordVisible ? 'Скрыть' : 'Показать'}
-          </ButtonTinder>
-        </Space>
+        <PasswordTinder
+          prefix={<LockOutlined className="site-form-item-icon" />}
+          placeholder="Повторите пароль"
+          visibilityToggle={{
+            visible: repeatPasswordVisible,
+            onVisibleChange: setRepeatPasswordVisible,
+          }}
+        />
       </Item>
 
       <Item
         className="signup-form__fio"
-        label="ФИО"
+        label="Ваше Имя"
         name="name"
         rules={[
           {
             required: true,
-            message: 'Введите ФИО',
+            message: 'Введите Имя',
             pattern:
               /^[А-ЯA-Z][а-яa-z-]+|^[А-ЯA-Z][а-яa-z-]+\s[A-ZА-Я][а-яa-z-]+[а-яa-z]$/,
           },
@@ -157,7 +141,7 @@ export const SignUpForm: React.FC = () => {
       >
         <InputTinder
           prefix={<InfoCircleOutlined className="site-form-item-icon" />}
-          placeholder="Введите ФИО"
+          placeholder="Введите Имя"
         />
       </Item>
 

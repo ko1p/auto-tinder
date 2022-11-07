@@ -45,28 +45,33 @@
     width: 100%;
     height: 100%;
     content: '';
-    background: linear-gradient(to top left, $white, $white-opacity);
+    // background: linear-gradient(to top left, $white, $white-opacity);
     z-index: 2;
   }
 
 
   &__brand {
     @include text-h3;
+    text-shadow: $white 0 0 7px;
     z-index: 3;
   }
 
   &__model {
     @include text-h4;
+    text-shadow: $white 0 0 7px;
     z-index: 3;
   }
 
   &__desc {
     @include text-p;
+    text-shadow: $white 0 0 7px;
     z-index: 3;
   }
 
   &__price {
     @include text-h2;
+    text-shadow: $white 0 0 7px;
+    ;
     z-index: 3;
   }
 }

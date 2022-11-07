@@ -11,27 +11,90 @@ import {
 import React, { useState } from 'react';
 
 import { ButtonTinder } from 'shared/ui';
-import { ICarProperty } from 'entities/car/lib/types';
 import TextArea from 'antd/lib/input/TextArea';
+import { useAppSelector } from 'shared/lib/hooks/redux';
+import { userSelector } from 'entities/user/model/state/authSelector';
 import { BodySelector } from './FormSelectors/BodySelector';
-import { BrandSelector } from './FormSelectors/BrandSelector';
+import { BrandAndModelSelectors } from './FormSelectors/BrandAndModelSelectors';
 import { CitySelector } from './FormSelectors/CitySelector';
 import { DriveSelector } from './FormSelectors/DriveSelector';
 import { EngineSelector } from './FormSelectors/EngineSelector';
 import { GearBoxSelector } from './FormSelectors/GearBoxSelector';
-import { ModelSelector } from './FormSelectors/ModelSelector';
+import { ICarAddFormValues } from '../lib/typest';
+import { garageAPI } from '../model/query/garageService';
 
 const { Item } = Form;
 
 export const CarAddForm = () => {
+  const userId = useAppSelector(userSelector);
   const [drawer, setDrawer] = useState<boolean>(false);
   const [isForSale, setIsForSale] = useState<boolean>(false);
-  const [brand, setBrand] = useState<ICarProperty | null>(null);
-  const [model, setModel] = useState<ICarProperty | null>(null);
+  const [addCar, { isLoading }] = garageAPI.useAddCarMutation();
 
-  // const onFinish = (values) => {
-  //   console.log(values);
-  // };
+  const AddCar = (values: ICarAddFormValues) => {
+    const {
+      brand,
+      // isPromoted,
+      model,
+      manufacturedAt,
+      body,
+      exchangeCity,
+      drive,
+      engine,
+      gearbox,
+      isExchanged,
+      vinCode,
+      stateNumber,
+      price,
+      mileage,
+      totalOwners,
+      description,
+      // fileList,
+    } = values;
+
+    console.log(
+      JSON.stringify({
+        brand,
+        isPromoted: false,
+        model,
+        manufacturedAt: +manufacturedAt.format('YYYY'),
+        body,
+        exchangeCity,
+        drive,
+        engine,
+        gearbox,
+        isExchanged,
+        vinCode,
+        stateNumber,
+        price,
+        mileage,
+        totalOwners,
+        description: description || '',
+        userId,
+      })
+    );
+
+    if (userId)
+      addCar({
+        brand,
+        isPromoted: false,
+        model,
+        manufacturedAt: +manufacturedAt.format('YYYY'),
+        body,
+        exchangeCity,
+        drive,
+        engine,
+        gearbox,
+        isExchanged,
+        vinCode,
+        stateNumber,
+        price,
+        mileage,
+        totalOwners,
+        description: description || '',
+        userId,
+      });
+  };
 
   return (
     <>
@@ -43,10 +106,9 @@ export const CarAddForm = () => {
           scrollToFirstError
           // onValuesChange={ }
           // disabled={ }
-          // onFinish={onFinish}
+          onFinish={AddCar}
         >
-          <BrandSelector setBrand={setBrand} setModel={setModel} />
-          <ModelSelector brand={brand} model={model} setModel={setModel} />
+          <BrandAndModelSelectors />
           <Item
             label="Год производства"
             name="manufacturedAt"
@@ -58,7 +120,11 @@ export const CarAddForm = () => {
           <DriveSelector />
           <EngineSelector />
           <GearBoxSelector />
-          <Item label="Предполагается обмен" valuePropName="isExchanged">
+          <Item
+            label="Предполагается обмен"
+            name="isExchanged"
+            valuePropName="isExchanged"
+          >
             <Switch
               checkedChildren={<CheckOutlined />}
               unCheckedChildren={<CloseOutlined />}
@@ -66,20 +132,35 @@ export const CarAddForm = () => {
             />
           </Item>
           <CitySelector disabled={!isForSale} />
-          <Item label="Продвигается" valuePropName="isPromoted">
+          <Item
+            label="Продвигается"
+            name="isPromoted"
+            valuePropName="isPromoted"
+          >
             <Switch
               checkedChildren={<CheckOutlined />}
               unCheckedChildren={<CloseOutlined />}
               disabled
             />
           </Item>
-          <Item label="VIN" name="vinCode" rules={[{ required: true }]}>
-            <InputNumber style={{ width: '100%' }} />
+          <Item
+            label="VIN"
+            name="vinCode"
+            rules={[{ required: true, min: 17, max: 17 }]}
+          >
+            <Input style={{ width: '100%' }} />
           </Item>
           <Item
             label="Гос. Номер"
             name="stateNumber"
-            rules={[{ required: true }]}
+            rules={[
+              {
+                required: true,
+                message: 'Введите номер автомобиля в формате - А000АА00',
+                pattern:
+                  /^[АВЕКМНОРСТУХ]\d{3}(?<!000)[АВЕКМНОРСТУХ]{2}\d{2,3}$/,
+              },
+            ]}
           >
             <Input />
           </Item>
@@ -94,7 +175,7 @@ export const CarAddForm = () => {
             name="totalOwners"
             rules={[{ required: true }]}
           >
-            <InputNumber />
+            <InputNumber min={1} />
           </Item>
 
           <Item label="Детальное описание" name="description">
@@ -114,6 +195,7 @@ export const CarAddForm = () => {
               theme="accept"
               type="primary"
               htmlType="submit"
+              loading={isLoading}
               // onClick={() => setDrawer(true)}
             >
               Добавить

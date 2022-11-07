@@ -11,7 +11,7 @@ const { Item } = Form;
 
 export const GearBoxSelector: React.FC = () => {
   const [gearBoxes, setGearBoxes] = useState<ICarProperty[] | null>(null);
-  const [useGearBoxes, { isLoading }] = carAPI.useLazyCarEnginesQuery();
+  const [useGearBoxes, { isLoading }] = carAPI.useLazyCarGearBoxesQuery();
 
   const getGearBoxes = async () => {
     try {

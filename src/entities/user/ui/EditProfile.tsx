@@ -27,6 +27,7 @@ export const EditProfile: React.FC<IEditProfile> = ({
   };
 
   const submit = async (values: IUserProfileEditValues) => {
+    if (!values) return;
     try {
       await profilePatch({
         data: { ...values },
@@ -50,6 +51,10 @@ export const EditProfile: React.FC<IEditProfile> = ({
     >
       <Form
         className="edit-profile__form"
+        labelCol={{ span: 10 }}
+        wrapperCol={{ span: 30 }}
+        layout="vertical"
+        scrollToFirstError
         onFinish={submit}
         initialValues={{
           name: data.name,
@@ -82,7 +87,7 @@ export const EditProfile: React.FC<IEditProfile> = ({
           <PasswordTinder defaultValue="" />
         </Item>
         <Item
-          label="Пароль"
+          label="Новый пароль повторно"
           name="newPassword"
           rules={[
             { required: false },
@@ -101,6 +106,7 @@ export const EditProfile: React.FC<IEditProfile> = ({
 
         <Item>
           <ButtonTinder
+            style={{ width: '100%' }}
             theme="accept"
             htmlType="submit"
             type="primary"
