@@ -17,5 +17,11 @@ export const authAPI = connectAPI.injectEndpoints({
         body: '',
       }),
     }),
+    refresh: build.mutation<IUserAuthResponse, unknown>({
+      query: () => ({
+        url: 'auth/refresh',
+        method: 'POST',
+      }),
+    }),
   }),
 });

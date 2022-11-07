@@ -8,12 +8,14 @@ import { NavLink } from 'react-router-dom';
 import { routing } from 'shared/routing';
 import { useAppSelector } from 'shared/lib/hooks/redux';
 import { useNavigate } from 'react-router';
+import { userAPI } from 'entities/user/model/query/userProfileService';
 import { userSelector } from 'entities/user/model/state/authSelector';
 
 export const Header: FC = () => {
   const navigate = useNavigate();
 
-  const user = useAppSelector(userSelector);
+  const userId = useAppSelector(userSelector);
+  const { data: user, isLoading } = userAPI.useUserProfileQuery(userId!);
 
   return (
     <header className="header">
@@ -38,8 +40,9 @@ export const Header: FC = () => {
           <Button
             className="header__button"
             onClick={() => navigate(routing.signUp)}
+            loading={isLoading}
           >
-            {user || 'Регистрация'}
+            {user?.name || 'Регистрация'}
           </Button>
         </div>
         <div className="header__mobile">
