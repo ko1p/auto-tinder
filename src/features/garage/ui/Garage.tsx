@@ -35,7 +35,7 @@ export const Garage = () => {
         {isSuccess && cars?.length ? (
           <Carousel className="garage__carousel" dots autoplay>
             {cars.map((car) => (
-              <CarCard key={car.id} type="garage" car={car} />
+              <CarCard key={car.id} car={car} />
             ))}
             <Empty
               className="garage__item_empty"

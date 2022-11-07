@@ -29,9 +29,9 @@ export const CarAddForm = () => {
   const [brand, setBrand] = useState<ICarProperty | null>(null);
   const [model, setModel] = useState<ICarProperty | null>(null);
 
-  const onFinish = (values) => {
-    console.log(values);
-  };
+  // const onFinish = (values) => {
+  //   console.log(values);
+  // };
 
   return (
     <>
@@ -43,7 +43,7 @@ export const CarAddForm = () => {
           scrollToFirstError
           // onValuesChange={ }
           // disabled={ }
-          onFinish={onFinish}
+          // onFinish={onFinish}
         >
           <BrandSelector setBrand={setBrand} setModel={setModel} />
           <ModelSelector brand={brand} model={model} setModel={setModel} />
