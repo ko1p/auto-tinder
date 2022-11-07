@@ -25,7 +25,7 @@ export const SignInForm: React.FC = () => {
       const { email, password } = values;
       const userDto = await signIn({ email, password }).unwrap();
       dispatch(logIn(userDto));
-      navigate(`/profile/${userDto.user?.id}`);
+      navigate(`/profile/${userDto.userId}`);
     } catch (e) {
       ApiError(e as IError);
     }

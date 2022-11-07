@@ -1,0 +1,56 @@
+@import 'shared/styles';
+
+.profile {
+  width: $width-mobile;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: $background_accent;
+
+  @include table {
+    width: $width-table;
+  }
+
+  @include decktop {
+    width: $width-decktop;
+  }
+}
+
+.tabs {
+  width: $width-mobile;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: $background_accent;
+  padding: 10px;
+
+  @include table {
+    width: $width-table;
+  }
+
+  @include decktop {
+    width: $width-decktop;
+  }
+
+  &__item {
+    width: calc($width-mobile - 20px);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: $background_accent;
+
+    @include table {
+      width: calc($width-table - 20px);
+    }
+
+    @include decktop {
+      width: calc($width-decktop - 20px);
+    }
+  }
+}
