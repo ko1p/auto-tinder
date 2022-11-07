@@ -3,13 +3,5 @@
 .user-profile {
   padding: 20px;
   background-color: $background_accent;
-  width: $width-mobile;
-
-  @include breakpoint(720px) {
-    width: 500px;
-  }
-
-  &__table {
-    @include text-p;
-  }
+  width: 100%;
 }

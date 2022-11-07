@@ -1,0 +1,17 @@
+@import 'shared/styles';
+
+.tabs-tinder {
+  @include text-p;
+
+  .ant-tabs-tab.ant-tabs-tab-active {
+    color: $orange;
+
+    .ant-tabs-tab-btn {
+      color: $orange;
+    }
+  }
+
+  .ant-tabs-ink-bar.ant-tabs-ink-bar-animated {
+    background-color: $orange;
+  }
+}

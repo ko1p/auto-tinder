@@ -25,7 +25,8 @@ export const UserProfile = () => {
           <h2>{`Привет ${data.name}!`}</h2>
           <Descriptions
             bordered
-            column={1}
+            layout="vertical"
+            column={{ xs: 2, sm: 2, md: 4 }}
             size="small"
             className="user-profile__table"
             title="Профиль"
