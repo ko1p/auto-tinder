@@ -28,6 +28,7 @@ export const EditProfile: React.FC<IEditProfile> = ({
 
   const submit = async (values: IUserProfileEditValues) => {
     if (!values) return;
+    console.log(values);
     try {
       await profilePatch({
         data: { ...values },
@@ -88,7 +89,7 @@ export const EditProfile: React.FC<IEditProfile> = ({
         </Item>
         <Item
           label="Новый пароль повторно"
-          name="newPassword"
+          name="newPasswordRepeat"
           rules={[
             { required: false },
             ({ getFieldValue }) => ({
