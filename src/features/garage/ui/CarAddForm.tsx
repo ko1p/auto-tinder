@@ -7,10 +7,13 @@ import {
   InputNumber,
   Switch,
   Upload,
+  message,
 } from 'antd';
 import React, { useState } from 'react';
 
+import { ApiError } from 'shared/api/error/error';
 import { ButtonTinder } from 'shared/ui';
+import { IError } from 'shared/lib/types';
 import TextArea from 'antd/lib/input/TextArea';
 import { useAppSelector } from 'shared/lib/hooks/redux';
 import { userSelector } from 'entities/user/model/state/authSelector';
@@ -19,19 +22,24 @@ import { BrandAndModelSelectors } from './FormSelectors/BrandAndModelSelectors';
 import { CitySelector } from './FormSelectors/CitySelector';
 import { DriveSelector } from './FormSelectors/DriveSelector';
 import { EngineSelector } from './FormSelectors/EngineSelector';
+import { FilterAddForm } from './FilterAddForm';
 import { GearBoxSelector } from './FormSelectors/GearBoxSelector';
 import { ICarAddFormValues } from '../lib/typest';
 import { garageAPI } from '../model/query/garageService';
+
+// import { FilterAddForm, PrefAddForm } from './FilterAddForm';
 
 const { Item } = Form;
 
 export const CarAddForm = () => {
   const userId = useAppSelector(userSelector);
+  const [newCarId, setNewCarId] = useState<number | null>(null);
   const [drawer, setDrawer] = useState<boolean>(false);
   const [isForSale, setIsForSale] = useState<boolean>(false);
-  const [addCar, { isLoading }] = garageAPI.useAddCarMutation();
+  const [addCar, { isLoading, isSuccess }] = garageAPI.useAddCarMutation();
 
-  const AddCar = (values: ICarAddFormValues) => {
+  // eslint-disable-next-line consistent-return
+  const AddCar = async (values: ICarAddFormValues) => {
     const {
       brand,
       // isPromoted,
@@ -52,8 +60,9 @@ export const CarAddForm = () => {
       // fileList,
     } = values;
 
-    console.log(
-      JSON.stringify({
+    try {
+      if (!userId) return message.error('Неавторизованный пользователь');
+      const data = await addCar({
         brand,
         isPromoted: false,
         model,
@@ -71,29 +80,12 @@ export const CarAddForm = () => {
         totalOwners,
         description: description || '',
         userId,
-      })
-    );
-
-    if (userId)
-      addCar({
-        brand,
-        isPromoted: false,
-        model,
-        manufacturedAt: +manufacturedAt.format('YYYY'),
-        body,
-        exchangeCity,
-        drive,
-        engine,
-        gearbox,
-        isExchanged,
-        vinCode,
-        stateNumber,
-        price,
-        mileage,
-        totalOwners,
-        description: description || '',
-        userId,
-      });
+      }).unwrap();
+      setNewCarId(data.id);
+      setDrawer(true);
+    } catch (e) {
+      ApiError(e as IError);
+    }
   };
 
   return (
@@ -104,8 +96,6 @@ export const CarAddForm = () => {
           wrapperCol={{ span: 30 }}
           layout="vertical"
           scrollToFirstError
-          // onValuesChange={ }
-          // disabled={ }
           onFinish={AddCar}
         >
           <BrandAndModelSelectors />
@@ -132,11 +122,7 @@ export const CarAddForm = () => {
             />
           </Item>
           <CitySelector disabled={!isForSale} />
-          <Item
-            label="Продвигается"
-            name="isPromoted"
-            valuePropName="isPromoted"
-          >
+          <Item label="Продвигается" name="isPromoted">
             <Switch
               checkedChildren={<CheckOutlined />}
               unCheckedChildren={<CloseOutlined />}
@@ -196,7 +182,8 @@ export const CarAddForm = () => {
               type="primary"
               htmlType="submit"
               loading={isLoading}
-              // onClick={() => setDrawer(true)}
+              disabled={isSuccess}
+              onClick={() => setDrawer(true)}
             >
               Добавить
             </ButtonTinder>
@@ -205,13 +192,13 @@ export const CarAddForm = () => {
       </article>
       <article className="car-filters">
         <Drawer
-          title="Two-level Drawer"
+          title="Выберите предпочтения для обмена"
           width={320}
           closable={false}
           onClose={() => setDrawer(false)}
           open={drawer}
         >
-          This is two-level drawer
+          <FilterAddForm carId={newCarId!} />
         </Drawer>
       </article>
     </>

@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import { ICarAddRequest, ICarAddResponce } from 'features/garage/lib/typest';
+
 import { ICar } from 'entities/car/lib/types';
-import { ICarAddRequest } from 'features/garage/lib/typest';
 import { connectAPI } from 'shared/api/connect';
 
 export const garageAPI = connectAPI.injectEndpoints({
@@ -13,13 +14,29 @@ export const garageAPI = connectAPI.injectEndpoints({
       }),
       providesTags: (result) => ['garage'],
     }),
-    addCar: build.mutation<unknown, ICarAddRequest>({
+    addCar: build.mutation<ICarAddResponce, ICarAddRequest>({
       query: (car) => ({
-        url: `cars`,
+        url: 'cars',
         method: 'POST',
-        data: car,
+        body: car,
       }),
       invalidatesTags: ['garage', 'cars'],
+    }),
+    addFilter: build.mutation<ICarAddResponce, ICarAddRequest>({
+      query: (carId) => ({
+        url: `cars/${carId}/filter`,
+        method: 'POST',
+        body: '',
+      }),
+      invalidatesTags: ['filters'],
+    }),
+    patchFilter: build.mutation<ICarAddResponce, ICarAddRequest>({
+      query: (carId) => ({
+        url: `cars/${carId}/filter`,
+        method: 'PATCH',
+        body: '',
+      }),
+      invalidatesTags: ['filters'],
     }),
   }),
 });

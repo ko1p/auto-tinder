@@ -17,6 +17,9 @@ export interface ICarAddRequest {
   model: number;
   exchangeCity: number;
 }
+export interface ICarAddResponce {
+  id: number;
+}
 
 export interface ICarAddFormValues {
   userId: string;
@@ -37,4 +40,28 @@ export interface ICarAddFormValues {
   exchangeCity: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   manufacturedAt: any;
+}
+
+export interface IFilter {
+  city: number;
+  brands: number[];
+  models: number[];
+  body: number;
+  gearbox: number;
+  engine: number;
+  drive: number;
+  manufacturedAtStart: number;
+  manufacturedAtFinish: number;
+  priceStart: number;
+  priceFinish: number;
+  mileageStart: number;
+  mileageFinish: number;
+}
+export interface IFilterState {
+  filter: IFilter;
+  setFilter: React.Dispatch<React.SetStateAction<IFilter>>;
+}
+export interface IResetState {
+  isReset: boolean;
+  setIsReset: React.Dispatch<React.SetStateAction<boolean>>;
 }

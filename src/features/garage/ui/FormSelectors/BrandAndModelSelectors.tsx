@@ -1,4 +1,4 @@
-import { Form, Select } from 'antd';
+import { Form, Select, Space } from 'antd';
 import React, { useState } from 'react';
 
 import { ApiError } from 'shared/api/error/error';
@@ -61,8 +61,13 @@ export const BrandAndModelSelectors: React.FC = () => {
   };
 
   return (
-    <>
-      <Item label="Марка авто" name="brand" rules={[{ required: true }]}>
+    <Space.Compact block>
+      <Item
+        style={{ width: 150 }}
+        label="Марка авто"
+        name="brand"
+        rules={[{ required: true }]}
+      >
         <Select
           loading={isBrandsLoading}
           onChange={brandChange}
@@ -77,7 +82,8 @@ export const BrandAndModelSelectors: React.FC = () => {
         </Select>
       </Item>
       <Item
-        label="Модель"
+        style={{ width: 150 }}
+        label="Модель авто"
         name="model"
         valuePropName="model"
         rules={[{ required: true }]}
@@ -97,6 +103,6 @@ export const BrandAndModelSelectors: React.FC = () => {
             ))}
         </Select>
       </Item>
-    </>
+    </Space.Compact>
   );
 };
