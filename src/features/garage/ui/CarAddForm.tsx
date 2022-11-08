@@ -183,7 +183,6 @@ export const CarAddForm = () => {
               htmlType="submit"
               loading={isLoading}
               disabled={isSuccess}
-              onClick={() => setDrawer(true)}
             >
               Добавить
             </ButtonTinder>
