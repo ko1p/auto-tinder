@@ -1,4 +1,4 @@
-import { Form, Select, Space } from 'antd';
+import { Form, FormInstance, Select, Space } from 'antd';
 import React, { useState } from 'react';
 
 import { ApiError } from 'shared/api/error/error';
@@ -9,9 +9,14 @@ import { carAPI } from 'entities/car/model/CarService';
 const { Option } = Select;
 const { Item } = Form;
 
-export const BrandAndModelSelectors: React.FC = () => {
+interface IProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  form: FormInstance<any>;
+}
+
+export const BrandAndModelSelectors: React.FC<IProps> = ({ form }) => {
   const [brand, setBrand] = useState<ICarProperty | null>(null);
-  const [model, setModel] = useState<ICarProperty | null>(null);
+  const [isBrandChecked, setIsBrandChecked] = useState<boolean>(false);
   const [brandsOptions, setBrandsOptions] = useState<ICarProperty[] | null>(
     null
   );
@@ -46,22 +51,13 @@ export const BrandAndModelSelectors: React.FC = () => {
       if (newBrand) setBrand(newBrand);
       const res = await useModels(value);
       setModelsOptions(res.data!);
-      setModel(res.data![0]);
-    } catch (e) {
-      ApiError(e as IError);
-    }
-  };
-  const modelChange = async (value: number) => {
-    try {
-      const newModel = modelsOptions?.find((opt) => opt.id === value);
-      if (newModel) setModel(newModel);
     } catch (e) {
       ApiError(e as IError);
     }
   };
 
   return (
-    <Space.Compact block>
+    <Space.Compact block style={{ alignItems: 'center', gap: 5 }}>
       <Item
         style={{ width: 150 }}
         label="Марка авто"
@@ -70,7 +66,11 @@ export const BrandAndModelSelectors: React.FC = () => {
       >
         <Select
           loading={isBrandsLoading}
-          onChange={brandChange}
+          onChange={(e) => {
+            form.resetFields(['model']);
+            setIsBrandChecked(true);
+            brandChange(e);
+          }}
           onClick={getBrandsOptions}
         >
           {brandsOptions?.length &&
@@ -89,11 +89,9 @@ export const BrandAndModelSelectors: React.FC = () => {
         rules={[{ required: true }]}
       >
         <Select
-          disabled={!brand}
+          disabled={!isBrandChecked}
           loading={isModelsLoading && isBrandsLoading}
           onClick={getModelsOptions}
-          onChange={modelChange}
-          value={model?.id || null}
         >
           {modelsOptions?.length &&
             modelsOptions.map((option) => (
