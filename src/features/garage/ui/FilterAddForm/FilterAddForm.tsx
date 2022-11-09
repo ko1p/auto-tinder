@@ -2,12 +2,11 @@ import { Form, Space } from 'antd';
 import React, { useState } from 'react';
 
 import { ButtonTinder } from 'shared/ui';
-import { BrandAndModelsFilter } from './FilterSelectors/BrandAndModelsFilter';
-import { IFilter } from '../lib/typest';
+import { IFilter } from '../../lib/typest';
 import { ManufacturedInputs } from './FilterSelectors/ManufacturedInputs';
 import { MilleageSlider } from './FilterSelectors/MilleageSlider';
 import { PriceSlider } from './FilterSelectors/PriceSlider';
-import { garageAPI } from '../model/query/garageService';
+import { garageAPI } from '../../model/query/garageService';
 
 interface IProps {
   carId: number;
@@ -30,6 +29,7 @@ const initialFilter: IFilter = {
 };
 
 export const FilterAddForm: React.FC<IProps> = ({ carId }) => {
+  const [form] = Form.useForm();
   const [AddFilter, { isLoading }] = garageAPI.useAddFilterMutation();
   const [filter, setFilter] = useState<IFilter>(initialFilter);
   const [isReset, setIsReset] = useState<boolean>(false);
@@ -42,27 +42,30 @@ export const FilterAddForm: React.FC<IProps> = ({ carId }) => {
     setIsReset,
   };
 
-  console.log(AddFilter, carId);
-
   return (
     <article className="car-add-form">
       <Form
+        form={form}
         labelCol={{ span: 10 }}
         wrapperCol={{ span: 30 }}
         layout="vertical"
         scrollToFirstError
-        onFinish={() => console.log(filter)}
+        onFinish={(e) => {
+          console.log(filter);
+          console.log(e);
+        }}
       >
         <ManufacturedInputs state={state} isReset={stateReset} />
-        <PriceSlider state={state} isReset={stateReset} />
-        <MilleageSlider state={state} isReset={stateReset} />
-        <BrandAndModelsFilter state={state} isReset={stateReset} />
+        <PriceSlider form={form} />
+        <MilleageSlider form={form} />
+        {/* <BrandAndModelsFilter state={state} isReset={stateReset} /> */}
         <Space>
           <ButtonTinder
             theme="accept"
             type="primary"
             htmlType="submit"
             loading={isLoading}
+            onClick={(e) => console.log(e)}
           >
             Добавить
           </ButtonTinder>

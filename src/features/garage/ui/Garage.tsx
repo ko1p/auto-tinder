@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { ButtonTinder } from 'shared/ui';
 import { CarCard } from 'entities/car/ui/CarCard';
 import { useParams } from 'react-router-dom';
-import { CarAddForm } from './CarAddForm';
+import { CarAddForm } from './CarAddForm/CarAddForm';
 import { garageAPI } from '../model/query/garageService';
 
 export const Garage = () => {

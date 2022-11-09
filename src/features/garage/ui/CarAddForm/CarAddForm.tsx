@@ -3,7 +3,6 @@ import {
   DatePicker,
   Drawer,
   Form,
-  Input,
   InputNumber,
   Switch,
   Upload,
@@ -17,25 +16,25 @@ import { IError } from 'shared/lib/types';
 import TextArea from 'antd/lib/input/TextArea';
 import { useAppSelector } from 'shared/lib/hooks/redux';
 import { userSelector } from 'entities/user/model/state/authSelector';
-import { BodySelector } from './FormSelectors/BodySelector';
+import { BodyAndDriveSelectors } from './FormSelectors/BodyAndDriveSelectors';
 import { BrandAndModelSelectors } from './FormSelectors/BrandAndModelSelectors';
 import { CitySelector } from './FormSelectors/CitySelector';
-import { DriveSelector } from './FormSelectors/DriveSelector';
-import { EngineSelector } from './FormSelectors/EngineSelector';
-import { FilterAddForm } from './FilterAddForm';
-import { GearBoxSelector } from './FormSelectors/GearBoxSelector';
-import { ICarAddFormValues } from '../lib/typest';
-import { garageAPI } from '../model/query/garageService';
+import { EngineAndGearboxSelector } from './FormSelectors/EngineAndGearboxSelector';
+import { FilterAddForm } from '../FilterAddForm/FilterAddForm';
+import { ICarAddFormValues } from '../../lib/typest';
+import { NumberSelectors } from './FormSelectors/NumbersSelectors';
+import { PriceAndMileageSelectors } from './FormSelectors/PriceAndMileageSelectors';
+import { garageAPI } from '../../model/query/garageService';
 
 // import { FilterAddForm, PrefAddForm } from './FilterAddForm';
 
 const { Item } = Form;
 
 export const CarAddForm = () => {
+  const [form] = Form.useForm();
   const userId = useAppSelector(userSelector);
   const [newCarId, setNewCarId] = useState<number | null>(null);
   const [drawer, setDrawer] = useState<boolean>(false);
-  const [isForSale, setIsForSale] = useState<boolean>(false);
   const [addCar, { isLoading, isSuccess }] = garageAPI.useAddCarMutation();
 
   // eslint-disable-next-line consistent-return
@@ -92,13 +91,14 @@ export const CarAddForm = () => {
     <>
       <article className="car-add-form">
         <Form
+          form={form}
           labelCol={{ span: 10 }}
           wrapperCol={{ span: 30 }}
           layout="vertical"
           scrollToFirstError
           onFinish={AddCar}
         >
-          <BrandAndModelSelectors />
+          <BrandAndModelSelectors form={form} />
           <Item
             label="Год производства"
             name="manufacturedAt"
@@ -106,22 +106,9 @@ export const CarAddForm = () => {
           >
             <DatePicker picker="year" />
           </Item>
-          <BodySelector />
-          <DriveSelector />
-          <EngineSelector />
-          <GearBoxSelector />
-          <Item
-            label="Предполагается обмен"
-            name="isExchanged"
-            valuePropName="isExchanged"
-          >
-            <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<CloseOutlined />}
-              onChange={() => setIsForSale(!isForSale)}
-            />
-          </Item>
-          <CitySelector disabled={!isForSale} />
+          <BodyAndDriveSelectors />
+          <EngineAndGearboxSelector />
+          <CitySelector />
           <Item label="Продвигается" name="isPromoted">
             <Switch
               checkedChildren={<CheckOutlined />}
@@ -129,33 +116,8 @@ export const CarAddForm = () => {
               disabled
             />
           </Item>
-          <Item
-            label="VIN"
-            name="vinCode"
-            rules={[{ required: true, min: 17, max: 17 }]}
-          >
-            <Input style={{ width: '100%' }} />
-          </Item>
-          <Item
-            label="Гос. Номер"
-            name="stateNumber"
-            rules={[
-              {
-                required: true,
-                message: 'Введите номер автомобиля в формате - А000АА00',
-                pattern:
-                  /^[АВЕКМНОРСТУХ]\d{3}(?<!000)[АВЕКМНОРСТУХ]{2}\d{2,3}$/,
-              },
-            ]}
-          >
-            <Input />
-          </Item>
-          <Item label="Цена в рублях" name="price" rules={[{ required: true }]}>
-            <InputNumber />
-          </Item>
-          <Item label="Пробег" name="mileage" rules={[{ required: true }]}>
-            <InputNumber style={{ width: '100%' }} />
-          </Item>
+          <NumberSelectors />
+          <PriceAndMileageSelectors />
           <Item
             label="Общее кол-во владельцев"
             name="totalOwners"
@@ -183,6 +145,7 @@ export const CarAddForm = () => {
               htmlType="submit"
               loading={isLoading}
               disabled={isSuccess}
+              onClick={() => setDrawer(true)}
             >
               Добавить
             </ButtonTinder>

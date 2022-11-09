@@ -32,7 +32,7 @@ export const VerificationBlock = () => {
           }
         />
       )}
-      {isError && (error as IError).status === 404 ? (
+      {isError && (error as IError).status === 404 && (
         <Alert
           className="warning"
           message="Произошла ошибка!"
@@ -54,7 +54,8 @@ export const VerificationBlock = () => {
             </div>
           }
         />
-      ) : (
+      )}
+      {isError && (error as IError).status !== 404 && (
         <Alert
           className="warning"
           message="Произошла ошибка!"
