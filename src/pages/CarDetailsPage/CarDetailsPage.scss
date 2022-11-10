@@ -1,0 +1,8 @@
+@import '../../shared/styles/variables.scss';
+@import '../../shared/styles/mixin.scss';
+
+.car-details-page{
+  &__text{
+    @include text-h2
+  }
+}

@@ -1,0 +1,62 @@
+@import '../../../../shared/styles/variables.scss';
+@import '../../../../shared/styles/mixin.scss';
+
+.car-details{
+  min-width: 320px;
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1400px;
+  text-align: right;
+
+  @media screen and (min-width: $width-table) {
+    display: grid;
+    grid-template-columns: 56% 40%;
+    gap: 2% 4%;
+    grid-template-areas: "image title" "description description";
+  }
+
+  @media screen and (min-width: $width-decktop) {
+    grid-template-columns: 68% 28%;
+  }
+
+  &__image-box{
+    grid-area: image;
+  }
+
+  &__title-box{
+    grid-area: title;
+  }
+
+  &__title {
+    @include text-h2;
+  }
+
+  &__price {
+    @include text-h3;
+  }
+
+  &__text{
+    @include text-p;
+  }
+
+  &__span{
+    @include text-span;
+  }
+
+  &__buttons{
+    margin: 8px 0 0;
+  }
+
+  &__button{
+    width: 50%;
+    background-color: $green;
+
+    &:last-of-type{
+      background-color: $red;
+    }
+  }
+
+  &__description{
+    grid-area: description;
+  }
+}

@@ -15,6 +15,7 @@ import { Profile } from './Profile/Profile';
 import { RouteWrapper } from './lib/RouteWrapper';
 import { SignUp } from './SignUp/SignUp';
 import { Verification } from './Verification/Verification';
+import { CarDetailsPage } from './CarDetailsPage/CarDetailsPage';
 
 export const RouterPage = () => {
   const dispatch = useAppDispatch();
@@ -53,6 +54,9 @@ export const RouterPage = () => {
         </Route>
         <Route element={<RouteWrapper title="Главная" />}>
           <Route path={routing.main} element={<Main />} />
+        </Route>
+        <Route element={<RouteWrapper title="Подробности о машине" />}>
+          <Route path={routing.carDetail} element={<CarDetailsPage />} />
         </Route>
         <Route
           element={<RouteWrapper isAccess={!!accessToken} title="Профиль" />}

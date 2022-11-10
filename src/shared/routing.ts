@@ -8,4 +8,5 @@ export const routing = {
   coupons: '/coupons',
   privacy: '/privacy',
   confirm: '/confirm/:verificationToken',
+  carDetail: '/cars/:id',
 };

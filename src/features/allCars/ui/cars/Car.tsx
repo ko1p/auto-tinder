@@ -1,4 +1,5 @@
 import { Button } from 'antd';
+import { useNavigate } from 'react-router';
 import { DislikeFilled, LikeFilled } from '@ant-design/icons';
 import { TCar } from 'features/allCars/lib';
 import React, { FC } from 'react';
@@ -7,6 +8,7 @@ import './Car.scss';
 import { carsAPI } from '../../model/carsServices';
 
 export const Car: FC<{ car: TCar }> = ({ car }) => {
+  const navigate = useNavigate();
   const image = car.photos[0]
     ? `${car.photos[0].photoLink}?alt=media`
     : imageCar;
@@ -19,8 +21,13 @@ export const Car: FC<{ car: TCar }> = ({ car }) => {
     carsAPI.useToDislikeQuery(car.id);
   };
 
+  const goToDetails = () => {
+    navigate(`/cars/${car.id}`);
+  };
+
   return (
-    <article className="car">
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
+    <article className="car" onClick={goToDetails}>
       <div className="car__image-box">
         <img src={image} alt="Изображение автомобиля" className="car__image" />
       </div>
