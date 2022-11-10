@@ -1,0 +1,23 @@
+@import '../../../../shared/styles/variables.scss';
+
+.cars-list{
+  padding: 0;
+  list-style-type: none;
+  display: grid;
+  gap: 16px;
+
+  @media screen and (min-width: 450px) {
+    grid-template-columns: repeat(2, minmax(47%, min-content));
+    gap: 1% 6%;
+  }
+
+  @media screen and (min-width: $width-table) {
+    grid-template-columns: repeat(3, minmax(30%, min-content));
+    gap: 1.5% 5%;
+  }
+
+  @media screen and (min-width: $width-decktop) {
+    grid-template-columns: repeat(4, minmax(22%, min-content));
+    gap: 2% 4%;
+  }
+}
