@@ -1,5 +1,5 @@
 import { connectAPI } from '../../../shared/api/connect';
-import { TCarsResponse } from '../lib';
+import { TCar, TCarsResponse } from '../lib';
 
 export const carsAPI = connectAPI.injectEndpoints({
   endpoints: (build) => ({
@@ -18,6 +18,12 @@ export const carsAPI = connectAPI.injectEndpoints({
     toDislike: build.query<boolean, unknown>({
       query: (id) => ({
         url: `cars/${id}/dislikes`,
+        method: 'GET',
+      }),
+    }),
+    getCarsDetails: build.query<TCar, unknown>({
+      query: (id) => ({
+        url: `cars/${id}`,
         method: 'GET',
       }),
     }),
