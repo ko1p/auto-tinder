@@ -4,8 +4,9 @@ import React, { useState } from 'react';
 
 import { ButtonTinder } from 'shared/ui';
 import { Descriptions } from 'antd';
-import { useParams } from 'react-router';
 import { EditProfile } from './EditProfile';
+import { UserProfileSkeleton } from './UserProfileSceleton';
+import { useParams } from 'react-router';
 import { userAPI } from '../model/query/userProfileService';
 
 const { Item } = Descriptions;
@@ -19,7 +20,7 @@ export const UserProfile = () => {
 
   return (
     <>
-      {isLoading && 'loading'}
+      {isLoading && <UserProfileSkeleton />}
       {isSuccess && (
         <section className="user-profile">
           <h2>{`Привет ${data.name}!`}</h2>

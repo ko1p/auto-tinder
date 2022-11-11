@@ -4,23 +4,24 @@ import { authAPI, logIn } from 'features/auth/model';
 import { useAppDispatch, useAppSelector } from 'shared/lib/hooks/redux';
 
 import { ApiError } from 'shared/api/error/error';
+import { CarDetailsPage } from './CarDetailsPage/CarDetailsPage';
 import { IError } from 'shared/lib/types';
-import { Main } from 'pages/Main/Main';
-import { SignIn } from 'pages/SignIn/SignIn';
-import { accessTokenSelector } from 'entities/user/model/state/authSelector';
-import { routing } from 'shared/routing';
 import { Layout } from './lib/Layout';
+import { Main } from 'pages/Main/Main';
 import { NotFound } from './NotFound/NotFound';
 import { Profile } from './Profile/Profile';
 import { RouteWrapper } from './lib/RouteWrapper';
+import { SignIn } from 'pages/SignIn/SignIn';
 import { SignUp } from './SignUp/SignUp';
+import { SpinPage } from 'shared/ui/SpinPage/SpinPage';
 import { Verification } from './Verification/Verification';
-import { CarDetailsPage } from './CarDetailsPage/CarDetailsPage';
+import { accessTokenSelector } from 'entities/user/model/state/authSelector';
+import { routing } from 'shared/routing';
 
 export const RouterPage = () => {
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector(accessTokenSelector);
-  const [refresh] = authAPI.useRefreshMutation();
+  const [refresh, { isLoading }] = authAPI.useRefreshMutation();
   useEffect(() => {
     const autoAuth = async () => {
       if (!accessToken)
@@ -43,7 +44,9 @@ export const RouterPage = () => {
     };
     autoAuth().catch(console.error);
   }, [accessToken]);
-  return (
+  return isLoading ? (
+    <SpinPage />
+  ) : (
     <Routes>
       <Route element={<Layout />}>
         <Route element={<RouteWrapper title="Вход" />}>
