@@ -21,6 +21,11 @@
 
   &__image-box{
     grid-area: image;
+    max-height: 50vh;
+  }
+
+  &__carousel{
+    height: 100%;
   }
 
   &__title-box{

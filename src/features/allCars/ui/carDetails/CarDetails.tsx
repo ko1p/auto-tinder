@@ -21,7 +21,7 @@ const CarDetails: FC<{ car: TCar }> = ({ car }) => {
   return (
     <section className="car-details">
       <div className="car-details__image-box">
-        <Carousel autoplay>
+        <Carousel autoplay className="car-details__carousel">
           {image.map((element, index) => (
             // eslint-disable-next-line react/no-array-index-key
             <img src={element} alt="Фотография машины" key={index} />
