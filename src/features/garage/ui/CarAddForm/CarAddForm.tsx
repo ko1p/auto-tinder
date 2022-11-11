@@ -4,6 +4,7 @@ import {
   Drawer,
   Form,
   InputNumber,
+  Space,
   Switch,
   Upload,
   message,
@@ -16,14 +17,14 @@ import { IError } from 'shared/lib/types';
 import TextArea from 'antd/lib/input/TextArea';
 import { useAppSelector } from 'shared/lib/hooks/redux';
 import { userSelector } from 'entities/user/model/state/authSelector';
-import { BodyAndDriveSelectors } from './FormSelectors/BodyAndDriveSelectors';
-import { BrandAndModelSelectors } from './FormSelectors/BrandAndModelSelectors';
-import { CitySelector } from './FormSelectors/CitySelector';
-import { EngineAndGearboxSelector } from './FormSelectors/EngineAndGearboxSelector';
+import { BodyAndDriveSelectors } from './FormSelectors/BodyAndDriveSelects';
+import { BrandAndModelSelectors } from './FormSelectors/BrandAndModelSelects';
+import { CitySelector } from './FormSelectors/CitySelect';
+import { EngineAndGearboxSelector } from './FormSelectors/EngineAndGearboxSelect';
 import { FilterAddForm } from '../FilterAddForm/FilterAddForm';
 import { ICarAddFormValues } from '../../lib/typest';
-import { NumberSelectors } from './FormSelectors/NumbersSelectors';
-import { PriceAndMileageSelectors } from './FormSelectors/PriceAndMileageSelectors';
+import { NumberSelectors } from './FormSelectors/NumbersSelects';
+import { PriceAndMileageSelectors } from './FormSelectors/PriceAndMileageSelects';
 import { garageAPI } from '../../model/query/garageService';
 
 // import { FilterAddForm, PrefAddForm } from './FilterAddForm';
@@ -138,18 +139,25 @@ export const CarAddForm = () => {
               </div>
             </Upload>
           </Item>
-          <Item>
+          <Space.Compact block style={{ alignItems: 'center', gap: 5 }}>
             <ButtonTinder
               theme="accept"
               type="primary"
               htmlType="submit"
               loading={isLoading}
               disabled={isSuccess}
-              onClick={() => setDrawer(true)}
             >
               Добавить
             </ButtonTinder>
-          </Item>
+            <ButtonTinder
+              theme="accent"
+              loading={isLoading}
+              disabled={!isSuccess}
+              onClick={() => setDrawer(true)}
+            >
+              Обмен
+            </ButtonTinder>
+          </Space.Compact>
         </Form>
       </article>
       <article className="car-filters">

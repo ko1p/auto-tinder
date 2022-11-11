@@ -17,7 +17,7 @@ interface IProps {
 
 export const MilleageSlider: React.FC<IProps> = ({ form }) => {
   const step = 10;
-  const [initMin, initMax] = [1, 1000];
+  const [initMin, initMax] = [1, 500000];
 
   const minMile = Form.useWatch('minMile', form);
   const maxMile = Form.useWatch('maxMile', form);

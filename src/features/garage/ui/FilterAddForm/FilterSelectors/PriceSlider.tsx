@@ -16,7 +16,7 @@ interface IProps {
 
 export const PriceSlider: React.FC<IProps> = ({ form }) => {
   const step = 10;
-  const [initMin, initMax] = [1, 1000];
+  const [initMin, initMax] = [1, 10000000];
 
   const minPrice = Form.useWatch('minPrice', form);
   const maxPrice = Form.useWatch('maxPrice', form);
