@@ -78,13 +78,12 @@ export const CarAddForm = () => {
       totalOwners,
       description,
     } = values;
-    console.log(fileList);
     const photos = new FormData();
 
-    fileList.forEach((file) => {
-      photos.append('imagesUrl', file as RcFile);
-    });
-    console.log(photos);
+    if (fileList.length)
+      fileList.forEach((file) => {
+        photos.append('imagesUrl', file as RcFile);
+      });
 
     try {
       if (!userId) return message.error('Неавторизованный пользователь');
@@ -107,7 +106,8 @@ export const CarAddForm = () => {
         description: description || '',
         userId,
       }).unwrap();
-      await addPhoto({ carId: data.id, data: photos }).unwrap();
+      if (fileList.length)
+        await addPhoto({ carId: data.id, data: photos }).unwrap();
       setNewCarId(data.id);
       setDrawer(true);
     } catch (e) {

@@ -49,8 +49,7 @@ export const garageAPI = connectAPI.injectEndpoints({
         method: 'POST',
         body: data,
         headers: {
-          'Content-Type':
-            'multipart/form-data; boundary=---------------------------23433178131526550332705815911',
+          'Content-Type': undefined,
         },
       }),
       invalidatesTags: ['garage', 'cars'],
