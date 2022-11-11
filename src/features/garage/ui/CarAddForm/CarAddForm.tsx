@@ -7,6 +7,8 @@ import {
   Space,
   Switch,
   Upload,
+  UploadFile,
+  UploadProps,
   message,
 } from 'antd';
 import React, { useState } from 'react';
@@ -14,6 +16,7 @@ import React, { useState } from 'react';
 import { ApiError } from 'shared/api/error/error';
 import { ButtonTinder } from 'shared/ui';
 import { IError } from 'shared/lib/types';
+import { RcFile } from 'antd/lib/upload';
 import TextArea from 'antd/lib/input/TextArea';
 import { useAppSelector } from 'shared/lib/hooks/redux';
 import { userSelector } from 'entities/user/model/state/authSelector';
@@ -35,11 +38,28 @@ export const CarAddForm = () => {
   const [form] = Form.useForm();
   const userId = useAppSelector(userSelector);
   const [newCarId, setNewCarId] = useState<number | null>(null);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [drawer, setDrawer] = useState<boolean>(false);
   const [addCar, { isLoading, isSuccess }] = garageAPI.useAddCarMutation();
+  const [addPhoto] = garageAPI.useAddPhotoMutation();
+  const photoProps: UploadProps = {
+    onRemove: (file) => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList(newFileList);
+    },
+    beforeUpload: (file) => {
+      setFileList([...fileList, file]);
 
+      return false;
+    },
+    fileList,
+  };
   // eslint-disable-next-line consistent-return
   const AddCar = async (values: ICarAddFormValues) => {
+    console.log(values);
+
     const {
       brand,
       // isPromoted,
@@ -50,15 +70,21 @@ export const CarAddForm = () => {
       drive,
       engine,
       gearbox,
-      isExchanged,
+      isExchanged = false,
       vinCode,
       stateNumber,
       price,
       mileage,
       totalOwners,
       description,
-      // fileList,
     } = values;
+    console.log(fileList);
+    const photos = new FormData();
+
+    fileList.forEach((file) => {
+      photos.append('imagesUrl', file as RcFile);
+    });
+    console.log(photos);
 
     try {
       if (!userId) return message.error('Неавторизованный пользователь');
@@ -81,6 +107,7 @@ export const CarAddForm = () => {
         description: description || '',
         userId,
       }).unwrap();
+      await addPhoto({ carId: data.id, data: photos }).unwrap();
       setNewCarId(data.id);
       setDrawer(true);
     } catch (e) {
@@ -131,8 +158,8 @@ export const CarAddForm = () => {
             <TextArea rows={4} />
           </Item>
 
-          <Item label="Фото автомобиля" valuePropName="fileList">
-            <Upload action="/upload.do" listType="picture-card">
+          <Item label="Фото автомобиля" name="fileList">
+            <Upload {...photoProps} listType="picture-card">
               <div>
                 <PlusOutlined />
                 <div style={{ marginTop: 8 }}>Фото</div>
