@@ -65,3 +65,8 @@ export interface IResetState {
   isReset: boolean;
   setIsReset: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export interface ICarAddPhotoRequest {
+  carId: number;
+  data: FormData;
+}
