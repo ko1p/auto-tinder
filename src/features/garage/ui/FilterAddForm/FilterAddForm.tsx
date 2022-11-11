@@ -1,45 +1,70 @@
-import { Form, Space } from 'antd';
+/* eslint-disable consistent-return */
+
+import { Form, Space, message } from 'antd';
 import React, { useState } from 'react';
 
+import { ApiError } from 'shared/api/error/error';
+import { BodyAndDriveMultipleSelects } from './FilterSelectors/BodyAndDriveMultipleSelects';
+import { BrandOrModelTreeSelector } from './FilterSelectors/BrandOrModelTreeSelect';
 import { ButtonTinder } from 'shared/ui';
+import { CitiesSelect } from './FilterSelectors/CitiesSelect';
+import { EngineAndGearboxMultipleSelects } from './FilterSelectors/EngineAndGearboxMultipleSelects';
+import { IError } from 'shared/lib/types';
 import { IFilter } from '../../lib/typest';
 import { ManufacturedInputs } from './FilterSelectors/ManufacturedInputs';
 import { MilleageSlider } from './FilterSelectors/MilleageSlider';
 import { PriceSlider } from './FilterSelectors/PriceSlider';
+import { divideBrandsAndModels } from 'features/garage/lib/utils/divideBrandsAndModels';
 import { garageAPI } from '../../model/query/garageService';
+import { useAppSelector } from 'shared/lib/hooks/redux';
+import { userSelector } from 'entities/user/model/state/authSelector';
 
 interface IProps {
   carId: number;
 }
 
-const initialFilter: IFilter = {
-  city: 0,
-  priceStart: 0,
-  priceFinish: 0,
-  brands: [0],
-  models: [0],
-  body: 0,
-  gearbox: 0,
-  engine: 0,
-  drive: 0,
-  manufacturedAtStart: 0,
-  manufacturedAtFinish: 0,
-  mileageStart: 0,
-  mileageFinish: 0,
-};
-
 export const FilterAddForm: React.FC<IProps> = ({ carId }) => {
   const [form] = Form.useForm();
+  const userId = useAppSelector(userSelector);
   const [AddFilter, { isLoading }] = garageAPI.useAddFilterMutation();
-  const [filter, setFilter] = useState<IFilter>(initialFilter);
   const [isReset, setIsReset] = useState<boolean>(false);
-  const state = {
-    filter,
-    setFilter,
-  };
+
   const stateReset = {
     isReset,
     setIsReset,
+  };
+
+  const sendFilter = async (values) => {
+    const [brands, models] = divideBrandsAndModels(values.brandsAndModels);
+    const [manufacturedAtStart, manufacturedAtFinish] = [
+      +values.year[0].format('YYYY'),
+      +values.year[1].format('YYYY'),
+    ];
+    const [priceStart, priceFinish] = [...values.minmaxPrice];
+    const [mileageStart, mileageFinish] = [...values.minmaxMile];
+    const { body, gearbox, engine, drive, exchangeCities } = values;
+
+    const filter: IFilter = {
+      city: exchangeCities,
+      brands,
+      models,
+      body,
+      gearbox,
+      engine,
+      drive,
+      manufacturedAtStart,
+      manufacturedAtFinish,
+      priceStart,
+      priceFinish,
+      mileageStart,
+      mileageFinish,
+    };
+    try {
+      if (!userId) return message.error('Неавторизованный пользователь');
+      await AddFilter({ carId, filter }).unwrap();
+    } catch (e) {
+      ApiError(e as IError);
+    }
   };
 
   return (
@@ -50,15 +75,15 @@ export const FilterAddForm: React.FC<IProps> = ({ carId }) => {
         wrapperCol={{ span: 30 }}
         layout="vertical"
         scrollToFirstError
-        onFinish={(e) => {
-          console.log(filter);
-          console.log(e);
-        }}
+        onFinish={sendFilter}
       >
-        <ManufacturedInputs state={state} isReset={stateReset} />
+        <BrandOrModelTreeSelector />
+        <BodyAndDriveMultipleSelects />
+        <EngineAndGearboxMultipleSelects />
         <PriceSlider form={form} />
         <MilleageSlider form={form} />
-        {/* <BrandAndModelsFilter state={state} isReset={stateReset} /> */}
+        <ManufacturedInputs isReset={stateReset} />
+        <CitiesSelect />
         <Space>
           <ButtonTinder
             theme="accept"
