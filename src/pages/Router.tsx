@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router';
 import { authAPI, logIn } from 'features/auth/model';
 import { useAppDispatch, useAppSelector } from 'shared/lib/hooks/redux';
@@ -7,7 +7,10 @@ import { ApiError } from 'shared/api/error/error';
 import { IError } from 'shared/lib/types';
 import { Main } from 'pages/Main/Main';
 import { SignIn } from 'pages/SignIn/SignIn';
-import { accessTokenSelector } from 'entities/user/model/state/authSelector';
+import {
+  accessTokenSelector,
+  userSelector,
+} from 'entities/user/model/state/authSelector';
 import { routing } from 'shared/routing';
 import { Layout } from './lib/Layout';
 import { NotFound } from './NotFound/NotFound';
@@ -21,6 +24,7 @@ export const RouterPage = () => {
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector(accessTokenSelector);
   const [refresh] = authAPI.useRefreshMutation();
+  const id = useAppSelector(userSelector);
   useEffect(() => {
     const autoAuth = async () => {
       if (!accessToken)
@@ -46,20 +50,42 @@ export const RouterPage = () => {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route element={<RouteWrapper title="Вход" />}>
-          <Route path={routing.signIn} element={<SignIn />} />
-        </Route>
-        <Route element={<RouteWrapper title="Регистрация" />}>
-          <Route path={routing.signUp} element={<SignUp />} />
-        </Route>
         <Route element={<RouteWrapper title="Главная" />}>
           <Route path={routing.main} element={<Main />} />
+        </Route>
+        <Route
+          element={
+            <RouteWrapper
+              title="Вход"
+              isAccess={!accessToken}
+              redirect={routing.navProvile(id!)}
+            />
+          }
+        >
+          <Route path={routing.signIn} element={<SignIn />} />
+        </Route>
+        <Route
+          element={
+            <RouteWrapper
+              title="Регистрация"
+              isAccess={!accessToken}
+              redirect={routing.navProvile(id!)}
+            />
+          }
+        >
+          <Route path={routing.signUp} element={<SignUp />} />
         </Route>
         <Route element={<RouteWrapper title="Подробности о машине" />}>
           <Route path={routing.carDetail} element={<CarDetailsPage />} />
         </Route>
         <Route
-          element={<RouteWrapper isAccess={!!accessToken} title="Профиль" />}
+          element={
+            <RouteWrapper
+              isAccess={!!accessToken}
+              title="Профиль"
+              redirect={routing.signIn}
+            />
+          }
         >
           <Route path={routing.profile} element={<Profile />} />
         </Route>

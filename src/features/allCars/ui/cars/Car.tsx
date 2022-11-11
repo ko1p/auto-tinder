@@ -4,6 +4,7 @@ import { DislikeFilled, LikeFilled } from '@ant-design/icons';
 import { TCar } from 'features/allCars/lib';
 import React, { FC } from 'react';
 import imageCar from '../../../../shared/assets/images/bg.webp';
+import { routing } from '../../../../shared/routing';
 import './Car.scss';
 import { carsAPI } from '../../model/carsServices';
 
@@ -22,7 +23,7 @@ export const Car: FC<{ car: TCar }> = ({ car }) => {
   };
 
   const goToDetails = () => {
-    navigate(`/cars/${car.id}`);
+    navigate(routing.navCarDetail(car.id));
   };
 
   return (
