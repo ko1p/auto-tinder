@@ -5,20 +5,20 @@ import { Form, Space, message } from 'antd';
 import React, { useState } from 'react';
 
 import { ApiError } from 'shared/api/error/error';
+import { ButtonTinder } from 'shared/ui';
+import { IError } from 'shared/lib/types';
+import { divideBrandsAndModels } from 'features/garage/lib/utils/divideBrandsAndModels';
+import { useAppSelector } from 'shared/lib/hooks/redux';
+import { userSelector } from 'entities/user/model/state/authSelector';
 import { BodyAndDriveMultipleSelects } from './FilterSelectors/BodyAndDriveMultipleSelects';
 import { BrandOrModelTreeSelector } from './FilterSelectors/BrandOrModelTreeSelect';
-import { ButtonTinder } from 'shared/ui';
 import { CitiesSelect } from './FilterSelectors/CitiesSelect';
 import { EngineAndGearboxMultipleSelects } from './FilterSelectors/EngineAndGearboxMultipleSelects';
-import { IError } from 'shared/lib/types';
 import { IFilter } from '../../lib/typest';
 import { ManufacturedInputs } from './FilterSelectors/ManufacturedInputs';
 import { MilleageSlider } from './FilterSelectors/MilleageSlider';
 import { PriceSlider } from './FilterSelectors/PriceSlider';
-import { divideBrandsAndModels } from 'features/garage/lib/utils/divideBrandsAndModels';
 import { garageAPI } from '../../model/query/garageService';
-import { useAppSelector } from 'shared/lib/hooks/redux';
-import { userSelector } from 'entities/user/model/state/authSelector';
 
 interface IProps {
   carId: number;
