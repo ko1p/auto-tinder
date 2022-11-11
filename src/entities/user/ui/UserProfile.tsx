@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 
 import { ButtonTinder } from 'shared/ui';
 import { Descriptions } from 'antd';
+import { useParams } from 'react-router';
 import { EditProfile } from './EditProfile';
 import { UserProfileSkeleton } from './UserProfileSceleton';
-import { useParams } from 'react-router';
 import { userAPI } from '../model/query/userProfileService';
 
 const { Item } = Descriptions;

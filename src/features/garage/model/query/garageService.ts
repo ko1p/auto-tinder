@@ -42,5 +42,17 @@ export const garageAPI = connectAPI.injectEndpoints({
       }),
       invalidatesTags: ['filters'],
     }),
+    addPhoto: build.mutation<ICarAddResponce, ICarAddRequest>({
+      query: ({ carId, data }) => ({
+        url: `cars/${carId}/photos`,
+        method: 'POST',
+        body: data,
+        headers: {
+          'Content-Type':
+            'multipart/form-data; boundary=---------------------------23433178131526550332705815911',
+        },
+      }),
+      invalidatesTags: ['garage', 'cars'],
+    }),
   }),
 });

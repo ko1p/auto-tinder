@@ -10,26 +10,26 @@ const { Option } = Select;
 const { Item } = Form;
 
 export const EngineAndGearboxMultipleSelects: React.FC = () => {
-  const [bodies, setBodies] = useState<ICarProperty[] | null>(null);
-  const [useBodies, { isLoading: bodyIsLoading }] =
-    carAPI.useLazyCarBodiesQuery();
-  const [drives, setDrives] = useState<ICarProperty[] | null>(null);
-  const [useDrives, { isLoading: driveIsLoading }] =
-    carAPI.useLazyCarDrivesQuery();
+  const [engines, setEngines] = useState<ICarProperty[] | null>(null);
+  const [useEngines, { isLoading: isEngineLoading }] =
+    carAPI.useLazyCarEnginesQuery();
+  const [gearBoxes, setGearBoxes] = useState<ICarProperty[] | null>(null);
+  const [useGearBoxes, { isLoading: isGearBoxLoading }] =
+    carAPI.useLazyCarGearBoxesQuery();
 
-  const getDrives = async () => {
+  const getGearBoxes = async () => {
     try {
-      const res = await useDrives('');
-      setDrives(res.data!);
+      const res = await useGearBoxes('');
+      setGearBoxes(res.data!);
     } catch (e) {
       ApiError(e as IError);
     }
   };
 
-  const getBodies = async () => {
+  const getEngines = async () => {
     try {
-      const res = await useBodies('');
-      setBodies(res.data!);
+      const res = await useEngines('');
+      setEngines(res.data!);
     } catch (e) {
       ApiError(e as IError);
     }
@@ -49,11 +49,11 @@ export const EngineAndGearboxMultipleSelects: React.FC = () => {
           allowClear
           style={{ width: '100%' }}
           placeholder="Выберите коробки"
-          loading={bodyIsLoading}
-          onClick={getBodies}
+          loading={isGearBoxLoading}
+          onClick={getGearBoxes}
         >
-          {bodies?.length &&
-            bodies.map((body) => (
+          {gearBoxes?.length &&
+            gearBoxes.map((body) => (
               <Option key={body.id} value={body.id}>
                 {body.name}
               </Option>
@@ -72,11 +72,11 @@ export const EngineAndGearboxMultipleSelects: React.FC = () => {
           allowClear
           style={{ width: '100%' }}
           placeholder="Выберите двигатели"
-          loading={driveIsLoading}
-          onClick={getDrives}
+          loading={isEngineLoading}
+          onClick={getEngines}
         >
-          {drives?.length &&
-            drives.map((drive) => (
+          {engines?.length &&
+            engines.map((drive) => (
               <Option key={drive.id} value={drive.id}>
                 {drive.name}
               </Option>
