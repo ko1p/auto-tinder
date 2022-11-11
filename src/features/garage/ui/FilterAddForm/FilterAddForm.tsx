@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable consistent-return */
 
 import { Form, Space, message } from 'antd';
@@ -34,7 +35,7 @@ export const FilterAddForm: React.FC<IProps> = ({ carId }) => {
     setIsReset,
   };
 
-  const sendFilter = async (values) => {
+  const sendFilter = async (values: any) => {
     const [brands, models] = divideBrandsAndModels(values.brandsAndModels);
     const [manufacturedAtStart, manufacturedAtFinish] = [
       +values.year[0].format('YYYY'),
