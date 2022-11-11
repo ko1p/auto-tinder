@@ -1,5 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router';
+import {
+  accessTokenSelector,
+  userSelector,
+} from 'entities/user/model/state/authSelector';
 import { authAPI, logIn } from 'features/auth/model';
 import { useAppDispatch, useAppSelector } from 'shared/lib/hooks/redux';
 
@@ -8,10 +12,6 @@ import { IError } from 'shared/lib/types';
 import { Main } from 'pages/Main/Main';
 import { SignIn } from 'pages/SignIn/SignIn';
 import { SpinPage } from 'shared/ui/SpinPage/SpinPage';
-import {
-  accessTokenSelector,
-  userSelector,
-} from 'entities/user/model/state/authSelector';
 import { routing } from 'shared/routing';
 import { CarDetailsPage } from './CarDetailsPage/CarDetailsPage';
 import { Layout } from './lib/Layout';

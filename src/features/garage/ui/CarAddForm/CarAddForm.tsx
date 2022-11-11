@@ -14,21 +14,21 @@ import {
 import React, { useState } from 'react';
 
 import { ApiError } from 'shared/api/error/error';
+import { ButtonTinder } from 'shared/ui';
+import { IError } from 'shared/lib/types';
+import { RcFile } from 'antd/lib/upload';
+import TextArea from 'antd/lib/input/TextArea';
+import { useAppSelector } from 'shared/lib/hooks/redux';
+import { userSelector } from 'entities/user/model/state/authSelector';
 import { BodyAndDriveSelectors } from './FormSelectors/BodyAndDriveSelects';
 import { BrandAndModelSelectors } from './FormSelectors/BrandAndModelSelects';
-import { ButtonTinder } from 'shared/ui';
 import { CitySelector } from './FormSelectors/CitySelect';
 import { EngineAndGearboxSelector } from './FormSelectors/EngineAndGearboxSelect';
 import { FilterAddForm } from '../FilterAddForm/FilterAddForm';
 import { ICarAddFormValues } from '../../lib/typest';
-import { IError } from 'shared/lib/types';
 import { NumberSelectors } from './FormSelectors/NumbersSelects';
 import { PriceAndMileageSelectors } from './FormSelectors/PriceAndMileageSelects';
-import { RcFile } from 'antd/lib/upload';
-import TextArea from 'antd/lib/input/TextArea';
 import { garageAPI } from '../../model/query/garageService';
-import { useAppSelector } from 'shared/lib/hooks/redux';
-import { userSelector } from 'entities/user/model/state/authSelector';
 
 // import { FilterAddForm, PrefAddForm } from './FilterAddForm';
 
