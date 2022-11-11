@@ -14,21 +14,21 @@ import {
 import React, { useState } from 'react';
 
 import { ApiError } from 'shared/api/error/error';
-import { ButtonTinder } from 'shared/ui';
-import { IError } from 'shared/lib/types';
-import { RcFile } from 'antd/lib/upload';
-import TextArea from 'antd/lib/input/TextArea';
-import { useAppSelector } from 'shared/lib/hooks/redux';
-import { userSelector } from 'entities/user/model/state/authSelector';
 import { BodyAndDriveSelectors } from './FormSelectors/BodyAndDriveSelects';
 import { BrandAndModelSelectors } from './FormSelectors/BrandAndModelSelects';
+import { ButtonTinder } from 'shared/ui';
 import { CitySelector } from './FormSelectors/CitySelect';
 import { EngineAndGearboxSelector } from './FormSelectors/EngineAndGearboxSelect';
 import { FilterAddForm } from '../FilterAddForm/FilterAddForm';
 import { ICarAddFormValues } from '../../lib/typest';
+import { IError } from 'shared/lib/types';
 import { NumberSelectors } from './FormSelectors/NumbersSelects';
 import { PriceAndMileageSelectors } from './FormSelectors/PriceAndMileageSelects';
+import { RcFile } from 'antd/lib/upload';
+import TextArea from 'antd/lib/input/TextArea';
 import { garageAPI } from '../../model/query/garageService';
+import { useAppSelector } from 'shared/lib/hooks/redux';
+import { userSelector } from 'entities/user/model/state/authSelector';
 
 // import { FilterAddForm, PrefAddForm } from './FilterAddForm';
 
@@ -78,13 +78,12 @@ export const CarAddForm = () => {
       totalOwners,
       description,
     } = values;
-    console.log(fileList);
     const photos = new FormData();
 
-    fileList.forEach((file) => {
-      photos.append('imagesUrl', file as RcFile);
-    });
-    console.log(photos);
+    if (fileList.length)
+      fileList.forEach((file) => {
+        photos.append('imagesUrl', file as RcFile);
+      });
 
     try {
       if (!userId) return message.error('Неавторизованный пользователь');
@@ -107,7 +106,8 @@ export const CarAddForm = () => {
         description: description || '',
         userId,
       }).unwrap();
-      await addPhoto({ carId: data.id, data: photos }).unwrap();
+      if (fileList.length)
+        await addPhoto({ carId: data.id, data: photos }).unwrap();
       setNewCarId(data.id);
       setDrawer(true);
     } catch (e) {
