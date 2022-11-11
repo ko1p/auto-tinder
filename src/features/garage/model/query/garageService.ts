@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import {
+  ICarAddPhotoRequest,
   ICarAddRequest,
   ICarAddResponce,
   IFilter,
@@ -42,7 +43,7 @@ export const garageAPI = connectAPI.injectEndpoints({
       }),
       invalidatesTags: ['filters'],
     }),
-    addPhoto: build.mutation<ICarAddResponce, ICarAddRequest>({
+    addPhoto: build.mutation<unknown, ICarAddPhotoRequest>({
       query: ({ carId, data }) => ({
         url: `cars/${carId}/photos`,
         method: 'POST',
