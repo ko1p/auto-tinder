@@ -2,14 +2,11 @@ import './UserProfile.scss';
 
 import React, { useState } from 'react';
 
-import { ButtonTinder } from 'shared/ui';
-import { Descriptions } from 'antd';
 import { useParams } from 'react-router';
-import { EditProfile } from './EditProfile';
+import { EditProfile } from './EditProfile/EditProfile';
+import { InfoProfile } from './InfoProfile/InfoProfile';
 import { UserProfileSkeleton } from './UserProfileSceleton';
 import { userAPI } from '../model/query/userProfileService';
-
-const { Item } = Descriptions;
 
 export const UserProfile = () => {
   const params = useParams();
@@ -23,46 +20,16 @@ export const UserProfile = () => {
       {isLoading && <UserProfileSkeleton />}
       {isSuccess && (
         <section className="user-profile">
-          <h2>{`Привет ${data.name}!`}</h2>
-          <Descriptions
-            bordered
-            layout="vertical"
-            column={{ xs: 2, sm: 2, md: 4 }}
-            size="small"
-            className="user-profile__table"
-            title="Профиль"
-            extra={
-              <>
-                <ButtonTinder
-                  onClick={() => {
-                    setIsEditOpen(true);
-                  }}
-                  theme="main"
-                  type="primary"
-                >
-                  Редактировать
-                </ButtonTinder>
-                <EditProfile
-                  data={data}
-                  isEditOpen={isEditOpen}
-                  setIsEditOpen={setIsEditOpen}
-                />
-              </>
-            }
-          >
-            <Item className="user-profile__item" label="Ф.И.О.">
-              {data.name}
-            </Item>
-            <Item className="user-profile__item" label="Телефон.:">
-              {data.phone || 'Не указан'}
-            </Item>
-            <Item className="user-profile__item" label="Email">
-              {data.email}
-            </Item>
-            <Item className="user-profile__item" label="Профиль">
-              {data.isOnboarded ? 'Заполнен' : 'Незаполнен'}
-            </Item>
-          </Descriptions>
+          <InfoProfile
+            isEditOpen={isEditOpen}
+            setIsEditOpen={setIsEditOpen}
+            data={data}
+          />
+          <EditProfile
+            isEditOpen={isEditOpen}
+            setIsEditOpen={setIsEditOpen}
+            data={data}
+          />
         </section>
       )}
     </>

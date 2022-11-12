@@ -30,16 +30,6 @@ export const RouterPage = () => {
     const autoAuth = async () => {
       if (!accessToken)
         try {
-          // const res = await fetch(
-          //   'https://auto-tindr.herokuapp.com/auth/refresh',
-          //   {
-          //     method: 'POST',
-          //     credentials: 'include',
-          //   }
-          // );
-          // const data = await res.json();
-          // console.log(data);
-
           const userDto = await refresh('').unwrap();
           dispatch(logIn(userDto));
         } catch (e) {

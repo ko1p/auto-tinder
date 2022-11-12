@@ -2,8 +2,10 @@
 
 .user-profile {
   padding: 20px;
-  background-color: $background_accent;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 
   &__table {
     width: 100%;
