@@ -1,6 +1,6 @@
 import { Card } from 'antd';
-import { ICar } from '../lib/types';
 import React from 'react';
+import { ICar } from '../lib/types';
 
 const { Meta } = Card;
 

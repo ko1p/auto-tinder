@@ -2,10 +2,10 @@ import { Col, Drawer, Empty, Row } from 'antd';
 import React, { useState } from 'react';
 
 import { ButtonTinder } from 'shared/ui';
-import { CarAddForm } from './CarAddForm/CarAddForm';
 import { CarCard } from 'entities/car/ui/CarCard';
-import { garageAPI } from '../model/query/garageService';
 import { useParams } from 'react-router-dom';
+import { CarAddForm } from './CarAddForm/CarAddForm';
+import { garageAPI } from '../model/query/garageService';
 
 export const Garage = () => {
   const params = useParams();

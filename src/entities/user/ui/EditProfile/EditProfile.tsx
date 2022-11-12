@@ -1,11 +1,11 @@
 import { Form, Input, Space, message } from 'antd';
-import { IEditProfile, IUserProfileEditValues } from '../../lib/types';
 
 import { ApiError } from 'shared/api/error/error';
 import { ButtonTinder } from 'shared/ui';
 import { IError } from 'shared/lib/types';
 import React from 'react';
 import { useParams } from 'react-router';
+import { IEditProfile, IUserProfileEditValues } from '../../lib/types';
 import { userAPI } from '../../model/query/userProfileService';
 
 const { Item } = Form;

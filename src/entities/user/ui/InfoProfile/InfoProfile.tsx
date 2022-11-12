@@ -2,10 +2,10 @@ import { ButtonTinder, InputTinder, PasswordTinder } from 'shared/ui';
 import { Descriptions, Form, Modal, message } from 'antd';
 
 import { ApiError } from 'shared/api/error/error';
-import { IEditProfile } from '../../lib/types';
 import { IError } from 'shared/lib/types';
 import React from 'react';
 import { useParams } from 'react-router';
+import { IEditProfile } from '../../lib/types';
 import { userAPI } from '../../model/query/userProfileService';
 
 const { Item } = Form;

@@ -2,10 +2,10 @@ import './UserProfile.scss';
 
 import React, { useState } from 'react';
 
+import { useParams } from 'react-router';
 import { EditProfile } from './EditProfile/EditProfile';
 import { InfoProfile } from './InfoProfile/InfoProfile';
 import { UserProfileSkeleton } from './UserProfileSceleton';
-import { useParams } from 'react-router';
 import { userAPI } from '../model/query/userProfileService';
 
 export const UserProfile = () => {
