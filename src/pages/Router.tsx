@@ -8,18 +8,18 @@ import { authAPI, logIn } from 'features/auth/model';
 import { useAppDispatch, useAppSelector } from 'shared/lib/hooks/redux';
 
 import { ApiError } from 'shared/api/error/error';
-import { IError } from 'shared/lib/types';
-import { Main } from 'pages/Main/Main';
-import { SignIn } from 'pages/SignIn/SignIn';
-import { SpinPage } from 'shared/ui/SpinPage/SpinPage';
-import { routing } from 'shared/routing';
 import { CarDetailsPage } from './CarDetailsPage/CarDetailsPage';
+import { IError } from 'shared/lib/types';
 import { Layout } from './lib/Layout';
+import { Main } from 'pages/Main/Main';
 import { NotFound } from './NotFound/NotFound';
 import { Profile } from './Profile/Profile';
 import { RouteWrapper } from './lib/RouteWrapper';
+import { SignIn } from 'pages/SignIn/SignIn';
 import { SignUp } from './SignUp/SignUp';
+import { SpinPage } from 'shared/ui/SpinPage/SpinPage';
 import { Verification } from './Verification/Verification';
+import { routing } from 'shared/routing';
 
 export const RouterPage = () => {
   const dispatch = useAppDispatch();
@@ -30,16 +30,6 @@ export const RouterPage = () => {
     const autoAuth = async () => {
       if (!accessToken)
         try {
-          // const res = await fetch(
-          //   'https://auto-tindr.herokuapp.com/auth/refresh',
-          //   {
-          //     method: 'POST',
-          //     credentials: 'include',
-          //   }
-          // );
-          // const data = await res.json();
-          // console.log(data);
-
           const userDto = await refresh('').unwrap();
           dispatch(logIn(userDto));
         } catch (e) {

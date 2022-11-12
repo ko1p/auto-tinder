@@ -5,13 +5,13 @@
 }
 
 @mixin table() {
-  @include breakpoint(780px) {
+  @include breakpoint($width-table) {
     @content;
   }
 }
 
 @mixin decktop() {
-  @include breakpoint(1280px) {
+  @include breakpoint($width-decktop) {
     @content;
   }
 }

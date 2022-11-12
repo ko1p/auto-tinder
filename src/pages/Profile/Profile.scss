@@ -1,56 +1,26 @@
 @import 'shared/styles';
 
-.profile {
-  width: $width-mobile;
+.profile-wrapper {
+  width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background-color: $background_accent;
-
-  @include table {
-    width: $width-table;
-  }
-
-  @include decktop {
-    width: $width-decktop;
-  }
+  padding: 20px;
+  max-width: $width-decktop;
 }
 
-.tabs {
-  width: $width-mobile;
+.profile-bg {
+  position: absolute;
+  content: '';
+  width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background-color: $background_accent;
+  background-image: url('../../shared/assets/images/back.webp');
+  background-size: cover;
+  z-index: -1;
+}
+
+.profile {
+  width: 100%;
+  height: 100%;
+  box-shadow: 4px 4px 12px $background_accent;
+  background-color: #fff;
   padding: 10px;
-
-  @include table {
-    width: $width-table;
-  }
-
-  @include decktop {
-    width: $width-decktop;
-  }
-
-  &__item {
-    width: calc($width-mobile - 20px);
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    background-color: $background_accent;
-
-    @include table {
-      width: calc($width-table - 20px);
-    }
-
-    @include decktop {
-      width: calc($width-decktop - 20px);
-    }
-  }
 }

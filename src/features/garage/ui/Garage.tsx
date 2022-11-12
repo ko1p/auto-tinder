@@ -1,13 +1,11 @@
-import './Garage.scss';
-
-import { Carousel, Drawer, Empty } from 'antd';
+import { Col, Drawer, Empty, Row } from 'antd';
 import React, { useState } from 'react';
 
 import { ButtonTinder } from 'shared/ui';
-import { CarCard } from 'entities/car/ui/CarCard';
-import { useParams } from 'react-router-dom';
 import { CarAddForm } from './CarAddForm/CarAddForm';
+import { CarCard } from 'entities/car/ui/CarCard';
 import { garageAPI } from '../model/query/garageService';
+import { useParams } from 'react-router-dom';
 
 export const Garage = () => {
   const params = useParams();
@@ -32,33 +30,32 @@ export const Garage = () => {
     <>
       <section className="garage">
         {isLoading && 'Загрузка...'}
-        {isSuccess && cars?.length ? (
-          <Carousel className="garage__carousel" dots autoplay>
-            {cars.map((car) => (
-              <CarCard key={car.id} car={car} />
+        {isSuccess && (
+          <Row gutter={[16, 16]}>
+            {cars?.map((car) => (
+              <Col key={car.id} span={8}>
+                <CarCard car={car} />
+              </Col>
             ))}
-            <Empty
-              className="garage__item_empty"
-              image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-              description={<span>У вас есть ещё автомобиль?</span>}
-            >
-              <ButtonTinder onClick={showDrawer} theme="accent" type="primary">
-                Добавить в гараж!
-              </ButtonTinder>
-            </Empty>
-          </Carousel>
-        ) : (
-          <Empty
-            className="garage__item_empty"
-            image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-            description={
-              <span>Вы ёще не добавили автомобили в ваш гараж...</span>
-            }
-          >
-            <ButtonTinder onClick={showDrawer} theme="accent" type="primary">
-              Добавить сейчас!
-            </ButtonTinder>
-          </Empty>
+            <Col span={8}>
+              <Empty
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+              >
+                <ButtonTinder
+                  onClick={showDrawer}
+                  theme="accent"
+                  type="primary"
+                >
+                  Добавить авто!
+                </ButtonTinder>
+              </Empty>
+            </Col>
+          </Row>
         )}
         {isError && 'Ошибка'}
       </section>
