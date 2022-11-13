@@ -1,9 +1,9 @@
-import { Form, Input, Space, message } from 'antd';
+import { Form, Input, InputNumber, Space, message } from 'antd';
+import React, { useState } from 'react';
 
 import { ApiError } from 'shared/api/error/error';
 import { ButtonTinder } from 'shared/ui';
 import { IError } from 'shared/lib/types';
-import React from 'react';
 import { useParams } from 'react-router';
 import { IEditProfile, IUserProfileEditValues } from '../../lib/types';
 import { userAPI } from '../../model/query/userProfileService';
@@ -17,7 +17,9 @@ export const EditProfile: React.FC<IEditProfile> = ({
   setIsEditOpen,
 }) => {
   const params = useParams();
+  const [isPasswordInput, setIsPasswordInput] = useState<boolean>(false);
   const [profilePatch, { isLoading }] = userAPI.useUserProfilePatchMutation();
+  console.log(isPasswordInput);
 
   const submit = async (values: IUserProfileEditValues) => {
     if (!values) return;
@@ -54,34 +56,71 @@ export const EditProfile: React.FC<IEditProfile> = ({
       <Item label="Имя" name="name" rules={[{ required: false }]}>
         <Input />
       </Item>
-      <Item label="Почта" name="email" rules={[{ required: false }]}>
+      <Item
+        label="Почта"
+        name="email"
+        rules={[
+          {
+            required: false,
+            pattern: /^[A-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/,
+          },
+        ]}
+      >
         <Input />
       </Item>
-      <Item label="Телефон" name="phone" rules={[{ required: false }]}>
-        <Input />
+      <Item
+        label="Телефон"
+        name="phone"
+        rules={[
+          {
+            required: false,
+            message: 'Введите 10 цифр',
+            pattern: /^(\d{3})(\d{3})(\d{2})(\d{2})/,
+          },
+        ]}
+      >
+        <InputNumber
+          addonBefore="+7"
+          formatter={(value) =>
+            `${value}`.replace(/^(\d{3})(\d{3})(\d{2})(\d{2})/, '($1) $2-$3-$4')
+          }
+          parser={(value) => value!.replace(/\$\s?|(,*)/g, '')}
+        />
       </Item>
       <Item
         label="Старый пароль"
         name="oldPassword"
-        rules={[{ required: false }]}
+        rules={[{ required: false, pattern: /^[A-Za-z0-9!@#$%^&*(){}[\]]+$/ }]}
       >
-        <Password />
+        <Password
+          onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setIsPasswordInput(!!e.target.value)
+          }
+        />
       </Item>
       <Item
         label="Новый пароль"
-        name="newPassword"
-        rules={[{ required: false }]}
+        name="password"
+        rules={[
+          {
+            required: isPasswordInput,
+            pattern: /^[A-Za-z0-9!@#$%^&*(){}[\]]+$/,
+          },
+        ]}
       >
         <Password defaultValue="" />
       </Item>
       <Item
         label="Повторите пароль"
-        name="newPasswordRepeat"
+        name="passwordRepeat"
         rules={[
-          { required: false },
+          {
+            required: isPasswordInput,
+            pattern: /^[A-Za-z0-9!@#$%^&*(){}[\]]+$/,
+          },
           ({ getFieldValue }) => ({
             validator(_, value) {
-              if (!value || getFieldValue('newPassword') === value) {
+              if (!value || getFieldValue('password') === value) {
                 return Promise.resolve();
               }
               return Promise.reject(new Error('Пароли не совпадают'));

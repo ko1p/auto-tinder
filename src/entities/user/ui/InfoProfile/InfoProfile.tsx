@@ -1,12 +1,8 @@
-import { ButtonTinder, InputTinder, PasswordTinder } from 'shared/ui';
-import { Descriptions, Form, Modal, message } from 'antd';
+import { Descriptions, Form } from 'antd';
 
-import { ApiError } from 'shared/api/error/error';
-import { IError } from 'shared/lib/types';
+import { ButtonTinder } from 'shared/ui';
 import React from 'react';
-import { useParams } from 'react-router';
 import { IEditProfile } from '../../lib/types';
-import { userAPI } from '../../model/query/userProfileService';
 
 const { Item } = Form;
 
@@ -36,11 +32,12 @@ export const InfoProfile: React.FC<IEditProfile> = ({
         </ButtonTinder>
       }
     >
-      <Item className="user-profile__item" label="Ф.И.О.">
+      <Item className="user-profile__item" label="Имя">
         {data.name}
       </Item>
       <Item className="user-profile__item" label="Телефон.:">
-        {data.phone || 'Не указан'}
+        {data.phone.replace(/^(\d{3})(\d{3})(\d{2})(\d{2})/, '($1) $2-$3-$4') ||
+          'Не указан'}
       </Item>
       <Item className="user-profile__item" label="Email">
         {data.email}

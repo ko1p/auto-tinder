@@ -50,7 +50,7 @@ export const SignInForm: React.FC = () => {
           {
             required: false,
             message: 'Введите корректый email',
-            pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/,
+            pattern: /^[A-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/,
           },
         ]}
       >
