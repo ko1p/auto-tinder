@@ -1,8 +1,8 @@
 import { Descriptions, Form } from 'antd';
 
 import { ButtonTinder } from 'shared/ui';
-import { IEditProfile } from '../../lib/types';
 import React from 'react';
+import { IEditProfile } from '../../lib/types';
 
 const { Item } = Form;
 
