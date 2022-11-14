@@ -25,6 +25,7 @@ export interface ICarReport {
 }
 
 export interface ICar {
+  isExchanged: boolean;
   id: number;
   description: string;
   vinCode: string;

@@ -1,30 +1,26 @@
 import { Button } from 'antd';
+import { ICar } from 'entities/car/lib/types';
+import { userSelector } from 'entities/user/model/state/authSelector';
 import { carsAPI } from 'features/allCars/model/carsServices';
 import { CarsList } from 'features/allCars/ui/carsList/carsList';
+import { garageAPI } from 'features/garage/model/query/garageService';
 import React, { FC, useState } from 'react';
+import { useAppSelector } from 'shared/lib/hooks/redux';
 import image from '../../shared/assets/images/bg.webp';
 import './Main.scss';
 
 export const Main: FC = () => {
   const [isActive, setIsActive] = useState<boolean>(false);
-  const avto = document.querySelector('.main-section__stucture_avto');
-  const cupons = document.querySelector('.main-section__stucture_cupons');
-  const avtoBtn = document.querySelector('.main-section__button_cars');
-  const cuponsBtn = document.querySelector('.main-section__button_cupons');
-
-  if (isActive) {
-    avto?.classList.remove('main-section__stucture_active');
-    cupons?.classList.add('main-section__stucture_active');
-    avtoBtn?.classList.remove('main-section__button_active');
-    cuponsBtn?.classList.add('main-section__button_active');
-  } else {
-    avto?.classList.add('main-section__stucture_active');
-    cupons?.classList.remove('main-section__stucture_active');
-    avtoBtn?.classList.add('main-section__button_active');
-    cuponsBtn?.classList.remove('main-section__button_active');
-  }
 
   const { data } = carsAPI.useGetTopCarsQuery('');
+  const userId = useAppSelector(userSelector);
+
+  let exchangeCar: ICar | undefined;
+  if (userId) {
+    const { data: cars } = garageAPI.useUserCarsQuery(userId);
+    exchangeCar = cars?.filter((car) => car.isExchanged)[0];
+  }
+  const premiumCar = data?.content.slice(0, 8);
 
   return (
     <section className="main-section">
@@ -48,7 +44,8 @@ export const Main: FC = () => {
         <Button
           htmlType="button"
           type="text"
-          className="main-section__button main-section__button_cars main-section__button_active"
+          className={`main-section__button 
+            ${isActive ? ' ' : 'main-section__button_active'}`}
           onClick={() => setIsActive(false)}
         >
           Машины
@@ -56,16 +53,23 @@ export const Main: FC = () => {
         <Button
           htmlType="button"
           type="text"
-          className="main-section__button main-section__button_cupons"
+          className={`main-section__button 
+            ${isActive ? 'main-section__button_active' : ' '}`}
           onClick={() => setIsActive(true)}
         >
           Купоны
         </Button>
       </div>
-      <section className="main-section__stucture main-section__stucture_avto main-section__stucture_active">
-        <CarsList content={data?.content} />
+      <section
+        className={`main-section__stucture 
+        ${isActive ? ' ' : 'main-section__stucture_active'}`}
+      >
+        <CarsList content={premiumCar} exchangeId={exchangeCar?.id} />
       </section>
-      <section className="main-section__stucture main-section__stucture_cupons">
+      <section
+        className={`main-section__stucture 
+        ${isActive ? 'main-section__stucture_active' : ' '}`}
+      >
         <div>Тут будут купоны</div>
       </section>
     </section>
