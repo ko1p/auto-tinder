@@ -3,18 +3,19 @@ import React, { useState } from 'react';
 
 import { ButtonTinder } from 'shared/ui';
 import { CarCard } from 'entities/car/ui/CarCard';
-import { useParams } from 'react-router-dom';
-import { CarAddForm } from './CarAddForm/CarAddForm';
+import { useAppSelector } from 'shared/lib/hooks/redux';
+import { userSelector } from 'entities/user/model/state/authSelector';
 import { garageAPI } from '../model/query/garageService';
+import { CarAddForm } from './CarAddForm/CarAddForm';
 
 export const Garage = () => {
-  const params = useParams();
+  const userId = useAppSelector(userSelector);
   const {
     data: cars,
     isLoading,
     isSuccess,
     isError,
-  } = garageAPI.useUserCarsQuery(params.userId!);
+  } = garageAPI.useUserCarsQuery(userId!);
 
   const [open, setOpen] = useState(false);
 
@@ -33,11 +34,16 @@ export const Garage = () => {
         {isSuccess && (
           <Row gutter={[16, 16]}>
             {cars?.map((car) => (
-              <Col key={car.id} span={8}>
+              <Col
+                key={car.id}
+                md={{ span: 8 }}
+                sm={{ span: 12 }}
+                xs={{ span: 24 }}
+              >
                 <CarCard car={car} />
               </Col>
             ))}
-            <Col span={8}>
+            <Col md={{ span: 8 }} sm={{ span: 12 }} xs={{ span: 24 }}>
               <Empty
                 style={{
                   display: 'flex',

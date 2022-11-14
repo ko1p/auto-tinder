@@ -6,3 +6,7 @@ export interface IError {
     Timestamp: string;
   };
 }
+export interface IUserCarPage {
+  carId: string;
+  userId: string;
+}

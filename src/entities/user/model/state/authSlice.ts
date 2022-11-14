@@ -5,6 +5,7 @@ import { IUserAuthResponse } from 'features/auth/lib';
 const initialState: IUserAuthResponse = {
   accessToken: null,
   userId: null,
+  isLogout: false,
 };
 
 export const authSlice = createSlice({
@@ -18,10 +19,12 @@ export const authSlice = createSlice({
       const { userId, accessToken } = action.payload;
       state.userId = userId;
       state.accessToken = accessToken;
+      state.isLogout = false;
     },
     logOut: (state: IUserAuthResponse) => {
       state.userId = null;
       state.accessToken = null;
+      state.isLogout = true;
     },
   },
 });

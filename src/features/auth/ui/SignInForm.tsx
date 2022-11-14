@@ -3,14 +3,13 @@ import './SignInForm.scss';
 import { Button, Form, Input, Space } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { useAppDispatch, useAppSelector } from 'shared/lib/hooks/redux';
 
 import { ApiError } from 'shared/api/error/error';
 import { ButtonTinder } from 'shared/ui/ButtonTinder/ButtonTinder';
 import { IError } from 'shared/lib/types';
 import React from 'react';
 import { routing } from 'shared/routing';
-import { userSelector } from 'entities/user/model/state/authSelector';
+import { useAppDispatch } from 'shared/lib/hooks/redux';
 import { IUserAuthRequest } from '../lib';
 import { authAPI, logIn } from '../model';
 
@@ -21,14 +20,13 @@ export const SignInForm: React.FC = () => {
   const [signIn, { isLoading }] = authAPI.useLogInMutation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const id = useAppSelector(userSelector);
 
   const onFinish = async (values: IUserAuthRequest) => {
     try {
       const { email, password } = values;
       const userDto = await signIn({ email, password }).unwrap();
       dispatch(logIn(userDto));
-      navigate(routing.navProvile(id!));
+      navigate(routing.profile);
     } catch (e) {
       ApiError(e as IError);
     }

@@ -6,4 +6,5 @@ export interface IUserAuthRequest {
 export interface IUserAuthResponse {
   accessToken?: string | null;
   userId?: string | null;
+  isLogout?: boolean;
 }

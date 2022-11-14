@@ -1,18 +1,11 @@
-import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router';
-import {
-  accessTokenSelector,
-  userSelector,
-} from 'entities/user/model/state/authSelector';
-import { authAPI, logIn } from 'features/auth/model';
-import { useAppDispatch, useAppSelector } from 'shared/lib/hooks/redux';
 
-import { ApiError } from 'shared/api/error/error';
-import { IError } from 'shared/lib/types';
 import { Main } from 'pages/Main/Main';
+import React from 'react';
 import { SignIn } from 'pages/SignIn/SignIn';
 import { SpinPage } from 'shared/ui/SpinPage/SpinPage';
 import { routing } from 'shared/routing';
+import { useAutoLogin } from 'shared/lib/hooks/useAutoLogin';
 import { CarDetailsPage } from './CarDetailsPage/CarDetailsPage';
 import { Forgot } from './Forgot/Forgot';
 import { Layout } from './lib/Layout';
@@ -20,28 +13,15 @@ import { NotFound } from './NotFound/NotFound';
 import { Profile } from './Profile/Profile';
 import { RouteWrapper } from './lib/RouteWrapper';
 import { SignUp } from './SignUp/SignUp';
+import { UserCar } from './UserCarPage/UserCar';
 import { Verification } from './Verification/Verification';
 
 export const RouterPage = () => {
-  const dispatch = useAppDispatch();
-  const accessToken = useAppSelector(accessTokenSelector);
-  const [refresh, { isLoading }] = authAPI.useRefreshMutation();
-  const id = useAppSelector(userSelector);
-  useEffect(() => {
-    const autoAuth = async () => {
-      if (!accessToken)
-        try {
-          const userDto = await refresh('').unwrap();
-          dispatch(logIn(userDto));
-        } catch (e) {
-          ApiError(e as IError);
-        }
-    };
-    autoAuth().catch(console.error);
-  }, [accessToken]);
-  return isLoading ? (
-    <SpinPage />
-  ) : (
+  const { accessToken, autoLogin } = useAutoLogin();
+
+  if (!autoLogin) return <SpinPage />;
+
+  return (
     <Routes>
       <Route element={<Layout />}>
         <Route element={<RouteWrapper title="Главная" />}>
@@ -52,7 +32,7 @@ export const RouterPage = () => {
             <RouteWrapper
               title="Вход"
               isAccess={!accessToken}
-              redirect={routing.navProvile(id!)}
+              redirect={routing.profile}
             />
           }
         >
@@ -63,7 +43,7 @@ export const RouterPage = () => {
             <RouteWrapper
               title="Регистрация"
               isAccess={!accessToken}
-              redirect={routing.navProvile(id!)}
+              redirect={routing.profile}
             />
           }
         >
@@ -82,6 +62,17 @@ export const RouterPage = () => {
           }
         >
           <Route path={routing.profile} element={<Profile />} />
+        </Route>
+        <Route
+          element={
+            <RouteWrapper
+              title="Просмотр авто"
+              isAccess={!!accessToken}
+              redirect={routing.signIn}
+            />
+          }
+        >
+          <Route path={routing.userCar} element={<UserCar />} />
         </Route>
         <Route element={<RouteWrapper title="Подтверждение почты" />}>
           <Route path={routing.confirm} element={<Verification />} />
