@@ -1,16 +1,30 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { Form, Select, Space, Switch } from 'antd';
-import React, { useState } from 'react';
+import { Form, FormInstance, Select, Space, Switch } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 import { ApiError } from 'shared/api/error/error';
 import { ICarProperty } from 'entities/car/lib/types';
 import { IError } from 'shared/lib/types';
+import { IResetState } from 'features/garage/lib/types';
 import { carAPI } from 'entities/car/model/CarService';
 
 const { Option } = Select;
 const { Item } = Form;
+interface IProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  form: FormInstance<any>;
+  reset: IResetState;
+}
 
-export const CitySelector: React.FC = () => {
+export const CitySelector: React.FC<IProps> = ({
+  form,
+  reset: { isReset, setIsReset },
+}) => {
+  useEffect(() => {
+    form.setFieldValue('exchangeCity', undefined);
+    setIsReset(false);
+  }, [isReset]);
+
   const [cities, setCities] = useState<ICarProperty[] | null>(null);
   const [useCities, { isLoading }] = carAPI.useLazyCarCitiesQuery();
 

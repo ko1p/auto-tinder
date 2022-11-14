@@ -1,23 +1,24 @@
-import { CheckOutlined, CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import {
   DatePicker,
   Drawer,
   Form,
   InputNumber,
   Space,
-  Switch,
   Upload,
   UploadFile,
   UploadProps,
   message,
 } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ApiError } from 'shared/api/error/error';
 import { ButtonTinder } from 'shared/ui';
 import { IError } from 'shared/lib/types';
+import { PlusOutlined } from '@ant-design/icons';
+import { RangePickerProps } from 'antd/lib/date-picker';
 import { RcFile } from 'antd/lib/upload';
 import TextArea from 'antd/lib/input/TextArea';
+import moment from 'moment';
 import { useAppSelector } from 'shared/lib/hooks/redux';
 import { userSelector } from 'entities/user/model/state/authSelector';
 import { BodyAndDriveSelectors } from './FormSelectors/BodyAndDriveSelects';
@@ -25,7 +26,7 @@ import { BrandAndModelSelectors } from './FormSelectors/BrandAndModelSelects';
 import { CitySelector } from './FormSelectors/CitySelect';
 import { EngineAndGearboxSelector } from './FormSelectors/EngineAndGearboxSelect';
 import { FilterAddForm } from '../FilterAddForm/FilterAddForm';
-import { ICarAddFormValues } from '../../lib/typest';
+import { ICarAddFormValues } from '../../lib/types';
 import { NumberSelectors } from './FormSelectors/NumbersSelects';
 import { PriceAndMileageSelectors } from './FormSelectors/PriceAndMileageSelects';
 import { garageAPI } from '../../model/query/garageService';
@@ -40,29 +41,28 @@ export const CarAddForm = () => {
   const [newCarId, setNewCarId] = useState<number | null>(null);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [drawer, setDrawer] = useState<boolean>(false);
+  const [isReset, setIsReset] = useState<boolean>(false);
+  const stateReset = {
+    isReset,
+    setIsReset,
+  };
+
+  useEffect(() => {
+    form.setFieldValue('manufacturedAt', undefined);
+    form.setFieldValue('totalOwners', 1);
+    form.setFieldValue('description', '');
+    setIsReset(false);
+  }, [isReset]);
+
   const [addCar, { isLoading, isSuccess }] = garageAPI.useAddCarMutation();
   const [addPhoto] = garageAPI.useAddPhotoMutation();
-  const photoProps: UploadProps = {
-    onRemove: (file) => {
-      const index = fileList.indexOf(file);
-      const newFileList = fileList.slice();
-      newFileList.splice(index, 1);
-      setFileList(newFileList);
-    },
-    beforeUpload: (file) => {
-      setFileList([...fileList, file]);
 
-      return false;
-    },
-    fileList,
-  };
   // eslint-disable-next-line consistent-return
   const AddCar = async (values: ICarAddFormValues) => {
     console.log(values);
 
     const {
       brand,
-      // isPromoted,
       model,
       manufacturedAt,
       body,
@@ -115,6 +115,24 @@ export const CarAddForm = () => {
     }
   };
 
+  const photoProps: UploadProps = {
+    onRemove: (file) => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList(newFileList);
+    },
+    beforeUpload: (file) => {
+      setFileList([...fileList, file]);
+
+      return false;
+    },
+    fileList,
+  };
+
+  const disabledDate: RangePickerProps['disabledDate'] = (current) =>
+    current && current > moment().endOf('day');
+
   return (
     <>
       <article className="car-add-form">
@@ -126,32 +144,25 @@ export const CarAddForm = () => {
           scrollToFirstError
           onFinish={AddCar}
         >
-          <BrandAndModelSelectors form={form} />
+          <BrandAndModelSelectors form={form} reset={stateReset} />
           <Item
             label="Год производства"
             name="manufacturedAt"
             rules={[{ required: true }]}
           >
-            <DatePicker picker="year" />
+            <DatePicker disabledDate={disabledDate} picker="year" />
           </Item>
-          <BodyAndDriveSelectors />
-          <EngineAndGearboxSelector />
-          <CitySelector />
-          <Item label="Продвигается" name="isPromoted">
-            <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<CloseOutlined />}
-              disabled
-            />
-          </Item>
-          <NumberSelectors />
-          <PriceAndMileageSelectors />
+          <BodyAndDriveSelectors form={form} reset={stateReset} />
+          <EngineAndGearboxSelector form={form} reset={stateReset} />
+          <CitySelector form={form} reset={stateReset} />
+          <NumberSelectors form={form} reset={stateReset} />
+          <PriceAndMileageSelectors form={form} reset={stateReset} />
           <Item
             label="Общее кол-во владельцев"
             name="totalOwners"
             rules={[{ required: true }]}
           >
-            <InputNumber min={1} />
+            <InputNumber min={1} max={99} />
           </Item>
 
           <Item label="Детальное описание" name="description">
@@ -166,13 +177,12 @@ export const CarAddForm = () => {
               </div>
             </Upload>
           </Item>
-          <Space.Compact block style={{ alignItems: 'center', gap: 5 }}>
+          <Space style={{ alignItems: 'center', gap: 5 }}>
             <ButtonTinder
               theme="accept"
               type="primary"
               htmlType="submit"
               loading={isLoading}
-              disabled={isSuccess}
             >
               Добавить
             </ButtonTinder>
@@ -184,7 +194,15 @@ export const CarAddForm = () => {
             >
               Обмен
             </ButtonTinder>
-          </Space.Compact>
+            <ButtonTinder
+              theme="cancel"
+              type="primary"
+              loading={isLoading}
+              onClick={() => setIsReset(true)}
+            >
+              Сбросить
+            </ButtonTinder>
+          </Space>
         </Form>
       </article>
       <article className="car-filters">

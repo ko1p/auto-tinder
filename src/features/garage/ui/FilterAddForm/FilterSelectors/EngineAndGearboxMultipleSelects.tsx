@@ -1,15 +1,31 @@
-import { Form, Select, Space } from 'antd';
-import React, { useState } from 'react';
+import { Form, FormInstance, Select, Space } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 import { ApiError } from 'shared/api/error/error';
 import { ICarProperty } from 'entities/car/lib/types';
 import { IError } from 'shared/lib/types';
+import { IResetState } from 'features/garage/lib/types';
 import { carAPI } from 'entities/car/model/CarService';
 
 const { Option } = Select;
 const { Item } = Form;
 
-export const EngineAndGearboxMultipleSelects: React.FC = () => {
+interface IProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  form: FormInstance<any>;
+  reset: IResetState;
+}
+
+export const EngineAndGearboxMultipleSelects: React.FC<IProps> = ({
+  form,
+  reset: { isReset, setIsReset },
+}) => {
+  useEffect(() => {
+    form.setFieldValue('gearbox', undefined);
+    form.setFieldValue('engine', undefined);
+    setIsReset(false);
+  }, [isReset]);
+
   const [engines, setEngines] = useState<ICarProperty[] | null>(null);
   const [useEngines, { isLoading: isEngineLoading }] =
     carAPI.useLazyCarEnginesQuery();

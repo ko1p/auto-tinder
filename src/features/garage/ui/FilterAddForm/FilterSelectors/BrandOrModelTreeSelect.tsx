@@ -1,8 +1,9 @@
-import { Form, Skeleton, TreeSelect } from 'antd';
+import { Form, FormInstance, Skeleton, TreeSelect } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import { ApiError } from 'shared/api/error/error';
 import { IError } from 'shared/lib/types';
+import { IResetState } from 'features/garage/lib/types';
 import { carAPI } from 'entities/car/model/CarService';
 
 const { SHOW_PARENT } = TreeSelect;
@@ -15,7 +16,21 @@ interface ITreeData {
   children?: ITreeData[];
 }
 
-export const BrandOrModelTreeSelector: React.FC = () => {
+interface IProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  form: FormInstance<any>;
+  reset: IResetState;
+}
+
+export const BrandOrModelTreeSelector: React.FC<IProps> = ({
+  form,
+  reset: { isReset, setIsReset },
+}) => {
+  useEffect(() => {
+    form.setFieldValue('brandsAndModels', undefined);
+    setIsReset(false);
+  }, [isReset]);
+
   const [value, setValue] = useState<string[]>();
   const { data: brands, isLoading: isBrandsLoading } =
     carAPI.useCarBrandsQuery('');

@@ -50,7 +50,7 @@
 @mixin text-p {
   font-style: normal;
   font-weight: 400;
-  @include fs(18, 14);
+  @include fs(16, 14);
   line-height: 157.15%;
   color: $text-color_main;
   margin: 0
@@ -59,7 +59,7 @@
 @mixin button-p {
   font-style: normal;
   font-weight: 400;
-  @include fs(18, 14);
+  @include fs(16, 14);
   line-height: 1;
 }
 

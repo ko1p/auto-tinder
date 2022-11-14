@@ -9,10 +9,10 @@
 
 .profile-bg {
   position: absolute;
-  content: '';
   width: 100%;
   height: 100%;
   background-image: url('../../shared/assets/images/back.webp');
+  background-position: center;
   background-size: cover;
   z-index: -1;
 }

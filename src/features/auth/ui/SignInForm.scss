@@ -9,11 +9,18 @@
 	gap: 10px;
 	width: $width-mobile;
 	padding: 25px;
-	background-color: $background_accent;
+	box-shadow: 4px 4px 12px $background_accent;
+	background-color: #fff;
+	opacity: 0.8;
+	transition: opacity 2.5s ease-in-out 2.2s;
+
+	&:hover {
+		transition: opacity .5s ease-in-out .2s;
+		opacity: 1;
+	}
 
 	@include breakpoint(720px) {
-		width: 500px;
-		gap: 20px;
+		width: 400px;
 	}
 
 	&__title {
