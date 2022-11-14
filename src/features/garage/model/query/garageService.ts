@@ -5,7 +5,7 @@ import {
   ICarAddRequest,
   ICarAddResponce,
   IFilter,
-} from 'features/garage/lib/typest';
+} from 'features/garage/lib/types';
 
 import { ICar } from 'entities/car/lib/types';
 import { connectAPI } from 'shared/api/connect';

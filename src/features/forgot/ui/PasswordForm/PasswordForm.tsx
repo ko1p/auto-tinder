@@ -1,44 +1,46 @@
-import './SignUpForm.scss';
-
 import { Button, Form, Input, Space } from 'antd';
-import { ButtonTinder, CheckboxTinder } from 'shared/ui';
-import {
-  InfoCircleOutlined,
-  LockOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import React, { useState } from 'react';
 
 import { ApiError } from 'shared/api/error/error';
+import { ButtonTinder } from 'shared/ui';
 import { IError } from 'shared/lib/types';
+import { LockOutlined } from '@ant-design/icons';
+import { forgotAPI } from 'features/forgot/model';
 import { routing } from 'shared/routing';
-import { IUserRegistrationRequest } from '../lib';
-import { registrationAPI } from '../model';
+import { ChangeSuccess } from './ChangeSuccess/ChangeSuccess';
+import { ChangeError404 } from './ChangeError/ChangeError404';
+import { ChangeError } from './ChangeError/ChangeError';
 
 const { Item } = Form;
 const { Password } = Input;
 
-export const SignUpForm: React.FC = () => {
-  const [isPrivacyRead, setIsPrivacyRead] = useState(false);
+export const PasswordForm = () => {
+  const params = useParams();
   const [repeatPasswordVisible, setRepeatPasswordVisible] = useState(false);
-  const [registation, { isLoading }] =
-    registrationAPI.useRegistrationMutation();
-  const navigate = useNavigate();
+  const [changePassword, { isLoading, isSuccess, isError, error }] =
+    forgotAPI.useResetPasswordMutation();
 
-  const onFinish = async (values: IUserRegistrationRequest) => {
+  const onFinish = async (values: { password: string }) => {
     try {
-      const { email, password, name } = values;
-      await registation({ email, password, name }).unwrap();
-      navigate('/signin');
+      const { password } = values;
+      await changePassword({
+        password,
+        recoveryToken: params.recoveryToken!,
+      }).unwrap();
     } catch (e) {
       ApiError(e as IError);
     }
   };
 
+  if (isSuccess) return <ChangeSuccess />;
+  if (isError)
+    if ((error as IError).status === 404) return <ChangeError404 />;
+    else return <ChangeError />;
+
   return (
     <Form
-      className="signup-form"
+      className="forgot-form"
       initialValues={{ remember: true }}
       autoComplete="off"
       onFinish={onFinish}
@@ -50,39 +52,18 @@ export const SignUpForm: React.FC = () => {
           width: '100%',
         }}
       >
-        <h2>Регистрация</h2>
+        <h2>Смена пароля</h2>
         <Link to={routing.signIn}>
           <Button>Вход</Button>
         </Link>
       </Space>
-      <Item
-        className="signup-form__email"
-        name="email"
-        rules={[
-          {
-            required: true,
-            message: 'Введите ваш email',
-            min: 1,
-          },
-          {
-            required: false,
-            message: 'Введите корректый email',
-            pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/,
-          },
-        ]}
-      >
-        <Input
-          prefix={<UserOutlined className="site-form-item-icon" />}
-          placeholder="Введите ваш Email"
-        />
-      </Item>
       <Item
         className="signup-form__password"
         name="password"
         rules={[
           {
             required: true,
-            message: 'Введите ваш пароль',
+            message: 'Введите новый пароль',
           },
           {
             required: false,
@@ -99,7 +80,7 @@ export const SignUpForm: React.FC = () => {
       >
         <Password
           prefix={<LockOutlined className="site-form-item-icon" />}
-          placeholder="Введите пароль"
+          placeholder="Введите новый пароль"
         />
       </Item>
 
@@ -132,38 +113,6 @@ export const SignUpForm: React.FC = () => {
           }}
         />
       </Item>
-      <Item
-        className="signup-form__fio"
-        name="name"
-        rules={[
-          {
-            required: true,
-            message: 'Введите Имя',
-            pattern:
-              /^[А-ЯA-Z][а-яa-z-]+|^[А-ЯA-Z][а-яa-z-]+\s[A-ZА-Я][а-яa-z-]+[а-яa-z]$/,
-          },
-        ]}
-      >
-        <Input
-          prefix={<InfoCircleOutlined className="site-form-item-icon" />}
-          placeholder="Введите Имя"
-        />
-      </Item>
-
-      <Item
-        className="signin-form__item"
-        name="remember"
-        valuePropName="checked"
-      >
-        <CheckboxTinder disabled={!isPrivacyRead}>Я прочитал(а)</CheckboxTinder>
-        <Link
-          onClick={() => setIsPrivacyRead(true)}
-          target="_blank"
-          to={routing.privacy}
-        >
-          соглашение!
-        </Link>
-      </Item>
 
       <Item className="signup-form__submit">
         <ButtonTinder
@@ -173,7 +122,7 @@ export const SignUpForm: React.FC = () => {
           htmlType="submit"
           className="signup-form__submit-button"
         >
-          Зарегистрироваться
+          Сменить пароль
         </ButtonTinder>
       </Item>
     </Form>

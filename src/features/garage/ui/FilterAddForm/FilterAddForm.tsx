@@ -14,7 +14,7 @@ import { BodyAndDriveMultipleSelects } from './FilterSelectors/BodyAndDriveMulti
 import { BrandOrModelTreeSelector } from './FilterSelectors/BrandOrModelTreeSelect';
 import { CitiesSelect } from './FilterSelectors/CitiesSelect';
 import { EngineAndGearboxMultipleSelects } from './FilterSelectors/EngineAndGearboxMultipleSelects';
-import { IFilter } from '../../lib/typest';
+import { IFilter } from '../../lib/types';
 import { ManufacturedInputs } from './FilterSelectors/ManufacturedInputs';
 import { MilleageSlider } from './FilterSelectors/MilleageSlider';
 import { PriceSlider } from './FilterSelectors/PriceSlider';
@@ -78,13 +78,13 @@ export const FilterAddForm: React.FC<IProps> = ({ carId }) => {
         scrollToFirstError
         onFinish={sendFilter}
       >
-        <BrandOrModelTreeSelector />
-        <BodyAndDriveMultipleSelects />
-        <EngineAndGearboxMultipleSelects />
-        <PriceSlider form={form} />
-        <MilleageSlider form={form} />
-        <ManufacturedInputs isReset={stateReset} />
-        <CitiesSelect />
+        <BrandOrModelTreeSelector form={form} reset={stateReset} />
+        <BodyAndDriveMultipleSelects form={form} reset={stateReset} />
+        <EngineAndGearboxMultipleSelects form={form} reset={stateReset} />
+        <PriceSlider form={form} reset={stateReset} />
+        <MilleageSlider form={form} reset={stateReset} />
+        <ManufacturedInputs form={form} reset={stateReset} />
+        <CitiesSelect form={form} reset={stateReset} />
         <Space>
           <ButtonTinder
             theme="accept"

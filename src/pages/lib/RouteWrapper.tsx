@@ -1,5 +1,5 @@
-import { Forbidden } from 'pages/Forbidden/Forbidden';
 import { Navigate, Outlet } from 'react-router';
+
 import React from 'react';
 import { dom } from 'shared/lib';
 import { IRouteProps } from './types';

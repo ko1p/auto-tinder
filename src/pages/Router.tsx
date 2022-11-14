@@ -14,6 +14,7 @@ import { SignIn } from 'pages/SignIn/SignIn';
 import { SpinPage } from 'shared/ui/SpinPage/SpinPage';
 import { routing } from 'shared/routing';
 import { CarDetailsPage } from './CarDetailsPage/CarDetailsPage';
+import { Forgot } from './Forgot/Forgot';
 import { Layout } from './lib/Layout';
 import { NotFound } from './NotFound/NotFound';
 import { Profile } from './Profile/Profile';
@@ -82,11 +83,20 @@ export const RouterPage = () => {
         >
           <Route path={routing.profile} element={<Profile />} />
         </Route>
-        <Route element={<RouteWrapper title="404" />}>
-          <Route path={routing.notFound} element={<NotFound />} />
-        </Route>
         <Route element={<RouteWrapper title="Подтверждение почты" />}>
           <Route path={routing.confirm} element={<Verification />} />
+        </Route>
+        <Route element={<RouteWrapper title="Восстановление пароля" />}>
+          <Route path={routing.forgot} element={<Forgot stage="mail" />} />
+        </Route>
+        <Route element={<RouteWrapper title="Смена пароля" />}>
+          <Route
+            path={routing.resetPassword}
+            element={<Forgot stage="pass" />}
+          />
+        </Route>
+        <Route element={<RouteWrapper title="404" />}>
+          <Route path={routing.notFound} element={<NotFound />} />
         </Route>
       </Route>
     </Routes>

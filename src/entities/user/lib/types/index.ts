@@ -8,7 +8,7 @@ export interface IUserProfileResponse {
 
 export interface IEditProfile {
   data: IUserProfileResponse;
-  isEditOpen: boolean;
+  isEditOpen?: boolean;
   setIsEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

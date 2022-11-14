@@ -1,31 +1,34 @@
 import './SignInForm.scss';
 
-import { CheckboxTinder, InputTinder, PasswordTinder } from 'shared/ui';
+import { Button, Form, Input, Space } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { useAppDispatch, useAppSelector } from 'shared/lib/hooks/redux';
 
 import { ApiError } from 'shared/api/error/error';
 import { ButtonTinder } from 'shared/ui/ButtonTinder/ButtonTinder';
-import { Form } from 'antd';
 import { IError } from 'shared/lib/types';
 import React from 'react';
-import { useAppDispatch } from 'shared/lib/hooks/redux';
+import { routing } from 'shared/routing';
+import { userSelector } from 'entities/user/model/state/authSelector';
 import { IUserAuthRequest } from '../lib';
 import { authAPI, logIn } from '../model';
 
 const { Item } = Form;
+const { Password } = Input;
 
 export const SignInForm: React.FC = () => {
   const [signIn, { isLoading }] = authAPI.useLogInMutation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const id = useAppSelector(userSelector);
 
   const onFinish = async (values: IUserAuthRequest) => {
     try {
       const { email, password } = values;
       const userDto = await signIn({ email, password }).unwrap();
       dispatch(logIn(userDto));
-      navigate(`/profile/${userDto.userId}`);
+      navigate(routing.navProvile(id!));
     } catch (e) {
       ApiError(e as IError);
     }
@@ -36,10 +39,21 @@ export const SignInForm: React.FC = () => {
       className="signin-form"
       initialValues={{ remember: true }}
       onFinish={onFinish}
+      autoComplete="off"
     >
-      <h1 className="signin-form__title">Вход</h1>
+      <Space
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: '100%',
+        }}
+      >
+        <h2>Вход</h2>
+        <Link to={routing.signUp}>
+          <Button>Регистрация</Button>
+        </Link>
+      </Space>
       <Item
-        label="Логин"
         name="email"
         rules={[
           {
@@ -54,13 +68,12 @@ export const SignInForm: React.FC = () => {
           },
         ]}
       >
-        <InputTinder
+        <Input
           prefix={<UserOutlined className="site-form-item-icon" />}
           placeholder="Email"
         />
       </Item>
       <Item
-        label="Пароль"
         name="password"
         rules={[
           {
@@ -80,22 +93,11 @@ export const SignInForm: React.FC = () => {
           },
         ]}
       >
-        <PasswordTinder
+        <Password
           prefix={<LockOutlined className="site-form-item-icon" />}
           placeholder="Введите пароль"
         />
       </Item>
-      <Item
-        className="signin-form__item"
-        name="remember"
-        valuePropName="checked"
-      >
-        <CheckboxTinder>Запомнить меня?</CheckboxTinder>
-        <Link to="/forgot" className="signin-form__forgot">
-          Забыли пароль?
-        </Link>
-      </Item>
-
       <Item className="signin-form__item">
         <ButtonTinder
           className="signin-form__submit"
@@ -106,7 +108,10 @@ export const SignInForm: React.FC = () => {
         >
           Войти
         </ButtonTinder>
-        Ещё не с нами? <Link to="/signup">Зарегистрируйтесь</Link>
+        Забыли пароль?
+        <Link to={routing.forgot} className="signin-form__forgot">
+          Восстановить!
+        </Link>
       </Item>
     </Form>
   );

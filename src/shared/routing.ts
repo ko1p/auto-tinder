@@ -11,4 +11,6 @@ export const routing = {
   confirm: '/confirm/:verificationToken',
   carDetail: '/cars/:id',
   navCarDetail: (id: number) => `/cars/${id}`,
+  forgot: '/forgot-password',
+  resetPassword: `/users/reset-password/:recoveryToken`,
 };

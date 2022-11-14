@@ -3,18 +3,31 @@
 import './PriceSlider.scss';
 
 import { Form, FormInstance, InputNumber, Slider, Space } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { CheckboxTinder } from 'shared/ui';
+import { IResetState } from 'features/garage/lib/types';
 import { MinusOutlined } from '@ant-design/icons';
 
 const { Item } = Form;
+
 interface IProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: FormInstance<any>;
+  reset: IResetState;
 }
 
-export const PriceSlider: React.FC<IProps> = ({ form }) => {
+export const PriceSlider: React.FC<IProps> = ({
+  form,
+  reset: { isReset, setIsReset },
+}) => {
+  useEffect(() => {
+    form.setFieldValue('minPrice', 1);
+    form.setFieldValue('maxPrice', 10000000);
+    form.setFieldValue('minmaxPrice', [1, 10000000]);
+    setIsReset(false);
+  }, [isReset]);
+
   const step = 10;
   const [initMin, initMax] = [1, 10000000];
 

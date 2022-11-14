@@ -1,8 +1,9 @@
-import { TCar } from 'features/allCars/lib';
-import { carsAPI } from 'features/allCars/model/carsServices';
-import React, { FC } from 'react';
-import { Car } from '../cars/Car';
 import './carsList.scss';
+
+import React, { FC } from 'react';
+
+import { TCar } from 'features/allCars/lib';
+import { Car } from '../cars/Car';
 
 const CarsList: FC<{ content: Array<TCar> | undefined }> = ({ content }) => (
   <ul className="cars-list">
