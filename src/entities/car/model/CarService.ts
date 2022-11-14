@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { ICarProperty } from 'entities/car/lib/types';
+import { ICar, ICarProperty } from 'entities/car/lib/types';
+
+import { ICarAddPhotoRequest } from 'features/garage/lib/types';
 import { connectAPI } from 'shared/api/connect';
 
 export const carAPI = connectAPI.injectEndpoints({
@@ -46,6 +48,24 @@ export const carAPI = connectAPI.injectEndpoints({
         url: 'cars/gearboxes',
         method: 'GET',
       }),
+    }),
+    userCarInfo: build.query<ICar, string>({
+      query: (carId) => ({
+        url: `cars/${carId}`,
+        method: 'GET',
+      }),
+      providesTags: (result) => ['cars'],
+    }),
+    addPhoto: build.mutation<unknown, ICarAddPhotoRequest>({
+      query: ({ carId, data }) => ({
+        url: `cars/${carId}/photos`,
+        method: 'POST',
+        body: data,
+        headers: {
+          'Content-Type': undefined,
+        },
+      }),
+      invalidatesTags: ['garage', 'cars'],
     }),
   }),
 });

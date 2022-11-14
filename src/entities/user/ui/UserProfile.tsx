@@ -2,17 +2,16 @@ import './UserProfile.scss';
 
 import React, { useState } from 'react';
 
-import { useParams } from 'react-router';
+import { useAppSelector } from 'shared/lib/hooks/redux';
 import { EditProfile } from './EditProfile/EditProfile';
 import { InfoProfile } from './InfoProfile/InfoProfile';
 import { UserProfileSkeleton } from './UserProfileSceleton';
 import { userAPI } from '../model/query/userProfileService';
+import { userSelector } from '../model/state/authSelector';
 
 export const UserProfile = () => {
-  const params = useParams();
-  const { data, isLoading, isSuccess } = userAPI.useUserProfileQuery(
-    params.userId!
-  );
+  const userId = useAppSelector(userSelector);
+  const { data, isLoading, isSuccess } = userAPI.useUserProfileQuery(userId!);
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
 
   return (

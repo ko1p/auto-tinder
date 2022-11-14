@@ -33,6 +33,7 @@ export interface ICar {
   mileage: number;
   price: number;
   isPromoted: boolean;
+  isExchanged: boolean;
   user: ICarOwner;
   photos: ICarPhoto[];
   brand: ICarProperty;

@@ -18,18 +18,19 @@ import { PlusOutlined } from '@ant-design/icons';
 import { RangePickerProps } from 'antd/lib/date-picker';
 import { RcFile } from 'antd/lib/upload';
 import TextArea from 'antd/lib/input/TextArea';
+import { carAPI } from 'entities/car/model/CarService';
 import moment from 'moment';
 import { useAppSelector } from 'shared/lib/hooks/redux';
 import { userSelector } from 'entities/user/model/state/authSelector';
-import { BodyAndDriveSelectors } from './FormSelectors/BodyAndDriveSelects';
-import { BrandAndModelSelectors } from './FormSelectors/BrandAndModelSelects';
-import { CitySelector } from './FormSelectors/CitySelect';
-import { EngineAndGearboxSelector } from './FormSelectors/EngineAndGearboxSelect';
-import { FilterAddForm } from '../FilterAddForm/FilterAddForm';
-import { ICarAddFormValues } from '../../lib/types';
-import { NumberSelectors } from './FormSelectors/NumbersSelects';
-import { PriceAndMileageSelectors } from './FormSelectors/PriceAndMileageSelects';
 import { garageAPI } from '../../model/query/garageService';
+import { PriceAndMileageSelectors } from './FormSelectors/PriceAndMileageSelects';
+import { NumberSelectors } from './FormSelectors/NumbersSelects';
+import { ICarAddFormValues } from '../../lib/types';
+import { FilterAddForm } from '../FilterAddForm/FilterAddForm';
+import { EngineAndGearboxSelector } from './FormSelectors/EngineAndGearboxSelect';
+import { CitySelector } from './FormSelectors/CitySelect';
+import { BrandAndModelSelectors } from './FormSelectors/BrandAndModelSelects';
+import { BodyAndDriveSelectors } from './FormSelectors/BodyAndDriveSelects';
 
 // import { FilterAddForm, PrefAddForm } from './FilterAddForm';
 
@@ -55,7 +56,7 @@ export const CarAddForm = () => {
   }, [isReset]);
 
   const [addCar, { isLoading }] = garageAPI.useAddCarMutation();
-  const [addPhoto] = garageAPI.useAddPhotoMutation();
+  const [addPhoto] = carAPI.useAddPhotoMutation();
 
   // eslint-disable-next-line consistent-return
   const AddCar = async (values: ICarAddFormValues) => {
