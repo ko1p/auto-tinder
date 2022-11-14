@@ -54,7 +54,7 @@ export const CarAddForm = () => {
     setIsReset(false);
   }, [isReset]);
 
-  const [addCar, { isLoading, isSuccess }] = garageAPI.useAddCarMutation();
+  const [addCar, { isLoading }] = garageAPI.useAddCarMutation();
   const [addPhoto] = garageAPI.useAddPhotoMutation();
 
   // eslint-disable-next-line consistent-return
@@ -185,14 +185,6 @@ export const CarAddForm = () => {
               loading={isLoading}
             >
               Добавить
-            </ButtonTinder>
-            <ButtonTinder
-              theme="accent"
-              loading={isLoading}
-              disabled={!isSuccess}
-              onClick={() => setDrawer(true)}
-            >
-              Обмен
             </ButtonTinder>
             <ButtonTinder
               theme="cancel"
