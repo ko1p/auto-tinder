@@ -1,0 +1,25 @@
+@import '../../shared/styles/variables.scss';
+@import '../../shared/styles/mixin.scss';
+
+.cars {
+  min-width: 320px;
+  width: 90%;
+  margin: 0 auto 5%;
+  max-width: 1400px;
+
+  &__filters{
+    display: none;
+
+    &_active{
+      display: block;
+    }
+  }
+
+  &__icon {
+
+    &>svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+}

@@ -15,6 +15,7 @@ import { RouteWrapper } from './lib/RouteWrapper';
 import { SignUp } from './SignUp/SignUp';
 import { UserCar } from './UserCarPage/UserCar';
 import { Verification } from './Verification/Verification';
+import { Cars } from './Cars/Cars';
 
 export const RouterPage = () => {
   const { accessToken, autoLogin } = useAutoLogin();
@@ -26,6 +27,9 @@ export const RouterPage = () => {
       <Route element={<Layout />}>
         <Route element={<RouteWrapper title="Главная" />}>
           <Route path={routing.main} element={<Main />} />
+        </Route>
+        <Route element={<RouteWrapper title="Машины" />}>
+          <Route path={routing.cars} element={<Cars />} />
         </Route>
         <Route
           element={
@@ -49,7 +53,15 @@ export const RouterPage = () => {
         >
           <Route path={routing.signUp} element={<SignUp />} />
         </Route>
-        <Route element={<RouteWrapper title="Подробности о машине" />}>
+        <Route
+          element={
+            <RouteWrapper
+              title="Подробности о машине"
+              redirect={routing.signIn}
+              isAccess={!!accessToken}
+            />
+          }
+        >
           <Route path={routing.carDetail} element={<CarDetailsPage />} />
         </Route>
         <Route
