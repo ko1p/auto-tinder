@@ -23,9 +23,8 @@ export const CarTechCaracteristicsGearboxes: React.FC<IProps> = ({
 
   const change = async (checkedName: SegmentedValue) => {
     const checkedGearbox = gearboxes?.find(({ name }) => checkedName === name);
-
     try {
-      await patch({ carId, data: { gearbox: checkedGearbox! } });
+      await patch({ carId, data: { gearbox: checkedGearbox?.id } });
     } catch (err) {
       ApiError(err as IError);
     }
