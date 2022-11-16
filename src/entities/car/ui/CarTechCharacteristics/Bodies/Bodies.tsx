@@ -25,7 +25,7 @@ export const CarTechCaracteristicsBodies: React.FC<IProps> = ({
     const checkedBody = bodies?.find(({ name }) => checkedName === name);
 
     try {
-      await patch({ carId, data: { body: checkedBody! } });
+      await patch({ carId, data: { body: checkedBody?.id } });
     } catch (err) {
       ApiError(err as IError);
     }

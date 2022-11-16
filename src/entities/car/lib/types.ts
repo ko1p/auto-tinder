@@ -66,11 +66,11 @@ export interface ICarPatch {
   photos?: ICarPhoto[];
   brand?: ICarProperty;
   model?: ICarProperty;
-  engine?: ICarProperty;
-  drive?: ICarProperty;
-  gearbox?: ICarProperty;
-  body?: ICarProperty;
-  city?: ICarProperty;
+  engine?: number;
+  drive?: number;
+  gearbox?: number;
+  body?: number;
+  city?: number;
   report?: ICarReport;
   totalOwners?: number;
   todayLikes?: number;
