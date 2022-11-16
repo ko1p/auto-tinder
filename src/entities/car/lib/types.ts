@@ -50,3 +50,31 @@ export interface ICar {
   totalLikes: number;
   totalViews: number;
 }
+
+export interface ICarPatch {
+  isExchanged?: boolean;
+  id?: number;
+  description?: string;
+  vinCode?: string;
+  stateNumber?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  manufacturedAt?: any;
+  mileage?: number;
+  price?: number;
+  isPromoted?: boolean;
+  user?: ICarOwner;
+  photos?: ICarPhoto[];
+  brand?: ICarProperty;
+  model?: ICarProperty;
+  engine?: ICarProperty;
+  drive?: ICarProperty;
+  gearbox?: ICarProperty;
+  body?: ICarProperty;
+  city?: ICarProperty;
+  report?: ICarReport;
+  totalOwners?: number;
+  todayLikes?: number;
+  todayViews?: number;
+  totalLikes?: number;
+  totalViews?: number;
+}

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { ICar, ICarProperty } from 'entities/car/lib/types';
+import { ICar, ICarPatch, ICarProperty } from 'entities/car/lib/types';
 
 import { ICarAddPhotoRequest } from 'features/garage/lib/types';
 import { connectAPI } from 'shared/api/connect';
@@ -64,6 +64,17 @@ export const carAPI = connectAPI.injectEndpoints({
         headers: {
           'Content-Type': undefined,
         },
+      }),
+      invalidatesTags: ['garage', 'cars'],
+    }),
+    patchUserCarInfo: build.mutation<
+      unknown,
+      { carId: string; data: ICarPatch }
+    >({
+      query: ({ carId, data }) => ({
+        url: `cars/${carId}`,
+        method: 'PATCH',
+        body: data,
       }),
       invalidatesTags: ['garage', 'cars'],
     }),

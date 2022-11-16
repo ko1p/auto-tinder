@@ -1,15 +1,9 @@
 import './CarInfo.scss';
 
-import { Button, Row, UploadFile } from 'antd';
-import React, { useState } from 'react';
-
-import { ApiError } from 'shared/api/error/error';
-import { IError } from 'shared/lib/types';
-import { RcFile } from 'antd/lib/upload';
-import { CarImageUpload } from './CarImageUpload/CarImageUpload';
-import { CarPhotos } from './CarPhotos/CarPhotos';
-import { CarPrice } from './CarPrice/CarPrice';
-import { CarStatistic } from './CarStatistic/CarStatistic';
+import React from 'react';
+import { CarCommonCharacteristics } from './CarCommonCharacteristics/CarCommonCharacteristics';
+import CarDescription from './CarDescription/CarDescription';
+import { CarTechCaracteristics } from './CarTechCharacteristics/CarTechCaracteristics';
 import { carAPI } from '../model/CarService';
 
 interface IProps {
@@ -18,45 +12,43 @@ interface IProps {
 
 export const CarInfo: React.FC<IProps> = ({ carId }) => {
   const { data: car, isLoading, isSuccess } = carAPI.useUserCarInfoQuery(carId);
-  const [addPhoto, { isLoading: isAddPhotoLoading }] =
-    carAPI.useAddPhotoMutation();
-
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-
-  const addChanges = async () => {
-    try {
-      const photos = new FormData();
-
-      if (fileList.length)
-        fileList.forEach((file) => {
-          photos.append('imagesUrl', file.originFileObj as RcFile);
-        });
-      await addPhoto({ carId: +carId, data: photos }).unwrap();
-      setFileList([]);
-    } catch (e) {
-      ApiError(e as IError);
-    }
-  };
 
   if (isLoading) return <span>Загрузка...</span>;
 
   if (isSuccess)
     return (
       <article className="usercar__info">
-        <Row gutter={[16, 16]}>
-          <CarPhotos car={car} />
-        </Row>
-        <CarImageUpload fileList={fileList} setFileList={setFileList} />
-        <CarStatistic
-          likes={car.totalLikes}
-          views={car.totalViews}
+        <CarCommonCharacteristics
+          carId={carId}
+          brand={car.brand.name}
+          model={car.model.name}
+          owner={car.user.name}
+          totalLikes={car.totalLikes}
+          totalViews={car.totalViews}
           todayLikes={car.todayLikes}
           todayViews={car.todayViews}
+          isExchanged={car.isExchanged}
+          price={car.price}
+          photos={car.photos}
         />
-        <CarPrice isExchanged={car.isExchanged} price={car.price} />
-        <Button loading={isAddPhotoLoading} onClick={addChanges}>
-          Изменить
-        </Button>
+        <CarTechCaracteristics
+          carId={carId}
+          body={car.body}
+          drive={car.drive}
+          engine={car.engine}
+          gearbox={car.gearbox}
+        />
+        <CarDescription
+          carId={carId}
+          brand={car.brand.name}
+          model={car.model.name}
+          vinCode={car.vinCode}
+          stateNumber={car.stateNumber}
+          manufacturedAt={car.manufacturedAt}
+          mileage={car.mileage}
+          description={car.description}
+          totalOwners={car.totalOwners}
+        />
       </article>
     );
 

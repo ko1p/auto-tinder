@@ -1,17 +1,17 @@
 import { Col, Image } from 'antd';
 
-import { ICar } from 'entities/car/lib/types';
+import { ICarPhoto } from 'entities/car/lib/types';
 import React from 'react';
 
 interface IProps {
-  car: ICar;
+  photos: ICarPhoto[];
 }
 
-export const CarPhotos: React.FC<IProps> = ({ car }) => (
+export const CarPhotos: React.FC<IProps> = ({ photos }) => (
   <>
-    {car.photos.map((photo) => (
+    {photos.map((photo) => (
       <Col
-        style={{ display: 'flex', alignItems: 'center' }}
+        style={{ display: 'flex', alignItems: 'center', width: '100%' }}
         key={photo.id}
         md={{ span: 8 }}
         sm={{ span: 12 }}
