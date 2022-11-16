@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { ApiError } from 'shared/api/error/error';
 import { ButtonTinder } from 'shared/ui';
 import { IError } from 'shared/lib/types';
-import { useParams } from 'react-router';
 import { IEditProfile, IUserProfileEditValues } from '../../lib/types';
 import { userAPI } from '../../model/query/userProfileService';
 
@@ -13,10 +12,10 @@ const { Password } = Input;
 
 export const EditProfile: React.FC<IEditProfile> = ({
   data,
+  userId,
   isEditOpen,
   setIsEditOpen,
 }) => {
-  const params = useParams();
   const [isPasswordInput, setIsPasswordInput] = useState<boolean>(false);
   const [profilePatch, { isLoading }] = userAPI.useUserProfilePatchMutation();
   console.log(isPasswordInput);
@@ -27,7 +26,7 @@ export const EditProfile: React.FC<IEditProfile> = ({
     try {
       await profilePatch({
         data: { ...values },
-        userId: params.userId!,
+        userId: userId!,
       }).unwrap();
       message.info('Профиль обновлён');
     } catch (e) {
