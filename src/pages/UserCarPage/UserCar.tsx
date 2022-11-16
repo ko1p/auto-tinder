@@ -11,7 +11,7 @@ export const UserCar = () => {
     <>
       <section className="usercar-wrapper">
         <section className="usercar">
-          <CarInfo carId={params.carId!} />;
+          <CarInfo carId={params.carId!} />
         </section>
       </section>
       <section className="usercar-bg" />

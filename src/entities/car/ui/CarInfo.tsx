@@ -3,6 +3,7 @@ import './CarInfo.scss';
 import React from 'react';
 import { CarCommonCharacteristics } from './CarCommonCharacteristics/CarCommonCharacteristics';
 import CarDescription from './CarDescription/CarDescription';
+import { CarFilters } from './CarFilters/CarFilters';
 import { CarTechCaracteristics } from './CarTechCharacteristics/CarTechCaracteristics';
 import { carAPI } from '../model/CarService';
 
@@ -49,6 +50,7 @@ export const CarInfo: React.FC<IProps> = ({ carId }) => {
           description={car.description}
           totalOwners={car.totalOwners}
         />
+        <CarFilters carId={carId!} />
       </article>
     );
 

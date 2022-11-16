@@ -78,3 +78,34 @@ export interface ICarPatch {
   totalLikes?: number;
   totalViews?: number;
 }
+
+export interface IFilter {
+  city: number[];
+  brands: number[];
+  models: number[];
+  bodies: number[];
+  gearboxes: number[];
+  engines: number[];
+  drives: number[];
+  manufacturedAtStart: number;
+  manufacturedAtFinish: number;
+  priceStart: number;
+  priceFinish: number;
+  mileageStart: number;
+  mileageFinish: number;
+}
+export interface IGetFilter {
+  city: ICarProperty[];
+  brands: ICarProperty[];
+  models: ICarProperty[];
+  bodies: ICarProperty[];
+  gearboxes: ICarProperty[];
+  engines: ICarProperty[];
+  drives: ICarProperty[];
+  manufacturedAtStart: number;
+  manufacturedAtFinish: number;
+  priceStart: number;
+  priceFinish: number;
+  mileageStart: number;
+  mileageFinish: number;
+}

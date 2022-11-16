@@ -10,18 +10,32 @@ import { carAPI } from 'entities/car/model/CarService';
 const { Option } = Select;
 const { Item } = Form;
 
+interface IinitialValues {
+  initialCities?: ICarProperty[];
+}
+
 interface IProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: FormInstance<any>;
   reset: IResetState;
+  initialValues: IinitialValues;
 }
 
 export const CitiesSelect: React.FC<IProps> = ({
   form,
   reset: { isReset, setIsReset },
+  initialValues: { initialCities },
 }) => {
   useEffect(() => {
-    form.setFieldValue('exchangeCities', undefined);
+    form.setFieldValue(
+      'exchangeCities',
+      initialCities?.map(({ id, name }) => ({
+        key: id,
+        value: id,
+        children: name,
+        label: name,
+      }))
+    );
     setIsReset(false);
   }, [isReset]);
 

@@ -1,7 +1,10 @@
+/* eslint-disable consistent-return */
+
 import { Form, FormInstance, Skeleton, TreeSelect } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import { ApiError } from 'shared/api/error/error';
+import { ICarProperty } from 'entities/car/lib/types';
 import { IError } from 'shared/lib/types';
 import { IResetState } from 'features/garage/lib/types';
 import { carAPI } from 'entities/car/model/CarService';
@@ -16,26 +19,54 @@ interface ITreeData {
   children?: ITreeData[];
 }
 
+interface IinitialValues {
+  initialBrands?: ICarProperty[];
+  initialModels?: ICarProperty[];
+}
+
 interface IProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: FormInstance<any>;
   reset: IResetState;
+  initialValues: IinitialValues;
 }
 
 export const BrandOrModelTreeSelector: React.FC<IProps> = ({
   form,
   reset: { isReset, setIsReset },
+  initialValues: { initialBrands, initialModels },
 }) => {
-  useEffect(() => {
-    form.setFieldValue('brandsAndModels', undefined);
-    setIsReset(false);
-  }, [isReset]);
-
   const [value, setValue] = useState<string[]>();
   const { data: brands, isLoading: isBrandsLoading } =
     carAPI.useCarBrandsQuery('');
   const [useModels] = carAPI.useLazyCarModelsQuery();
   const [treeData, setTreeData] = useState<ITreeData[] | null>(null);
+
+  useEffect(() => {
+    if (!initialBrands && !initialModels) {
+      form.setFieldValue('brandsAndModels', undefined);
+      return setIsReset(false);
+    }
+    if (!treeData) return undefined;
+
+    const initialData = () => {
+      const initialValuesArray: string[] = [];
+      initialModels!.forEach((initialModel) => {
+        treeData.forEach((brand) => {
+          brand.children?.forEach((model) => {
+            if (model.value.split('-').pop() === `${initialModel.id}`)
+              initialValuesArray.push(model.value);
+          });
+        });
+      });
+      initialBrands!.forEach((initialBrand) =>
+        initialValuesArray.push(`0-${initialBrand.id}`)
+      );
+      return initialValuesArray;
+    };
+
+    form.setFieldValue('brandsAndModels', initialData());
+  }, [isReset, treeData]);
 
   useEffect(() => {
     const getModels = async (id: number) => {
@@ -71,7 +102,6 @@ export const BrandOrModelTreeSelector: React.FC<IProps> = ({
   }, [brands]);
 
   const onChange = (newValue: string[]) => {
-    console.log('onChange ', value);
     setValue(newValue);
   };
 

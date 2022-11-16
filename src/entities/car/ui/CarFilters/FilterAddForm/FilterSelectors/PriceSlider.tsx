@@ -11,57 +11,66 @@ import { MinusOutlined } from '@ant-design/icons';
 
 const { Item } = Form;
 
+interface IinitialValues {
+  initialPriceMin?: number;
+  initialPriceMax?: number;
+}
 interface IProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: FormInstance<any>;
   reset: IResetState;
+  initialValues: IinitialValues;
 }
 
-export const MilleageSlider: React.FC<IProps> = ({
+export const PriceSlider: React.FC<IProps> = ({
   form,
   reset: { isReset, setIsReset },
+  initialValues: { initialPriceMin, initialPriceMax },
 }) => {
   useEffect(() => {
-    form.setFieldValue('minMile', 1);
-    form.setFieldValue('maxMile', 500000);
-    form.setFieldValue('minmaxMile', [1, 500000]);
+    form.setFieldValue('minPrice', initialPriceMin || 1);
+    form.setFieldValue('maxPrice', initialPriceMax || 10000000);
+    form.setFieldValue('minmaxPrice', [
+      initialPriceMin || 1,
+      initialPriceMax || 10000000,
+    ]);
     setIsReset(false);
   }, [isReset]);
 
   const step = 10;
-  const [initMin, initMax] = [1, 500000];
+  const [initMin, initMax] = [1, 10000000];
 
-  const minMile = Form.useWatch('minMile', form);
-  const maxMile = Form.useWatch('maxMile', form);
-  const minmaxMile = Form.useWatch('minmaxMile', form);
+  const minPrice = Form.useWatch('minPrice', form);
+  const maxPrice = Form.useWatch('maxPrice', form);
+  const minmaxPrice = Form.useWatch('minmaxPrice', form);
   const [active, setActive] = useState<boolean>(false);
 
   const changeMin = (value: number | null) => {
     if (value === null) changeMin(0);
     else {
-      if (maxMile < value)
+      if (maxPrice < value)
         return form.setFieldsValue({
-          maxMile: value,
-          minMile: maxMile,
-          minmaxMile: [maxMile, value],
+          maxPrice: value,
+          minPrice: maxPrice,
+          minmaxPrice: [maxPrice, value],
         });
-      return form.setFieldValue('minmaxMile', [value, minmaxMile[1]]);
+      return form.setFieldValue('minmaxPrice', [value, minmaxPrice[1]]);
     }
   };
   const changeMax = (value: number | null) => {
     if (value === null) changeMax(0);
     else {
-      if (value < minMile)
+      if (value < minPrice)
         return form.setFieldsValue({
-          maxMile: value,
-          minMile: maxMile,
-          minmaxMile: [maxMile, value],
+          maxPrice: value,
+          minPrice: maxPrice,
+          minmaxPrice: [maxPrice, value],
         });
-      return form.setFieldValue('minmaxMile', [minmaxMile[0], value]);
+      return form.setFieldValue('minmaxPrice', [minmaxPrice[0], value]);
     }
   };
   const changeMinMax = (value: number[]) => {
-    form.setFieldsValue({ minMile: value[0], maxMile: value[1] });
+    form.setFieldsValue({ minPrice: value[0], maxPrice: value[1] });
   };
 
   return (
@@ -72,16 +81,21 @@ export const MilleageSlider: React.FC<IProps> = ({
         padding: 5,
         border: '2px ridge #96fafa',
         backgroundColor: '#fafafa',
+        width: '100%',
       }}
     >
       <CheckboxTinder
         checked={active}
         onChange={(e) => setActive(e.target.checked)}
       >
-        Пробег км
+        Цена ₽
       </CheckboxTinder>
       <Space.Compact block style={{ alignItems: 'center', gap: 5 }}>
-        <Item style={{ width: '49%', margin: 0 }} name="minMile">
+        <Item
+          rules={[{ required: true }]}
+          style={{ width: '49%', margin: 0 }}
+          name="minPrice"
+        >
           <InputNumber
             style={{ width: '100%' }}
             min={initMin}
@@ -95,7 +109,11 @@ export const MilleageSlider: React.FC<IProps> = ({
         <Item style={{ width: '2', margin: 0 }}>
           <MinusOutlined />
         </Item>
-        <Item style={{ width: '49%', margin: 0 }} name="maxMile">
+        <Item
+          rules={[{ required: true }]}
+          style={{ width: '49%', margin: 0 }}
+          name="maxPrice"
+        >
           <InputNumber
             style={{ width: '100%' }}
             min={initMin}
@@ -107,14 +125,14 @@ export const MilleageSlider: React.FC<IProps> = ({
           />
         </Item>
       </Space.Compact>
-      <Item style={{ margin: 0 }} name="minmaxMile">
+      <Item style={{ margin: 0 }} name="minmaxPrice">
         <Slider
           step={step}
           min={initMin}
           max={initMax}
           defaultValue={[initMin, initMax]}
           range={{ draggableTrack: true }}
-          value={[minMile, maxMile]}
+          value={[minPrice, maxPrice]}
           onChange={changeMinMax}
           disabled={!active}
         />

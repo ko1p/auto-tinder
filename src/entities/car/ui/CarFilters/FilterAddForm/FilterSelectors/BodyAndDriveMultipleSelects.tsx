@@ -10,19 +10,43 @@ import { carAPI } from 'entities/car/model/CarService';
 const { Option } = Select;
 const { Item } = Form;
 
+interface IinitialValues {
+  initialBodies?: ICarProperty[];
+  initialDrives?: ICarProperty[];
+}
 interface IProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: FormInstance<any>;
   reset: IResetState;
+  initialValues: IinitialValues;
 }
 
 export const BodyAndDriveMultipleSelects: React.FC<IProps> = ({
   form,
   reset: { isReset, setIsReset },
+  initialValues: { initialBodies, initialDrives },
 }) => {
   useEffect(() => {
-    form.setFieldValue('body', undefined);
-    form.setFieldValue('drive', undefined);
+    console.log(form.getFieldValue('bodies'));
+
+    form.setFieldValue(
+      'bodies',
+      initialBodies?.map(({ id, name }) => ({
+        key: id,
+        value: id,
+        children: name,
+        label: name,
+      }))
+    );
+    form.setFieldValue(
+      'drives',
+      initialDrives?.map(({ id, name }) => ({
+        key: id,
+        value: id,
+        children: name,
+        label: name,
+      }))
+    );
     setIsReset(false);
   }, [isReset]);
 
@@ -52,36 +76,40 @@ export const BodyAndDriveMultipleSelects: React.FC<IProps> = ({
   };
 
   return (
-    <Space.Compact block style={{ alignItems: 'center', gap: 5 }}>
+    <Space.Compact
+      block
+      style={{ alignItems: 'center', gap: 5, width: '100%' }}
+    >
       <Item
-        style={{ width: 150 }}
+        style={{ width: '50%' }}
         labelCol={{ span: 20 }}
         label="Кузов"
-        name="body"
-        rules={[{ required: true }]}
+        name="bodies"
+        rules={[{ required: false }]}
       >
         <Select
           mode="multiple"
-          allowClear
           style={{ width: '100%' }}
           placeholder="Выберите кузовы"
           loading={bodyIsLoading}
           onClick={getBodies}
+          onChange={() => console.log(form.getFieldValue('bodies'))}
+          optionFilterProp="label"
         >
           {bodies?.length &&
             bodies.map((body) => (
-              <Option key={body.id} value={body.id}>
+              <Option key={body.id} value={body.id} label={body.name}>
                 {body.name}
               </Option>
             ))}
         </Select>
       </Item>
       <Item
-        style={{ width: 150 }}
+        style={{ width: '50%' }}
         labelCol={{ span: 20 }}
         label="Привод"
-        name="drive"
-        rules={[{ required: true }]}
+        name="drives"
+        rules={[{ required: false }]}
       >
         <Select
           mode="multiple"
@@ -90,10 +118,11 @@ export const BodyAndDriveMultipleSelects: React.FC<IProps> = ({
           placeholder="Выберите приводы"
           loading={driveIsLoading}
           onClick={getDrives}
+          optionFilterProp="label"
         >
           {drives?.length &&
             drives.map((drive) => (
-              <Option key={drive.id} value={drive.id}>
+              <Option key={drive.id} value={drive.id} label={drive.name}>
                 {drive.name}
               </Option>
             ))}
