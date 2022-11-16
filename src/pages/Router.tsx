@@ -16,6 +16,8 @@ import { SignUp } from './SignUp/SignUp';
 import { UserCar } from './UserCarPage/UserCar';
 import { Verification } from './Verification/Verification';
 import { Cars } from './Cars/Cars';
+import { Coupons } from './Сoupons/Сoupons';
+import { СouponsDetailsPage } from './СouponsDetailsPage/СouponsDetailsPage';
 
 export const RouterPage = () => {
   const { accessToken, autoLogin } = useAutoLogin();
@@ -30,6 +32,15 @@ export const RouterPage = () => {
         </Route>
         <Route element={<RouteWrapper title="Машины" />}>
           <Route path={routing.cars} element={<Cars />} />
+        </Route>
+        <Route element={<RouteWrapper title="Купоны" />}>
+          <Route path={routing.coupons} element={<Coupons />} />
+        </Route>
+        <Route element={<RouteWrapper title="Купоны. Подробности" />}>
+          <Route
+            path={routing.couponsDetail}
+            element={<СouponsDetailsPage />}
+          />
         </Route>
         <Route
           element={

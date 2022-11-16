@@ -1,4 +1,4 @@
-export type TCupon = {
+export type TCoupons = {
   id: number;
   title: string;
   startDate: string;
@@ -10,11 +10,11 @@ export type TCupon = {
   photoLink: string;
 };
 
-export type TCuponsResponse = {
+export type TCouponsResponse = {
   totalPages: number;
   totalElements: number;
   size: number;
-  content: Array<TCupon>;
+  content: Array<TCoupons>;
   number: number;
   sort: {
     empty: boolean;
