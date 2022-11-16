@@ -22,8 +22,6 @@ export const Cars: FC = () => {
     isSuccess ? data.size : 8
   );
 
-  console.log(search);
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   let exchangeCar: ICar | undefined;
@@ -52,7 +50,7 @@ export const Cars: FC = () => {
 
   return (
     <section className="cars">
-      <SettingFilled
+      {/* <SettingFilled
         onClick={() => setIsOpen(!isOpen)}
         className="cars__icon"
       />
@@ -61,7 +59,7 @@ export const Cars: FC = () => {
         ${isOpen ? `cars__filters_active` : ' '}`}
       >
         <p>фильтра</p>
-      </div>
+      </div> */}
       <CarsList content={data?.content} exchangeId={exchangeCar?.id} />
       {isSuccess && (
         <div className="cars__pagination">
@@ -77,7 +75,10 @@ export const Cars: FC = () => {
               data!.pageable.pageSize,
               data!.pageable.pageSize * 2,
             ]}
-            onChange={(page) => setCurrentPage(page)}
+            onChange={(page, pageSize) => {
+              setCurrentPage(page);
+              setCurrentSize(pageSize);
+            }}
           />
         </div>
       )}
