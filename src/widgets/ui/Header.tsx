@@ -1,17 +1,17 @@
 import './Header.scss';
 
 import { CarFilled, SmileOutlined } from '@ant-design/icons';
-import React, { FC } from 'react';
 
 import { Button } from 'antd';
 import { NavLink } from 'react-router-dom';
+import React from 'react';
 import { routing } from 'shared/routing';
 import { useAppSelector } from 'shared/lib/hooks/redux';
 import { useNavigate } from 'react-router';
 import { userAPI } from 'entities/user/model/query/userProfileService';
 import { userSelector } from 'entities/user/model/state/authSelector';
 
-export const Header: FC = () => {
+export const Header: React.FC = () => {
   const navigate = useNavigate();
 
   const userId = useAppSelector(userSelector);
@@ -29,7 +29,7 @@ export const Header: FC = () => {
           <NavLink to={routing.coupons}>Купоны</NavLink>
         </div>
         <div className="header__decktop">
-          {!user && (
+          {(!user || !userId) && (
             <Button
               className="header__button"
               onClick={() => navigate(routing.signIn)}
@@ -42,7 +42,7 @@ export const Header: FC = () => {
             onClick={() => navigate(routing.signUp)}
             loading={isLoading}
           >
-            {user?.name || 'Регистрация'}
+            {!userId ? 'Регистрация' : user?.name}
           </Button>
         </div>
         <div className="header__mobile">
