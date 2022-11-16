@@ -45,7 +45,7 @@ export const CarImageUpload: React.FC<IProps> = ({ fileList, setFileList }) => {
   const uploadButton = (
     <div>
       <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Загрузить ещё</div>
+      <div style={{ marginTop: 8 }}>Добавить</div>
     </div>
   );
   return (

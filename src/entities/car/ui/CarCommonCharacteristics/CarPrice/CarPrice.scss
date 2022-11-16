@@ -11,10 +11,12 @@
   }
 
   &__price {
-    @include text-h2;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
 
-    &_accent {
-      @include text-h1;
-    }
+  &__text {
+    @include text-h4;
   }
 }
