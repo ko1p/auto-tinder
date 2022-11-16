@@ -25,6 +25,7 @@ export const UserProfile = () => {
             data={data}
           />
           <EditProfile
+            userId={userId!}
             isEditOpen={isEditOpen}
             setIsEditOpen={setIsEditOpen}
             data={data}
