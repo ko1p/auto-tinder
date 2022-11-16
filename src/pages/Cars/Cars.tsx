@@ -17,7 +17,7 @@ export const Cars: FC = () => {
 
   const userId = useAppSelector(userSelector);
   const { data, isSuccess } = carsAPI.useGetAllCarsQuery(search);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(0);
   const [currentSize, setCurrentSize] = useState<number>(
     isSuccess ? data.size : 8
   );
@@ -65,18 +65,19 @@ export const Cars: FC = () => {
         <div className="cars__pagination">
           <Pagination
             total={data?.totalElements}
-            defaultCurrent={currentPage}
+            defaultCurrent={currentPage + 1}
             showTotal={(total, range) =>
               `${range[0]}-${range[1]} из ${total} машин`
             }
             defaultPageSize={currentSize}
+            showSizeChanger
             pageSizeOptions={[
               data!.pageable.pageSize / 2,
               data!.pageable.pageSize,
               data!.pageable.pageSize * 2,
             ]}
             onChange={(page, pageSize) => {
-              setCurrentPage(page);
+              setCurrentPage(page - 1);
               setCurrentSize(pageSize);
             }}
           />

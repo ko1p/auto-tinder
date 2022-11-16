@@ -4,15 +4,4 @@ const deserializeQuery = (query: string, noQuestionMark = false) => {
   return Object.fromEntries(array);
 };
 
-const serializeQuery = (queryParams: string) =>
-  Object.entries(queryParams).reduce((acc, [key, value], index, array) => {
-    if (typeof value === 'undefined') {
-      return acc;
-    }
-    const postfix = index === array.length - 1 ? '' : '&';
-    return `${acc}${encodeURIComponent(key)}=${encodeURIComponent(
-      value
-    )}${postfix}`;
-  }, '?');
-
-export { deserializeQuery, serializeQuery };
+export { deserializeQuery };
