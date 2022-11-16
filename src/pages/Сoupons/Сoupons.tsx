@@ -1,35 +1,22 @@
-// import { SettingFilled } from '@ant-design/icons';
 import { Pagination } from 'antd';
-import { ICar } from 'entities/car/lib/types';
-import { userSelector } from 'entities/user/model/state/authSelector';
-import { carsAPI } from 'features/allCars/model/carsServices';
-import { CarsList } from 'features/allCars/ui/carsList/carsList';
-import { garageAPI } from 'features/garage/model/query/garageService';
+import { couponsApi } from 'features/coupons/model/couponssServices';
+import { CouponsList } from 'features/coupons/ui/couponsList/couponsList';
 import React, { FC, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { useAppSelector } from 'shared/lib/hooks/redux';
 import { deserializeQuery } from 'widgets/utils/Api';
 import { pageSizeOptionsBase, paginationSizeBase } from 'widgets/utils/contant';
-import './Cars.scss';
+import './Coupons.scss';
 
-export const Cars: FC = () => {
+export const Coupons: FC = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
 
-  const userId = useAppSelector(userSelector);
-  const { data, isSuccess } = carsAPI.useGetAllCarsQuery(search);
+  const { data, isSuccess } = couponsApi.useGetAllCuponsQuery(search);
+
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [currentSize, setCurrentSize] = useState<number>(
     isSuccess ? data.size : paginationSizeBase
   );
-
-  // const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  let exchangeCar: ICar | undefined;
-  if (userId) {
-    const { data: cars } = garageAPI.useUserCarsQuery(userId);
-    exchangeCar = cars?.filter((car) => car.isExchanged)[0];
-  }
 
   useEffect(() => {
     if (
@@ -50,25 +37,15 @@ export const Cars: FC = () => {
   }, [search]);
 
   return (
-    <section className="cars">
-      {/* <SettingFilled
-        onClick={() => setIsOpen(!isOpen)}
-        className="cars__icon"
-      />
-      <div
-        className={`cars__filters
-        ${isOpen ? `cars__filters_active` : ' '}`}
-      >
-        <p>фильтра</p>
-      </div> */}
-      <CarsList content={data?.content} exchangeId={exchangeCar?.id} />
+    <section className="coupons">
+      <CouponsList content={data?.content} />
       {isSuccess && (
-        <div className="cars__pagination">
+        <div className="coupons__pagination">
           <Pagination
             total={data?.totalElements}
             defaultCurrent={currentPage + 1}
             showTotal={(total, range) =>
-              `${range[0]}-${range[1]} из ${total} машин`
+              `${range[0]}-${range[1]} из ${total} купонов`
             }
             defaultPageSize={currentSize}
             showSizeChanger

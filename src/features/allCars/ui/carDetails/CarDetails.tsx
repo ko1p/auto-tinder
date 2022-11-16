@@ -6,7 +6,7 @@ import { userSelector } from 'entities/user/model/state/authSelector';
 import { routing } from 'shared/routing';
 import { useNavigate } from 'react-router';
 import { DislikeFilled, LikeFilled } from '@ant-design/icons';
-import imageCar from '../../../../shared/assets/images/bg.webp';
+import imageCar from '../../../../shared/assets/images/pngwing.com.png';
 import './CarDetails.scss';
 import { carsAPI } from '../../model/carsServices';
 
@@ -23,7 +23,6 @@ const CarDetails: FC<{ car: TCar; exchangeId?: number }> = ({
     );
   }
 
-  console.log(image, car.photos);
   const [toLike] = carsAPI.useToLikeMutation();
   const [toDislike] = carsAPI.useToDislikeMutation();
   const userId = useAppSelector(userSelector);

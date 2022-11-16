@@ -1,0 +1,11 @@
+.coupons{
+  min-width: 320px;
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1400px;
+
+  &__pagination{
+    display: flex;
+    justify-content: end;
+  }
+}
