@@ -3,7 +3,9 @@ export interface IUserProfileResponse {
   name: string;
   email: string;
   phone: string;
-  isOnboarded: boolean;
+  hasPhone: boolean;
+  hasCar: boolean;
+  hasCarPreferece: boolean;
 }
 
 export interface IEditProfile {

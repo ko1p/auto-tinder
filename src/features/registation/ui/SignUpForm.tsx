@@ -139,8 +139,7 @@ export const SignUpForm: React.FC = () => {
           {
             required: true,
             message: 'Введите Имя',
-            pattern:
-              /^[А-ЯA-Z][а-яa-z-]+|^[А-ЯA-Z][а-яa-z-]+\s[A-ZА-Я][а-яa-z-]+[а-яa-z]$/,
+            pattern: /^[А-Я]{1}[а-я]{1,29}$/,
           },
         ]}
       >
