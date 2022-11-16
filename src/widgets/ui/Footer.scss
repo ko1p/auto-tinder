@@ -1,0 +1,36 @@
+@import 'shared/styles/variables.scss';
+@import 'shared/styles/mixin.scss';
+
+.footer {
+  background-color: $background_accent;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 64px;
+  padding: 20px;
+
+  &__content {
+    min-width: 320px;
+    width: 90%;
+    margin: 0 auto;
+    max-width: 1400px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__title {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__date {
+    @include text-p;
+  }
+
+  &__info-box {
+    @include ul;
+    display: flex;
+    align-items: center;
+  }
+}

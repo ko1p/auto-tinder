@@ -1,0 +1,79 @@
+@import "./variables.scss";
+@import "./adaptive.scss";
+
+@mixin text-h1 {
+  font-style: normal;
+  font-weight: 600;
+  @include fs(44, 38);
+  line-height: 123%;
+  color: $text-color_main;
+  margin: 0
+}
+
+@mixin text-h2 {
+  font-style: normal;
+  font-weight: 600;
+  @include fs(40, 30);
+  font-size: 30px;
+  line-height: 135%;
+  color: $text-color_main;
+  margin: 0
+}
+
+@mixin text-h3 {
+  font-style: normal;
+  font-weight: 600;
+  @include fs(30, 24);
+  line-height: 135%;
+  color: $text-color_main;
+  margin: 0
+}
+
+@mixin text-h4 {
+  font-style: normal;
+  font-weight: 600;
+  @include fs(24, 20);
+  line-height: 140%;
+  color: $text-color_main;
+  margin: 0
+}
+
+@mixin text-h5 {
+  font-style: normal;
+  font-weight: 600;
+  @include fs(20, 16);
+  line-height: 150%;
+  color: $text-color_main;
+  margin: 0
+}
+
+@mixin text-p {
+  font-style: normal;
+  font-weight: 400;
+  @include fs(16, 14);
+  line-height: 157.15%;
+  color: $text-color_main;
+  margin: 0
+}
+
+@mixin button-p {
+  font-style: normal;
+  font-weight: 400;
+  @include fs(16, 14);
+  line-height: 1;
+}
+
+@mixin text-span {
+  font-style: normal;
+  font-weight: 400;
+  @include fs(18, 14);
+  line-height: 157.15%;
+  color: $text-color_span;
+  margin: 0
+}
+
+@mixin ul {
+  padding: 0;
+  list-style-type: none;
+  margin: 0;
+}

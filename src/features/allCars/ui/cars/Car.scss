@@ -1,0 +1,48 @@
+@import '../../../../shared/styles/variables.scss';
+@import '../../../../shared/styles/mixin.scss';
+
+.car {
+  width: 100%;
+  box-shadow: 4px 4px 12px $background_accent;
+  cursor: pointer;
+  transition: all .5s ease;
+  padding-bottom: 4px;
+
+  &:hover{
+    box-shadow: 0px 0px 6px $background_accent;
+  }
+
+  &__image{
+    width: 100%;
+    aspect-ratio: 1.25/1;
+  }
+
+  &__title-box{
+    text-align: right;
+    margin: 4px 0 0;
+    padding-right: 8px
+  }
+
+  &__title {
+    @include text-h5;
+  }
+  &__text{
+    @include text-p;
+  }
+  &__span{
+    @include text-span;
+  }
+
+  &__buttons{
+    margin: 8px 0 0;
+  }
+
+  &__button{
+    width: 50%;
+    background-color: $green;
+
+    &:last-of-type{
+      background-color: $red;
+    }
+  }
+}

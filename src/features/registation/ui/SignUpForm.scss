@@ -1,0 +1,90 @@
+@import 'shared/styles/mixin.scss';
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: $width-mobile;
+  padding: 25px;
+  box-shadow: 4px 4px 12px $background_accent;
+  background-color: #fff;
+  opacity: 0.8;
+  transition: opacity 2.5s ease-in-out 2.2s;
+
+  &:hover {
+    transition: opacity .5s ease-in-out .2s;
+    opacity: 1;
+  }
+
+  @include breakpoint(720px) {
+    width: 400px;
+  }
+
+  &__title {
+    @include text-h1;
+  }
+
+  &__email,
+  &__fio,
+  &__submit,
+  &__password,
+  &__password-space,
+  .ant-form-item-control,
+  .ant-form-item-control-input,
+  .ant-form-item-control-input-content {
+    width: 100%;
+  }
+
+  &__password-space {
+    display: flex;
+
+    .ant-space-item:nth-child(0) {
+      flex: 1 0 70%;
+    }
+
+    .ant-space-item:nth-child(1) {
+      flex: 1 0 30%;
+    }
+  }
+
+
+
+  .ant-form-item {
+    margin-bottom: 0;
+    width: 100%;
+    display: flex;
+
+    &-row {
+      display: block;
+      width: 100%;
+
+      .ant-col {
+        .ant-input {
+          @include text-p
+        }
+      }
+    }
+
+    &-label {
+      label {
+        @include text-p;
+      }
+    }
+
+    &-control {
+      @include text-p;
+    }
+
+  }
+
+  &__password-button {
+    flex: 1 0 30%;
+    @include button-p;
+  }
+
+  &__submit-button {
+    width: 100%;
+    @include button-p;
+  }
+}

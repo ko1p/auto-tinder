@@ -1,0 +1,22 @@
+@import 'shared/styles';
+
+.usercar-carprice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  &__ex {
+    @include text-h5;
+  }
+
+  &__price {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+
+  &__text {
+    @include text-h4;
+  }
+}

@@ -1,0 +1,30 @@
+@mixin breakpoint($width) {
+  @media screen and (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin table() {
+  @include breakpoint($width-table) {
+    @content;
+  }
+}
+
+@mixin decktop() {
+  @include breakpoint($width-decktop) {
+    @content;
+  }
+}
+
+@mixin fs($pc, $mob) {
+  $diff: $pc - $mob;
+  $diffMob: $diff * 1.7;
+
+  @media (max-width: 766px) {
+    font-size: calc(#{$mob + px} + #{$diffMob} * ((100vw - 320px) / 1240));
+  }
+
+  @media (min-width: 767px) {
+    font-size: calc(#{$mob + px} + #{$diff} * (100vw / 1240));
+  }
+}

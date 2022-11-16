@@ -1,0 +1,70 @@
+@import 'shared/styles/variables.scss';
+@import 'shared/styles/mixin.scss';
+
+.header {
+  background-color: $background_accent;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 64px;
+  padding: 20px;
+
+  &__content {
+    min-width: 320px;
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__button {
+    margin-left: 25px;
+  }
+
+  &__links {
+    display: flex;
+    min-width: 150px;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+    width: 20%;
+
+  }
+
+  &__decktop {
+    display: none;
+
+    @media screen and (min-width: $width-table) {
+      display: block;
+    }
+  }
+
+  &__ul {
+    @include ul;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+  }
+
+  &__mobile {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-items: center;
+
+    @media screen and (min-width: $width-table) {
+      display: none;
+    }
+  }
+
+  &__icons {
+
+    &>svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+}

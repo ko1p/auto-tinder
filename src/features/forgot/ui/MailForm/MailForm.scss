@@ -1,0 +1,76 @@
+@import 'shared/styles/adaptive.scss';
+@import 'shared/styles/variables.scss';
+@import 'shared/styles/mixin.scss';
+
+.forgot-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: $width-mobile;
+  padding: 25px;
+  box-shadow: 4px 4px 12px $background_accent;
+  background-color: #fff;
+  opacity: 0.8;
+  transition: opacity 2.5s ease-in-out 2.2s;
+
+  &:hover {
+    transition: opacity .5s ease-in-out .2s;
+    opacity: 1;
+  }
+
+  @include breakpoint(720px) {
+    width: 400px;
+  }
+
+  &__title {
+    @include text-h1;
+  }
+
+  .ant-form-item {
+    margin-bottom: 0;
+    width: 100%;
+    display: flex;
+
+    &-row {
+      display: block;
+      width: 100%;
+
+      .ant-col {
+
+        .ant-input {
+          @include text-p
+        }
+      }
+    }
+
+    &-label {
+      label {
+        @include text-p;
+      }
+    }
+
+    &-control {
+      @include text-p;
+      width: 100%;
+    }
+
+  }
+
+  &__item {
+    width: 100%;
+
+    .ant-checkbox-wrapper-in-form-item {
+      @include text-p
+    }
+  }
+
+  &__forgot {
+    float: right;
+  }
+
+  &__submit {
+    width: 100%;
+    @include button-p;
+  }
+}

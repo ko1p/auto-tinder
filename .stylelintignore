@@ -1,0 +1,11 @@
+*.tsx
+*.jsx
+*.ts
+*.js
+*.md
+*.svg
+*.png
+*.ttf
+shared/assets
+assets
+node_modules

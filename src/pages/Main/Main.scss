@@ -1,0 +1,67 @@
+@import '../../shared/styles/variables.scss';
+@import '../../shared/styles/mixin.scss';
+
+.main-section{
+  min-width: 320px;
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1400px;
+
+  &__box {
+    display: grid;
+
+    @media screen and ( min-width: $width-table ) {
+      grid-template-columns: 2fr 1fr;
+      gap: 50px;
+    }
+  }
+
+  &__title{
+    @include text-h1
+  }
+
+  &__text{
+    @include text-p
+  }
+
+  &__image{
+    display: none;
+    max-width: 100%;
+
+    @media screen and ( min-width: $width-table ) {
+      display: block;
+    }
+  }
+
+  &__mobile-tab {
+    margin: 10px auto 0;
+    display: flex;
+    justify-content: space-around;
+
+    @media screen and ( min-width: $width-table ) {
+      display: none;
+    }
+  }
+
+  &__button {
+    @include button-p;
+
+    &_active {
+      background-color: $button-collor_main_hover;
+    }
+  }
+
+  &__stucture {
+    display: none;
+    margin: 10px auto 5%;
+
+    @media screen and ( min-width: $width-table ) {
+      display: block;
+      margin-top: 40px;
+    }
+
+    &_active {
+      display: block;
+    }
+  }
+}
