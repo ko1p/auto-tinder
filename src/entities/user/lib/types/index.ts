@@ -3,6 +3,7 @@ export interface IUserProfileResponse {
   name: string;
   email: string;
   phone: string;
+  authority: string;
   hasPhone: boolean;
   hasCar: boolean;
   hasCarPreferece: boolean;

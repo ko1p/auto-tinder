@@ -1,5 +1,8 @@
-import { connectAPI } from '../../../shared/api/connect';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { TCoupons, TCouponsResponse } from '../lib/types';
+
+import { connectAPI } from '../../../shared/api/connect';
 
 export const couponsApi = connectAPI.injectEndpoints({
   endpoints: (build) => ({
@@ -8,6 +11,7 @@ export const couponsApi = connectAPI.injectEndpoints({
         url: `coupons${setting}`,
         method: 'GET',
       }),
+      providesTags: (result) => ['coupons'],
     }),
     getPromoCupons: build.query<TCouponsResponse, unknown>({
       query: () => ({
@@ -20,6 +24,7 @@ export const couponsApi = connectAPI.injectEndpoints({
         url: `coupons/${id}`,
         method: 'GET',
       }),
+      providesTags: (result) => ['coupons'],
     }),
   }),
 });

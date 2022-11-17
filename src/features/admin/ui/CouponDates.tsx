@@ -35,12 +35,7 @@ export const CouponDates: React.FC<IProps> = ({
   }, [isReset]);
 
   return (
-    <Item
-      style={{ width: '100%' }}
-      label="Срок действия"
-      labelCol={{ span: 20 }}
-      name="Date"
-    >
+    <Item label="Срок действия" name="Date">
       <RangePicker
         style={{ width: '100%' }}
         disabledDate={disabledDate}

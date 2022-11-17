@@ -7,4 +7,5 @@ export interface IUserAuthResponse {
   accessToken?: string | null;
   userId?: string | null;
   isLogout?: boolean;
+  isAdmin?: boolean;
 }

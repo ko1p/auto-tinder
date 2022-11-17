@@ -1,15 +1,15 @@
+import { DollarCircleOutlined, HighlightOutlined } from '@ant-design/icons';
 import { Form, Input, InputNumber, UploadFile } from 'antd';
 import React, { useState } from 'react';
 
 import { ApiError } from 'shared/api/error/error';
 import { ButtonTinder } from 'shared/ui';
-import { HighlightOutlined } from '@ant-design/icons';
 import { IError } from 'shared/lib/types';
 import { RcFile } from 'antd/lib/upload';
 import TextArea from 'antd/lib/input/TextArea';
-import { ICoupon } from '../lib/types';
-import { CouponImageUpload } from './CouponImageUpload';
 import { CouponDates } from './CouponDates';
+import { CouponImageUpload } from './CouponImageUpload';
+import { ICoupon } from '../lib/types';
 import { adminAPI } from '../model/AdminService';
 
 const { Item } = Form;
@@ -47,7 +47,7 @@ export const CouponForm: React.FC<IProps> = ({
 
       if (fileList.length) {
         fileList.forEach((file) => {
-          photos.append('imagesUrl', file.originFileObj as RcFile);
+          photos.append('image', file.originFileObj as RcFile);
         });
         await addPhoto({ couponId, data: photos }).unwrap();
       }
@@ -64,12 +64,13 @@ export const CouponForm: React.FC<IProps> = ({
 
   return (
     <Form
-      className="signin-form"
+      layout="vertical"
       initialValues={{ remember: true }}
       onFinish={patchCouponHandler}
       autoComplete="off"
     >
       <Item
+        style={{ width: '100%' }}
         name="title"
         rules={[
           {
@@ -81,6 +82,7 @@ export const CouponForm: React.FC<IProps> = ({
         <Input prefix={<HighlightOutlined />} placeholder="Заголовок купона" />
       </Item>
       <Item
+        style={{ width: '100%' }}
         name="price"
         rules={[
           {
@@ -89,9 +91,13 @@ export const CouponForm: React.FC<IProps> = ({
           },
         ]}
       >
-        <InputNumber prefix={<HighlightOutlined />} placeholder="Цена купона" />
+        <InputNumber
+          prefix={<DollarCircleOutlined />}
+          placeholder="Цена купона"
+        />
       </Item>
       <Item
+        style={{ width: '100%' }}
         name="companyOwner"
         rules={[
           {
@@ -105,23 +111,25 @@ export const CouponForm: React.FC<IProps> = ({
           placeholder="Исполнитель купона"
         />
       </Item>
-      <Item label="Детальное описание" name="description">
+      <Item
+        style={{ width: '100%' }}
+        label="Детальное описание"
+        name="description"
+      >
         <TextArea rows={4} />
       </Item>
-      <Item label="Фотографии" name="photos">
+      <Item style={{ width: '100%' }} label="Фотографии" name="photos">
         <CouponImageUpload fileList={fileList} setFileList={setFileList} />
       </Item>
-      <Item label="Фотографии" name="photos">
-        <CouponDates
-          initialValues={{
-            initialStartDate: initialValues?.startDate,
-            initialEndDate: initialValues?.endDate,
-          }}
-          form={form}
-          reset={stateReset}
-        />
-      </Item>
-      <Item className="signin-form__item">
+      <CouponDates
+        initialValues={{
+          initialStartDate: initialValues?.startDate,
+          initialEndDate: initialValues?.endDate,
+        }}
+        form={form}
+        reset={stateReset}
+      />
+      <Item style={{ width: '100%' }} className="signin-form__item">
         <ButtonTinder
           className="signin-form__submit"
           theme="accept"

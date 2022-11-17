@@ -1,15 +1,22 @@
-import { CarFilled } from '@ant-design/icons';
-import { Button } from 'antd';
-import { userSelector } from 'entities/user/model/state/authSelector';
-import { TCoupons } from 'features/coupons/lib/types';
-import React, { FC } from 'react';
-import { useNavigate } from 'react-router';
-import { useAppSelector } from 'shared/lib/hooks/redux';
-import { routing } from 'shared/routing';
 import './CouponDetail.scss';
+
+import React, { FC } from 'react';
+import {
+  isAdminSelector,
+  userSelector,
+} from 'entities/user/model/state/authSelector';
+
+import { AdminCouponPatch } from 'features/admin/ui/AdminCouponPatch';
+import { Button } from 'antd';
+import { CarFilled } from '@ant-design/icons';
+import { TCoupons } from 'features/coupons/lib/types';
+import { routing } from 'shared/routing';
+import { useAppSelector } from 'shared/lib/hooks/redux';
+import { useNavigate } from 'react-router';
 
 const CouponDetail: FC<{ coupon: TCoupons }> = ({ coupon }) => {
   const userId = useAppSelector(userSelector);
+  const isAdmin = useAppSelector(isAdminSelector);
   const navigate = useNavigate();
   const getIt = () => {
     if (userId) {
@@ -57,6 +64,7 @@ const CouponDetail: FC<{ coupon: TCoupons }> = ({ coupon }) => {
         >
           Забрать купон
         </Button>
+        {isAdmin && <AdminCouponPatch couponId={`${coupon.id}`} />}
       </div>
       <p className="coupon-datail__description">
         <span className="coupon-datail__span">Подробности:</span> <br />
