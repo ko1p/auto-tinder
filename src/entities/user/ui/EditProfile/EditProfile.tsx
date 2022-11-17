@@ -18,11 +18,10 @@ export const EditProfile: React.FC<IEditProfile> = ({
 }) => {
   const [isPasswordInput, setIsPasswordInput] = useState<boolean>(false);
   const [profilePatch, { isLoading }] = userAPI.useUserProfilePatchMutation();
-  console.log(isPasswordInput);
 
   const submit = async (values: IUserProfileEditValues) => {
     if (!values) return;
-    console.log(values);
+
     try {
       await profilePatch({
         data: { ...values },
@@ -52,7 +51,17 @@ export const EditProfile: React.FC<IEditProfile> = ({
         phone: data.phone,
       }}
     >
-      <Item label="Имя" name="name" rules={[{ required: false }]}>
+      <Item
+        label="Имя"
+        name="name"
+        rules={[
+          {
+            required: true,
+            message: 'Введите Имя',
+            pattern: /^[А-Я]{1}[а-я]{1,29}$/,
+          },
+        ]}
+      >
         <Input />
       </Item>
       <Item
@@ -60,7 +69,8 @@ export const EditProfile: React.FC<IEditProfile> = ({
         name="email"
         rules={[
           {
-            required: false,
+            required: true,
+            message: 'Введите корректый email',
             pattern: /^[A-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/,
           },
         ]}
@@ -72,7 +82,7 @@ export const EditProfile: React.FC<IEditProfile> = ({
         name="phone"
         rules={[
           {
-            required: false,
+            required: true,
             message: 'Введите 10 цифр',
             pattern: /^(\d{3})(\d{3})(\d{2})(\d{2})/,
           },

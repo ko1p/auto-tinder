@@ -13,6 +13,7 @@ import React, { useEffect, useState } from 'react';
 
 import { ApiError } from 'shared/api/error/error';
 import { ButtonTinder } from 'shared/ui';
+import { FilterForm } from 'entities/car/ui/CarFilters/FilterAddForm/FilterForm';
 import { IError } from 'shared/lib/types';
 import { PlusOutlined } from '@ant-design/icons';
 import { RangePickerProps } from 'antd/lib/date-picker';
@@ -26,7 +27,6 @@ import { garageAPI } from '../../model/query/garageService';
 import { PriceAndMileageSelectors } from './FormSelectors/PriceAndMileageSelects';
 import { NumberSelectors } from './FormSelectors/NumbersSelects';
 import { ICarAddFormValues } from '../../lib/types';
-import { FilterAddForm } from '../FilterAddForm/FilterAddForm';
 import { EngineAndGearboxSelector } from './FormSelectors/EngineAndGearboxSelect';
 import { CitySelector } from './FormSelectors/CitySelect';
 import { BrandAndModelSelectors } from './FormSelectors/BrandAndModelSelects';
@@ -39,7 +39,7 @@ const { Item } = Form;
 export const CarAddForm = () => {
   const [form] = Form.useForm();
   const userId = useAppSelector(userSelector);
-  const [newCarId, setNewCarId] = useState<number | null>(null);
+  const [newCarId, setNewCarId] = useState<string | null>(null);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [drawer, setDrawer] = useState<boolean>(false);
   const [isReset, setIsReset] = useState<boolean>(false);
@@ -109,7 +109,7 @@ export const CarAddForm = () => {
       }).unwrap();
       if (fileList.length)
         await addPhoto({ carId: data.id, data: photos }).unwrap();
-      setNewCarId(data.id);
+      setNewCarId(`${data.id}`);
       setDrawer(true);
     } catch (e) {
       ApiError(e as IError);
@@ -206,7 +206,7 @@ export const CarAddForm = () => {
           onClose={() => setDrawer(false)}
           open={drawer}
         >
-          <FilterAddForm carId={newCarId!} />
+          <FilterForm r="add" carId={newCarId!} />
         </Drawer>
       </article>
     </>

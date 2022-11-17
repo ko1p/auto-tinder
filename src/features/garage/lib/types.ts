@@ -1,3 +1,5 @@
+import { IFilter } from 'entities/car/lib/types';
+
 export interface ICarAddRequest {
   userId: string;
   vinCode: string;
@@ -42,21 +44,6 @@ export interface ICarAddFormValues {
   manufacturedAt: any;
 }
 
-export interface IFilter {
-  city: number;
-  brands: number[];
-  models: number[];
-  body: number;
-  gearbox: number;
-  engine: number;
-  drive: number;
-  manufacturedAtStart: number;
-  manufacturedAtFinish: number;
-  priceStart: number;
-  priceFinish: number;
-  mileageStart: number;
-  mileageFinish: number;
-}
 export interface IFilterState {
   filter: IFilter;
   setFilter: React.Dispatch<React.SetStateAction<IFilter>>;
