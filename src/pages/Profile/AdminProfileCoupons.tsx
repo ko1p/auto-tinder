@@ -1,12 +1,12 @@
+import React, { useEffect, useState } from 'react';
+import { pageSizeOptionsBase, paginationSizeBase } from 'widgets/utils/contant';
+import { useLocation, useNavigate } from 'react-router';
+
+import { CouponsList } from 'features/coupons/ui/couponsList/couponsList';
 import { Pagination } from 'antd';
 import { couponsApi } from 'features/coupons/model/couponssServices';
-import { CouponsList } from 'features/coupons/ui/couponsList/couponsList';
-import React, { FC, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
-import { pageSizeOptionsBase, paginationSizeBase } from 'widgets/utils/contant';
-import './Coupons.scss';
 
-export const Coupons: FC = () => {
+export const AdminProfileCoupons = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
 

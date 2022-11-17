@@ -6,6 +6,7 @@ const initialState: IUserAuthResponse = {
   accessToken: null,
   userId: null,
   isLogout: false,
+  isAdmin: false,
 };
 
 export const authSlice = createSlice({
@@ -26,8 +27,11 @@ export const authSlice = createSlice({
       state.accessToken = null;
       state.isLogout = true;
     },
+    adminActivation: (state: IUserAuthResponse) => {
+      state.isAdmin = true;
+    },
   },
 });
 
-export const { logIn, logOut } = authSlice.actions;
+export const { logIn, logOut, adminActivation } = authSlice.actions;
 export const authReducer = authSlice.reducer;

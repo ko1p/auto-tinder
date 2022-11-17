@@ -1,12 +1,13 @@
-import { Button, Card, Col, Row, Space } from 'antd';
+import { Button, Card, Col, Row, Space, message } from 'antd';
 import { EditFilled, LogoutOutlined } from '@ant-design/icons';
-import { authAPI, logOut } from 'features/auth/model';
+import { adminActivation, authAPI, logOut } from 'features/auth/model';
+import { useAppDispatch, useAppSelector } from 'shared/lib/hooks/redux';
 
 import { ApiError } from 'shared/api/error/error';
 import { IError } from 'shared/lib/types';
 import React from 'react';
+import { isAdminSelector } from 'entities/user/model/state/authSelector';
 import { routing } from 'shared/routing';
-import { useAppDispatch } from 'shared/lib/hooks/redux';
 import { useNavigate } from 'react-router';
 import { IEditProfile } from '../../lib/types';
 
@@ -17,6 +18,7 @@ export const InfoProfile: React.FC<IEditProfile> = ({
   const [useLogOut, { isLoading }] = authAPI.useLogOutMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const isAdmin = useAppSelector(isAdminSelector);
   const exit = async () => {
     try {
       await useLogOut('').unwrap();
@@ -25,6 +27,15 @@ export const InfoProfile: React.FC<IEditProfile> = ({
       navigate(routing.signIn);
     } catch (err) {
       ApiError(err as IError);
+    }
+  };
+
+  const adminActivationHandler = () => {
+    try {
+      dispatch(adminActivation());
+      message.info('Функции администратора активированы');
+    } catch (error) {
+      message.error('Функции администратора не активированы');
     }
   };
 
@@ -91,6 +102,19 @@ export const InfoProfile: React.FC<IEditProfile> = ({
               !data.hasCarPreferece && <h5>Добавьте предпочтения в гараже</h5>
             )}
           </Col>
+          {!isAdmin && data.authority === 'ADMIN' && (
+            <Col
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              span={24}
+              onClick={adminActivationHandler}
+            >
+              <Button>Функция администратора</Button>
+            </Col>
+          )}
         </Row>
       </Card>
     </article>

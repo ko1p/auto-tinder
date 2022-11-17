@@ -1,15 +1,22 @@
-import { CarFilled } from '@ant-design/icons';
-import { Button } from 'antd';
-import { userSelector } from 'entities/user/model/state/authSelector';
-import { TCoupons } from 'features/coupons/lib/types';
-import React, { FC } from 'react';
-import { useNavigate } from 'react-router';
-import { useAppSelector } from 'shared/lib/hooks/redux';
-import { routing } from 'shared/routing';
 import './CouponDetail.scss';
+
+import React, { FC } from 'react';
+import {
+  isAdminSelector,
+  userSelector,
+} from 'entities/user/model/state/authSelector';
+
+import { AdminCouponPatch } from 'features/admin/ui/AdminCouponPatch';
+import { Button } from 'antd';
+import { CarFilled } from '@ant-design/icons';
+import { TCoupons } from 'features/coupons/lib/types';
+import { routing } from 'shared/routing';
+import { useAppSelector } from 'shared/lib/hooks/redux';
+import { useNavigate } from 'react-router';
 
 const CouponDetail: FC<{ coupon: TCoupons }> = ({ coupon }) => {
   const userId = useAppSelector(userSelector);
+  const isAdmin = useAppSelector(isAdminSelector);
   const navigate = useNavigate();
   const getIt = () => {
     if (userId) {
@@ -22,13 +29,13 @@ const CouponDetail: FC<{ coupon: TCoupons }> = ({ coupon }) => {
       navigate(routing.signIn);
     }
   };
-
+  console.log(coupon);
   return (
     <section className="coupon-datail">
       <div className="coupon-datail__image-box">
-        {coupon.photo ? (
+        {coupon.photoLink ? (
           <img
-            src={`${coupon.photo}?alt=media`}
+            src={`${coupon.photoLink}?alt=media`}
             alt="Изображение купона"
             className="coupon-datail__image"
           />
@@ -43,7 +50,7 @@ const CouponDetail: FC<{ coupon: TCoupons }> = ({ coupon }) => {
           {coupon.companyOwner}
         </h3>
         <p className="coupon-datail__text">
-          <span className="coupon-datail__span">Цена:</span>
+          <span className="coupon-datail__span">Цена: </span>
           {coupon.price ? `${coupon.price} рублей` : 'Безвозмездно'}
         </p>
         <p className="coupon-datail__text">
@@ -57,6 +64,7 @@ const CouponDetail: FC<{ coupon: TCoupons }> = ({ coupon }) => {
         >
           Забрать купон
         </Button>
+        {isAdmin && <AdminCouponPatch couponId={`${coupon.id}`} />}
       </div>
       <p className="coupon-datail__description">
         <span className="coupon-datail__span">Подробности:</span> <br />

@@ -6,6 +6,7 @@ import { SignIn } from 'pages/SignIn/SignIn';
 import { SpinPage } from 'shared/ui/SpinPage/SpinPage';
 import { routing } from 'shared/routing';
 import { useAutoLogin } from 'shared/lib/hooks/useAutoLogin';
+import { Privecy } from 'widgets/ui/Privecy';
 import { CarDetailsPage } from './CarDetailsPage/CarDetailsPage';
 import { Forgot } from './Forgot/Forgot';
 import { Layout } from './lib/Layout';
@@ -35,6 +36,9 @@ export const RouterPage = () => {
         </Route>
         <Route element={<RouteWrapper title="Купоны" />}>
           <Route path={routing.coupons} element={<Coupons />} />
+        </Route>
+        <Route element={<RouteWrapper title="Пользовательское соглашение" />}>
+          <Route path={routing.privacy} element={<Privecy />} />
         </Route>
         <Route element={<RouteWrapper title="Купоны. Подробности" />}>
           <Route

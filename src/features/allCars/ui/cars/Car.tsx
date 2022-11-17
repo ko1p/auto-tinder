@@ -2,13 +2,13 @@ import { Button } from 'antd';
 import { useNavigate } from 'react-router';
 import { DislikeFilled, LikeFilled } from '@ant-design/icons';
 import { TCar } from 'features/allCars/lib';
-import React, { FC, SyntheticEvent } from 'react';
+import React, { FC } from 'react';
 import { userSelector } from 'entities/user/model/state/authSelector';
 import { useAppSelector } from 'shared/lib/hooks/redux';
+import { useChoicePreference } from 'features/allCars/model/carsHooks';
 import imageCar from '../../../../shared/assets/images/pngwing.com.png';
 import { routing } from '../../../../shared/routing';
 import './Car.scss';
-import { carsAPI } from '../../model/carsServices';
 
 export const Car: FC<{ car: TCar; exchangeId?: number }> = ({
   car,
@@ -20,27 +20,7 @@ export const Car: FC<{ car: TCar; exchangeId?: number }> = ({
     ? `${car.photos[0].photoLink}?alt=media`
     : imageCar;
 
-  const [toLike] = carsAPI.useToLikeMutation();
-  const [toDislike] = carsAPI.useToDislikeMutation();
-
-  const changeLike = (event: SyntheticEvent) => {
-    event.stopPropagation();
-    if (id) {
-      toLike({ likedCarId: car.id, likingCarId: exchangeId });
-    } else {
-      navigate(routing.signIn);
-    }
-  };
-
-  const changeDislike = (event: SyntheticEvent) => {
-    event.stopPropagation();
-    if (id) {
-      console.log({ likedCarId: car.id, likingCarId: exchangeId });
-      toDislike({ likedCarId: car.id, likingCarId: exchangeId });
-    } else {
-      navigate(routing.signIn);
-    }
-  };
+  const { changeLike, changeDislike } = useChoicePreference(car.id, exchangeId);
 
   const goToDetails = () => {
     if (id) {

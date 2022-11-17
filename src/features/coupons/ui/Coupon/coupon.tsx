@@ -15,9 +15,9 @@ const Coupon: FC<{ coupon: TCoupons }> = ({ coupon }) => {
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
     <article className="coupon" onClick={goToDetails}>
       <div className="coupon__image-box">
-        {coupon.photo ? (
+        {coupon.photoLink ? (
           <img
-            src={`${coupon.photo}?alt=media`}
+            src={`${coupon.photoLink}?alt=media`}
             alt="Изображение купона"
             className="coupon__image"
           />
