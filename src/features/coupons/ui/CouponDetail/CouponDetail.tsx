@@ -22,13 +22,13 @@ const CouponDetail: FC<{ coupon: TCoupons }> = ({ coupon }) => {
       navigate(routing.signIn);
     }
   };
-
+  console.log(coupon);
   return (
     <section className="coupon-datail">
       <div className="coupon-datail__image-box">
-        {coupon.photo ? (
+        {coupon.photoLink ? (
           <img
-            src={`${coupon.photo}?alt=media`}
+            src={`${coupon.photoLink}?alt=media`}
             alt="Изображение купона"
             className="coupon-datail__image"
           />
@@ -43,7 +43,7 @@ const CouponDetail: FC<{ coupon: TCoupons }> = ({ coupon }) => {
           {coupon.companyOwner}
         </h3>
         <p className="coupon-datail__text">
-          <span className="coupon-datail__span">Цена:</span>
+          <span className="coupon-datail__span">Цена: </span>
           {coupon.price ? `${coupon.price} рублей` : 'Безвозмездно'}
         </p>
         <p className="coupon-datail__text">

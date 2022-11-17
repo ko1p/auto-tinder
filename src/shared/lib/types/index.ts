@@ -4,6 +4,8 @@ export interface IError {
     Exception: string;
     Reason: string;
     Timestamp: string;
+    status?: string;
+    message?: string;
   };
 }
 export interface IUserCarPage {

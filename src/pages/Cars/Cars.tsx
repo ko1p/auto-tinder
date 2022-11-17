@@ -8,7 +8,6 @@ import { garageAPI } from 'features/garage/model/query/garageService';
 import React, { FC, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { useAppSelector } from 'shared/lib/hooks/redux';
-import { deserializeQuery } from 'widgets/utils/Api';
 import { pageSizeOptionsBase, paginationSizeBase } from 'widgets/utils/contant';
 import './Cars.scss';
 
@@ -18,7 +17,9 @@ export const Cars: FC = () => {
 
   const userId = useAppSelector(userSelector);
   const { data, isSuccess } = carsAPI.useGetAllCarsQuery(search);
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(
+    isSuccess ? data.pageable.pageNumber : 0
+  );
   const [currentSize, setCurrentSize] = useState<number>(
     isSuccess ? data.size : paginationSizeBase
   );
@@ -40,14 +41,6 @@ export const Cars: FC = () => {
       navigate(`?page=${currentPage}&size=${currentSize}`);
     }
   }, [currentPage, currentSize]);
-
-  useEffect(() => {
-    if (search) {
-      const { page, size } = deserializeQuery(search);
-      setCurrentPage(page);
-      setCurrentSize(size);
-    }
-  }, [search]);
 
   return (
     <section className="cars">

@@ -3,7 +3,6 @@ import { couponsApi } from 'features/coupons/model/couponssServices';
 import { CouponsList } from 'features/coupons/ui/couponsList/couponsList';
 import React, { FC, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { deserializeQuery } from 'widgets/utils/Api';
 import { pageSizeOptionsBase, paginationSizeBase } from 'widgets/utils/contant';
 import './Coupons.scss';
 
@@ -13,7 +12,9 @@ export const Coupons: FC = () => {
 
   const { data, isSuccess } = couponsApi.useGetAllCuponsQuery(search);
 
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(
+    isSuccess ? data.pageable.pageNumber : 0
+  );
   const [currentSize, setCurrentSize] = useState<number>(
     isSuccess ? data.size : paginationSizeBase
   );
@@ -27,14 +28,6 @@ export const Coupons: FC = () => {
       navigate(`?page=${currentPage}&size=${currentSize}`);
     }
   }, [currentPage, currentSize]);
-
-  useEffect(() => {
-    if (search) {
-      const { page, size } = deserializeQuery(search);
-      setCurrentPage(page);
-      setCurrentSize(size);
-    }
-  }, [search]);
 
   return (
     <section className="coupons">
