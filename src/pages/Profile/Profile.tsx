@@ -2,6 +2,7 @@ import './Profile.scss';
 
 import {
   CarOutlined,
+  ControlOutlined,
   LikeOutlined,
   ProfileOutlined,
   SwapOutlined,
@@ -11,8 +12,12 @@ import { Garage } from 'features/garage/ui/Garage';
 import React from 'react';
 import { TabsTinder } from 'shared/ui/TabsTinder/TabsTinder';
 import { UserProfile } from 'entities/user/ui/UserProfile';
+import { isAdminSelector } from 'entities/user/model/state/authSelector';
+import { useAppSelector } from 'shared/lib/hooks/redux';
+import { AdminProfileCoupons } from './AdminProfileCoupons';
 
 export const Profile = () => {
+  const isAdmin = useAppSelector(isAdminSelector);
   const items = [
     {
       label: (
@@ -97,6 +102,29 @@ export const Profile = () => {
       ),
     },
   ];
+
+  if (isAdmin)
+    items.push({
+      label: (
+        <span
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <ControlOutlined />
+          Купоны
+        </span>
+      ),
+      key: 'item-5',
+      children: (
+        <article className="tabs__item">
+          <AdminProfileCoupons />
+        </article>
+      ),
+    });
+
   return (
     <>
       <section className="profile-wrapper">

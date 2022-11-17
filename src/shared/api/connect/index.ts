@@ -39,7 +39,7 @@ const baseQuery = fetchBaseQuery({
 
 export const connectAPI = createApi({
   reducerPath: 'connectAPI',
-  tagTypes: ['userProfile', 'garage', 'cars', 'model', 'filters'],
+  tagTypes: ['userProfile', 'garage', 'cars', 'model', 'filters', 'coupons'],
   baseQuery,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   endpoints: (build) => ({}),

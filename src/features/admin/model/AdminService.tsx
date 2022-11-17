@@ -8,13 +8,13 @@ export const adminAPI = connectAPI.injectEndpoints({
     userBan: build.mutation<unknown, unknown>({
       query: (userId) => ({
         url: `users/ban/${userId}`,
-        method: 'POST',
+        method: 'PATCH',
       }),
     }),
     carBan: build.mutation<unknown, unknown>({
       query: (carId) => ({
         url: `cars/ban/${carId}`,
-        method: 'POST',
+        method: 'PATCH',
       }),
     }),
     deleteCoupon: build.mutation<unknown, unknown>({
@@ -22,6 +22,7 @@ export const adminAPI = connectAPI.injectEndpoints({
         url: `coupons/${couponId}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['coupons'],
     }),
     patchCoupon: build.mutation<{ couponId: string; data: ICoupon }, unknown>({
       query: ({ couponId, data }) => ({
@@ -29,6 +30,7 @@ export const adminAPI = connectAPI.injectEndpoints({
         method: 'PATCH',
         body: data,
       }),
+      invalidatesTags: ['coupons'],
     }),
     addPhotoCoupon: build.mutation<
       { couponId: string; data: ICoupon },
@@ -36,9 +38,10 @@ export const adminAPI = connectAPI.injectEndpoints({
     >({
       query: ({ couponId, data }) => ({
         url: `coupons/${couponId}/photos`,
-        method: 'POST',
+        method: 'PATCH',
         body: data,
       }),
+      invalidatesTags: ['coupons'],
     }),
     addCoupon: build.mutation<ICoupon, ICoupon>({
       query: (data) => ({
@@ -46,6 +49,7 @@ export const adminAPI = connectAPI.injectEndpoints({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['coupons'],
     }),
   }),
 });
