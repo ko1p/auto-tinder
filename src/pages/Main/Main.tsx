@@ -20,7 +20,6 @@ export const Main: FC = () => {
     const { data: cars } = garageAPI.useUserCarsQuery(userId);
     exchangeCar = cars?.filter((car) => car.isExchanged)[0];
   }
-  const premiumCar = data?.content.slice(0, 8);
 
   return (
     <section className="main-section">
@@ -64,7 +63,7 @@ export const Main: FC = () => {
         className={`main-section__stucture 
         ${isActive ? ' ' : 'main-section__stucture_active'}`}
       >
-        <CarsList content={premiumCar} exchangeId={exchangeCar?.id} />
+        <CarsList content={data?.content} exchangeId={exchangeCar?.id} />
       </section>
       <section
         className={`main-section__stucture 

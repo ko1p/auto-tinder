@@ -11,6 +11,7 @@
   @media screen and (min-width: $width-table) {
     display: grid;
     grid-template-columns: 56% 40%;
+    grid-template-rows: minmax(1fr, 50vh) min-content;
     gap: 2% 4%;
     grid-template-areas: "image title" "description description";
   }
@@ -21,11 +22,12 @@
 
   &__image-box{
     grid-area: image;
-    max-height: 50vh;
+    // max-height: 50vh;
+    // aspect-ratio: 1/1;
   }
 
   &__carousel{
-    height: 100%;
+    width: 100%;
   }
 
   &__title-box{

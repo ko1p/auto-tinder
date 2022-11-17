@@ -8,6 +8,8 @@ export const routing = {
   navUserCar: (carId: string) => `/profile/${carId}`,
   cars: '/cars',
   coupons: '/coupons',
+  couponsDetail: '/coupons/:id',
+  navCouponsDetail: (id: number) => `/coupons/${id}`,
   privacy: '/privacy',
   confirm: '/confirm/:verificationToken',
   carDetail: '/cars/:id',

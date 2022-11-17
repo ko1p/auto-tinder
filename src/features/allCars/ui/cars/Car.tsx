@@ -5,7 +5,7 @@ import { TCar } from 'features/allCars/lib';
 import React, { FC, SyntheticEvent } from 'react';
 import { userSelector } from 'entities/user/model/state/authSelector';
 import { useAppSelector } from 'shared/lib/hooks/redux';
-import imageCar from '../../../../shared/assets/images/bg.webp';
+import imageCar from '../../../../shared/assets/images/pngwing.com.png';
 import { routing } from '../../../../shared/routing';
 import './Car.scss';
 import { carsAPI } from '../../model/carsServices';

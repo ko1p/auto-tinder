@@ -6,7 +6,7 @@ import { userSelector } from 'entities/user/model/state/authSelector';
 import { routing } from 'shared/routing';
 import { useNavigate } from 'react-router';
 import { DislikeFilled, LikeFilled } from '@ant-design/icons';
-import imageCar from '../../../../shared/assets/images/bg.webp';
+import imageCar from '../../../../shared/assets/images/pngwing.com.png';
 import './CarDetails.scss';
 import { carsAPI } from '../../model/carsServices';
 
@@ -14,9 +14,15 @@ const CarDetails: FC<{ car: TCar; exchangeId?: number }> = ({
   car,
   exchangeId,
 }) => {
-  const image = car.photos.map((photo) =>
-    photo.photoLink ? `${photo.photoLink}?alt=media` : imageCar
-  );
+  let image: Array<string>;
+  if (car.photos.length === 0) {
+    image = [imageCar];
+  } else {
+    image = car.photos.map((photo) =>
+      photo.photoLink ? `${photo.photoLink}?alt=media` : imageCar
+    );
+  }
+
   const [toLike] = carsAPI.useToLikeMutation();
   const [toDislike] = carsAPI.useToDislikeMutation();
   const userId = useAppSelector(userSelector);
@@ -44,7 +50,11 @@ const CarDetails: FC<{ car: TCar; exchangeId?: number }> = ({
   return (
     <section className="car-details">
       <div className="car-details__image-box">
-        <Carousel autoplay className="car-details__carousel">
+        <Carousel
+          autoplay
+          className="car-details__carousel"
+          style={{ width: '100%', height: 'auto' }}
+        >
           {image.map((element, index) => (
             // eslint-disable-next-line react/no-array-index-key
             <img src={element} alt="Фотография машины" key={index} />

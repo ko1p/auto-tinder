@@ -10,19 +10,41 @@ import { carAPI } from 'entities/car/model/CarService';
 const { Option } = Select;
 const { Item } = Form;
 
+interface IinitialValues {
+  initialEngines?: ICarProperty[];
+  initialGearboxes?: ICarProperty[];
+}
 interface IProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: FormInstance<any>;
   reset: IResetState;
+  initialValues: IinitialValues;
 }
 
 export const EngineAndGearboxMultipleSelects: React.FC<IProps> = ({
   form,
   reset: { isReset, setIsReset },
+  initialValues: { initialEngines, initialGearboxes },
 }) => {
   useEffect(() => {
-    form.setFieldValue('gearbox', undefined);
-    form.setFieldValue('engine', undefined);
+    form.setFieldValue(
+      'gearboxes',
+      initialGearboxes?.map(({ id, name }) => ({
+        key: id,
+        value: id,
+        children: name,
+        label: name,
+      }))
+    );
+    form.setFieldValue(
+      'engines',
+      initialEngines?.map(({ id, name }) => ({
+        key: id,
+        value: id,
+        children: name,
+        label: name,
+      }))
+    );
     setIsReset(false);
   }, [isReset]);
 
@@ -52,13 +74,16 @@ export const EngineAndGearboxMultipleSelects: React.FC<IProps> = ({
   };
 
   return (
-    <Space.Compact block style={{ alignItems: 'center', gap: 5 }}>
+    <Space.Compact
+      block
+      style={{ alignItems: 'center', gap: 5, width: '100%' }}
+    >
       <Item
-        style={{ width: 150 }}
+        style={{ width: '50%' }}
         labelCol={{ span: 20 }}
         label="Тип коробки"
-        name="gearbox"
-        rules={[{ required: true }]}
+        name="gearboxes"
+        rules={[{ required: false }]}
       >
         <Select
           mode="multiple"
@@ -77,11 +102,11 @@ export const EngineAndGearboxMultipleSelects: React.FC<IProps> = ({
         </Select>
       </Item>
       <Item
-        style={{ width: 150 }}
+        style={{ width: '50%' }}
         labelCol={{ span: 20 }}
         label="Тип двигателя"
-        name="engine"
-        rules={[{ required: true }]}
+        name="engines"
+        rules={[{ required: false }]}
       >
         <Select
           mode="multiple"

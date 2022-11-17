@@ -9,11 +9,15 @@ import moment from 'moment';
 
 const { RangePicker } = DatePicker;
 const { Item } = Form;
-
+interface IinitialValues {
+  initialManufactoredMin?: number;
+  initialManufactoredMax?: number;
+}
 interface IProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form: FormInstance<any>;
   reset: IResetState;
+  initialValues: IinitialValues;
 }
 
 const disabledDate: RangePickerProps['disabledDate'] = (current) =>
@@ -22,15 +26,25 @@ const disabledDate: RangePickerProps['disabledDate'] = (current) =>
 export const ManufacturedInputs: React.FC<IProps> = ({
   form,
   reset: { isReset, setIsReset },
+  initialValues: { initialManufactoredMin, initialManufactoredMax },
 }) => {
   useEffect(() => {
-    form.setFieldValue('year', undefined);
+    form.setFieldValue('year', [
+      moment(`${initialManufactoredMin}`, 'YYYY'),
+      moment(`${initialManufactoredMax}`, 'YYYY'),
+    ]);
     setIsReset(false);
   }, [isReset]);
 
   return (
-    <Item label="Год производства" labelCol={{ span: 20 }} name="year">
+    <Item
+      style={{ width: '100%' }}
+      label="Год производства"
+      labelCol={{ span: 20 }}
+      name="year"
+    >
       <RangePicker
+        style={{ width: '100%' }}
         disabledDate={disabledDate}
         disabled={isReset}
         picker="year"
