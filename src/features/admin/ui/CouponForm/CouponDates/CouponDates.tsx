@@ -19,7 +19,7 @@ interface IProps {
 }
 
 const disabledDate: RangePickerProps['disabledDate'] = (current) =>
-  current && current > moment().endOf('day');
+  current < moment().endOf('day');
 
 export const CouponDates: React.FC<IProps> = ({
   form,

@@ -29,10 +29,11 @@ export const ManufacturedInputs: React.FC<IProps> = ({
   initialValues: { initialManufactoredMin, initialManufactoredMax },
 }) => {
   useEffect(() => {
-    form.setFieldValue('year', [
-      moment(`${initialManufactoredMin}`, 'YYYY'),
-      moment(`${initialManufactoredMax}`, 'YYYY'),
-    ]);
+    if (!!initialManufactoredMin && !!initialManufactoredMax)
+      form.setFieldValue('year', [
+        moment(`${initialManufactoredMin}`, 'YYYY'),
+        moment(`${initialManufactoredMax}`, 'YYYY'),
+      ]);
     setIsReset(false);
   }, [isReset]);
 
