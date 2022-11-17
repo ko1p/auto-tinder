@@ -1,7 +1,7 @@
 import { Button, Modal } from 'antd';
 import React, { useState } from 'react';
 
-import { CouponForm } from './CouponForm';
+import { CouponForm } from './CouponForm/CouponForm';
 
 interface IProps {
   couponId: string;

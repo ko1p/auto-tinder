@@ -20,7 +20,7 @@ export const CarFilters: React.FC<IProps> = ({ carId }) => {
     isError,
     error,
   } = carAPI.useCarFilterQuery(carId);
-
+  console.log(filter);
   if (isLoading) return <span>Загрузка...</span>;
 
   if (isSuccess)

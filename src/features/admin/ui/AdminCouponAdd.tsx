@@ -1,18 +1,14 @@
 import { Button, Modal } from 'antd';
 import React, { useState } from 'react';
 
-import { CouponForm } from './CouponForm';
+import { CouponForm } from './CouponForm/CouponForm';
 
-interface IProps {
-  couponId: string;
-}
-
-export const AdminCouponAdd: React.FC<IProps> = ({ couponId }) => {
+export const AdminCouponAdd: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>Изменить купон</Button>
+      <Button onClick={() => setOpen(true)}>Добавить купон</Button>
       <Modal
         title="Добавить купон"
         centered
@@ -20,7 +16,7 @@ export const AdminCouponAdd: React.FC<IProps> = ({ couponId }) => {
         onCancel={() => setOpen(false)}
         footer={null}
       >
-        <CouponForm r="add" couponId={couponId} setOpen={setOpen} />
+        <CouponForm r="add" setOpen={setOpen} />
       </Modal>
     </>
   );

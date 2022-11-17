@@ -7,15 +7,15 @@ import { ButtonTinder } from 'shared/ui';
 import { IError } from 'shared/lib/types';
 import { RcFile } from 'antd/lib/upload';
 import TextArea from 'antd/lib/input/TextArea';
-import { CouponDates } from './CouponDates';
-import { CouponImageUpload } from './CouponImageUpload';
-import { ICoupon } from '../lib/types';
-import { adminAPI } from '../model/AdminService';
+import { CouponDates } from './CouponDates/CouponDates';
+import { CouponImageUpload } from './CouponImage/CouponImageUpload';
+import { ICoupon } from '../../lib/types';
+import { adminAPI } from '../../model/AdminService';
 
 const { Item } = Form;
 
 interface IProps {
-  couponId: string;
+  couponId?: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   r: 'add' | 'patch';
   initialValues?: ICoupon;
@@ -42,6 +42,11 @@ export const CouponForm: React.FC<IProps> = ({
   };
 
   const patchCouponHandler = async (values: ICoupon) => {
+    const {
+      Date: [startDate, endDate],
+    } = values;
+    console.log(startDate.format('YYYY-MM-DD'));
+
     try {
       const photos = new FormData();
 
@@ -49,11 +54,27 @@ export const CouponForm: React.FC<IProps> = ({
         fileList.forEach((file) => {
           photos.append('image', file.originFileObj as RcFile);
         });
-        await addPhoto({ couponId, data: photos }).unwrap();
       }
 
-      if (r === 'patch') await patchCoupon({ couponId, data: values });
-      if (r === 'add') await addCoupon(values);
+      if (r === 'patch') {
+        await patchCoupon({
+          couponId,
+          data: {
+            ...values,
+            startDate: `${startDate.format('YYYY-MM-DD')}`,
+            endDate: `${endDate.format('YYYY-MM-DD')}`,
+          },
+        }).unwrap();
+        await addPhoto({ couponId, data: photos }).unwrap();
+      }
+      if (r === 'add') {
+        const newCoupon = await addCoupon({
+          ...values,
+          startDate: `${startDate.format('YYYY-MM-DD')}`,
+          endDate: `${endDate.format('YYYY-MM-DD')}`,
+        }).unwrap();
+        await addPhoto({ couponId: newCoupon.id, data: photos }).unwrap();
+      }
 
       setFileList([]);
       setOpen(false);

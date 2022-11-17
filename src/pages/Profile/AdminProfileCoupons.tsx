@@ -1,9 +1,10 @@
+import { Pagination, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { pageSizeOptionsBase, paginationSizeBase } from 'widgets/utils/contant';
 import { useLocation, useNavigate } from 'react-router';
 
+import { AdminCouponAdd } from 'features/admin/ui/AdminCouponAdd';
 import { CouponsList } from 'features/coupons/ui/couponsList/couponsList';
-import { Pagination } from 'antd';
 import { couponsApi } from 'features/coupons/model/couponssServices';
 
 export const AdminProfileCoupons = () => {
@@ -31,6 +32,16 @@ export const AdminProfileCoupons = () => {
 
   return (
     <section className="coupons">
+      <Space
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: 20,
+        }}
+      >
+        <AdminCouponAdd />
+      </Space>
       <CouponsList content={data?.content} />
       {isSuccess && (
         <div className="coupons__pagination">
