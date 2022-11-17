@@ -45,7 +45,6 @@ export const CouponForm: React.FC<IProps> = ({
     const {
       Date: [startDate, endDate],
     } = values;
-    console.log(startDate.format('YYYY-MM-DD'));
 
     try {
       const photos = new FormData();
