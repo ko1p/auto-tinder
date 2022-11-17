@@ -7,4 +7,5 @@ export interface ICoupon {
   description: string;
   companyOwner: string;
   photoLink: string;
+  Date: [moment.Moment, moment.Moment];
 }
