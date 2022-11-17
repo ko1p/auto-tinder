@@ -9,6 +9,12 @@ export const couponsApi = connectAPI.injectEndpoints({
         method: 'GET',
       }),
     }),
+    getPromoCupons: build.query<TCouponsResponse, unknown>({
+      query: () => ({
+        url: `coupons/promoted`,
+        method: 'GET',
+      }),
+    }),
     getCoupon: build.query<TCoupons, unknown>({
       query: (id: number) => ({
         url: `coupons/${id}`,

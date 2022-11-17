@@ -20,8 +20,18 @@
     @include text-h1
   }
 
+  &__subtitle {
+    @include text-h2;
+    margin-bottom: 12px;
+    display: none;
+
+    @media screen and ( min-width: $width-table ) {
+      display: block;
+    }
+  }
+
   &__text{
-    @include text-p
+    @include text-p;
   }
 
   &__image{

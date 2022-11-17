@@ -3,6 +3,8 @@ import { ICar } from 'entities/car/lib/types';
 import { userSelector } from 'entities/user/model/state/authSelector';
 import { carsAPI } from 'features/allCars/model/carsServices';
 import { CarsList } from 'features/allCars/ui/carsList/carsList';
+import { couponsApi } from 'features/coupons/model/couponssServices';
+import { CouponsList } from 'features/coupons/ui/couponsList/couponsList';
 import { garageAPI } from 'features/garage/model/query/garageService';
 import React, { FC, useState } from 'react';
 import { useAppSelector } from 'shared/lib/hooks/redux';
@@ -13,6 +15,7 @@ export const Main: FC = () => {
   const [isActive, setIsActive] = useState<boolean>(false);
 
   const { data } = carsAPI.useGetTopCarsQuery('');
+  const { data: promoCupons } = couponsApi.useGetPromoCuponsQuery('');
   const userId = useAppSelector(userSelector);
 
   let exchangeCar: ICar | undefined;
@@ -63,13 +66,15 @@ export const Main: FC = () => {
         className={`main-section__stucture 
         ${isActive ? ' ' : 'main-section__stucture_active'}`}
       >
+        <h2 className="main-section__subtitle">Машины которые мы предлагаем</h2>
         <CarsList content={data?.content} exchangeId={exchangeCar?.id} />
       </section>
       <section
         className={`main-section__stucture 
         ${isActive ? 'main-section__stucture_active' : ' '}`}
       >
-        <div>Тут будут купоны</div>
+        <h2 className="main-section__subtitle">Купоны которые мы предлагаем</h2>
+        <CouponsList content={promoCupons?.content} />
       </section>
     </section>
   );
