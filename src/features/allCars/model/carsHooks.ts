@@ -11,12 +11,20 @@ function useChoicePreference(likedId: number, likingId: number | undefined) {
   const userId = useAppSelector(userSelector);
   const navigate = useNavigate();
 
+  const AlarmFunction = (payload: { isMatch: boolean; like: boolean }) => {
+    alert(
+      payload.isMatch
+        ? 'Ваш лайк учтен и владелец машины узнает об этом'
+        : 'Поздравляем!!! Ваши машины понравились друг другу, проверьте свою почту для связи с владельцем понравившейся вам машины'
+    );
+  };
+
   const changeLike = async (event: SyntheticEvent) => {
     event.stopPropagation();
     if (userId) {
       await toLike({ likedCarId: likedId, likingCarId: likingId })
         .unwrap()
-        .then((payload) => console.log(payload))
+        .then((payload) => AlarmFunction(payload))
         .catch((error) => alert(error.data.message));
     } else {
       navigate(routing.signIn);
