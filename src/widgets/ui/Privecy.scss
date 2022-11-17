@@ -1,0 +1,21 @@
+@import 'shared/styles/variables.scss';
+@import 'shared/styles/mixin.scss';
+
+.privecy {
+  min-width: 320px;
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1400px;
+
+  &__title{
+    @include text-h1;
+  }
+
+  &__subtitle {
+    @include text-h2;
+  }
+
+  &__text{
+    @include text-p;
+  }
+}
