@@ -8,7 +8,6 @@ const { Meta } = Card;
 
 interface IProps {
   car: ICar;
-  // type?: 'public' | 'garage';
 }
 
 export const CarCard: React.FC<IProps> = ({

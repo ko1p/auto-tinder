@@ -73,7 +73,7 @@ export const carAPI = connectAPI.injectEndpoints({
     patchFilter: build.mutation<unknown, { carId: string; filter: IFilter }>({
       query: ({ carId, filter }) => ({
         url: `cars/${carId}/filters`,
-        method: 'PUT',
+        method: 'PATCH',
         body: filter,
       }),
       invalidatesTags: ['filters'],
